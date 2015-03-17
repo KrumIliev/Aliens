@@ -3,6 +3,8 @@ package com.kdi.aliens.state;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import com.kdi.aliens.state.levels.LevelOne;
+
 public class GameStateManager {
 
 	public static final int MENU = 0;
@@ -15,6 +17,7 @@ public class GameStateManager {
 		currentState = MENU;
 		gameStates = new ArrayList<GameState>();
 		gameStates.add(new MenuState(this));
+		gameStates.add(new LevelOne(this));
 	}
 
 	public void setState(int state) {
