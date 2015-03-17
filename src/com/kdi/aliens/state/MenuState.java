@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 import com.kdi.aliens.GamePanel;
 import com.kdi.aliens.tilemap.Background;
@@ -24,7 +25,15 @@ public class MenuState extends GameState {
 		super(gameStateManager);
 
 		try {
-			background = new Background("/backgrounds/menu_background.png", 1);
+
+			Random random = new Random();
+
+			if (random.nextBoolean()) {
+				background = new Background("/backgrounds/menu_background.png", 1);
+			} else {
+				background = new Background("/backgrounds/menu_background_1.png", 1);
+			}
+
 			background.setVector(-0.5, 0);
 
 			titleColor = Color.MAGENTA;
