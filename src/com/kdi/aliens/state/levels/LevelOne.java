@@ -39,8 +39,7 @@ public class LevelOne extends GameState {
 	public void update() {
 		player.update();
 		tileMap.setPosition(GamePanel.WIDTH / 2 - player.getX(), GamePanel.HEIGHT / 2 - player.getY());
-
-		//background.setPosition(tileMap.getx(), tileMap.gety());
+		background.setXPosition(tileMap.getx());
 	}
 
 	@Override

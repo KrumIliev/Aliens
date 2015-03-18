@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import com.kdi.aliens.entities.effects.DefaultWeapon;
 import com.kdi.aliens.graphics.Animation;
 import com.kdi.aliens.tilemap.TileMap;
 
@@ -24,11 +25,11 @@ public class Player extends Entity {
 	private boolean firing;
 	private int bulletCost;
 	private int bulletDamage;
-	//private ArrayList<Fireball> fireBalls;
+	private ArrayList<DefaultWeapon> fire;
 
 	// animations
 	private ArrayList<BufferedImage[]> sprites;
-	private final int[] numFrames = { 7, 1, 1, 4, 1 };
+	private final int[] numFrames = { 7, 1, 1, 4, 2 };
 
 	// animation actions
 	private static final int WALKING = 0;
@@ -47,7 +48,7 @@ public class Player extends Entity {
 
 		moveSpeed = 4;
 		maxSpeed = 8;
-		stopSpeed = 0.4;
+		stopSpeed = 0.8; // slide effect
 		fallSpeed = 1.0;
 		maxFallSpeed = 20.0;
 		jumpStart = -30.0;
@@ -60,7 +61,7 @@ public class Player extends Entity {
 
 		bulletCost = 200;
 		bulletDamage = 5;
-		//fireBalls = new ArrayList<Fireball>();
+		fire = new ArrayList<DefaultWeapon>();
 
 		// load sprites
 		try {
@@ -74,7 +75,7 @@ public class Player extends Entity {
 
 				for (int j = 0; j < numFrames[i]; j++) {
 
-					if (i != 6) {
+					if (i != 4) {
 						bi[j] = spritesheet.getSubimage(j * width, i * height, width, height);
 					} else {
 						bi[j] = spritesheet.getSubimage(j * 90, i * height, 90, height);
@@ -107,7 +108,7 @@ public class Player extends Entity {
 
 		// set animation
 		if (firing) {
-			setAnimation(FIRE, -1, 90);
+			setAnimation(FIRE, 70, 90);
 		} else if (dy > 0) {
 			setAnimation(FALLING, -1, 70);
 		} else if (dy < 0) {
@@ -189,7 +190,7 @@ public class Player extends Entity {
 		}
 
 		// jumping
-		if (jumping && !falling) {	
+		if (jumping && !falling) {
 			dy = jumpStart;
 			falling = true;
 		}
