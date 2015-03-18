@@ -22,8 +22,6 @@ public class TileMap {
 	private int xmax;
 	private int ymax;
 
-	private double tween;
-
 	// map
 	private int[][] map;
 	private int tileSize;
@@ -47,7 +45,6 @@ public class TileMap {
 		this.tileSize = tileSize;
 		numRowsToDraw = GamePanel.HEIGHT / tileSize + 2;
 		numColsToDraw = GamePanel.WIDTH / tileSize + 2;
-		tween = 0.07;
 	}
 
 	public void loadTiles(String s) {
@@ -144,8 +141,8 @@ public class TileMap {
 
 	public void setPosition(double x, double y) {
 
-		this.x += (x - this.x) * tween;
-		this.y += (y - this.y) * tween;
+		this.x += (x - this.x) * 0.03f;
+		this.y += (y - this.y) * 0.03f;
 
 		fixBounds();
 
@@ -181,10 +178,6 @@ public class TileMap {
 
 			}
 		}
-	}
-
-	public void setTween(double tween) {
-		this.tween = tween;
 	}
 
 	public int getNumRows() {

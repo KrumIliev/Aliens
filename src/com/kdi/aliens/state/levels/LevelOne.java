@@ -35,7 +35,6 @@ public class LevelOne extends GameState {
 		tileMap.loadTiles("/tiles/grass.png");
 		tileMap.loadMap("/levels/level1.map");
 		tileMap.setPosition(0, 0);
-		tileMap.setTween(1);
 
 		background = new Background("/backgrounds/level1_background.png", 0.5);
 
