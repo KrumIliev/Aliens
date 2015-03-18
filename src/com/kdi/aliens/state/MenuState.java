@@ -8,7 +8,7 @@ import java.awt.event.KeyEvent;
 import java.util.Random;
 
 import com.kdi.aliens.GamePanel;
-import com.kdi.aliens.tilemap.Background;
+import com.kdi.aliens.graphics.Background;
 
 public class MenuState extends GameState {
 
