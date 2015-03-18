@@ -19,8 +19,11 @@ public class DefaultWeapon extends Entity {
 
 	private int eWidth, eHeight;
 
-	public int xOffset = 40; 
+	public int xOffset = 40;
 	public int yOffset = 20;
+
+	private int energyCost = 200;
+	private int damage = 1;
 
 	public DefaultWeapon(TileMap tileMap, boolean right) {
 		super(tileMap);
@@ -96,5 +99,13 @@ public class DefaultWeapon extends Entity {
 	public void render(Graphics2D graphics) {
 		setMapPosition();
 		super.render(graphics);
+	}
+
+	public int getEnergyCost() {
+		return energyCost;
+	}
+
+	public int getDamage() {
+		return damage;
 	}
 }

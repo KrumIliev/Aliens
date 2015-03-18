@@ -13,18 +13,16 @@ import com.kdi.aliens.tilemap.TileMap;
 public class Player extends Entity {
 
 	// player stuff
-	private int health;
-	private int maxHealth;
-	private int bullets;
-	private int maxBullets;
+	private double health;
+	private double maxHealth;
+	private int energy;
+	private int maxEnergy;
 	private boolean dead;
 	private boolean flinching;
 	private long flinchTimer;
 
-	// fireball
+	// default weapon
 	private boolean firing;
-	private int bulletCost;
-	private int bulletDamage;
 	private ArrayList<DefaultWeapon> weapons;
 
 	// animations
@@ -57,10 +55,8 @@ public class Player extends Entity {
 		faceingRight = true;
 
 		health = maxHealth = 5;
-		bullets = maxBullets = 2500;
+		energy = maxEnergy = 2500;
 
-		bulletCost = 200;
-		bulletDamage = 5;
 		weapons = new ArrayList<DefaultWeapon>();
 
 		// load sprites
@@ -105,16 +101,14 @@ public class Player extends Entity {
 		if (currentAction == FIRE) {
 			if (animation.hasPlayedOnce()) firing = false;
 		}
-		
-		bullets += 1;
-		if (bullets > maxBullets) bullets = maxBullets;
+
+		energy += 1; // TODO remove after energy pickup system is ready
+		if (energy > maxEnergy) energy = maxEnergy;
 		if (firing && currentAction != FIRE) {
-			if (bullets > bulletCost) {
-				bullets -= bulletCost;
-				DefaultWeapon weapon = new DefaultWeapon(tileMap, faceingRight);
-				weapon.setPosition(x + weapon.xOffset, y + weapon.yOffset);
-				weapons.add(weapon);
-			}
+			DefaultWeapon weapon = new DefaultWeapon(tileMap, faceingRight);
+			weapon.setPosition(x + weapon.xOffset, y + weapon.yOffset);
+			weapons.add(weapon);
+			if (energy > weapon.getEnergyCost()) energy -= weapon.getEnergyCost();
 		}
 
 		for (int i = 0; i < weapons.size(); i++) {
@@ -228,20 +222,20 @@ public class Player extends Entity {
 
 	}
 
-	public int getHealth() {
+	public double getHealth() {
 		return health;
 	}
 
-	public int getMaxHealth() {
+	public double getMaxHealth() {
 		return maxHealth;
 	}
 
 	public int getBullets() {
-		return bullets;
+		return energy;
 	}
 
 	public int getMaxBullets() {
-		return maxBullets;
+		return maxEnergy;
 	}
 
 	public void setFiring() {
