@@ -74,6 +74,8 @@ public class LevelOne extends GameState {
 				//explosions.add(new Explosion(enemy.getX(), enemy.getY()));
 			}
 		}
+		
+		if (player.isDead()) gameStateManager.setState(GameStateManager.MENU);
 	}
 
 	@Override

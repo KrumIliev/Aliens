@@ -1,10 +1,14 @@
 package com.kdi.aliens.graphics;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
+import com.kdi.aliens.GamePanel;
 import com.kdi.aliens.entities.Player;
 
 public class HUD {
@@ -13,6 +17,7 @@ public class HUD {
 
 	private BufferedImage[] spritesHealth;
 	private BufferedImage[] spritesEnergy;
+	private BufferedImage icon;
 
 	private int hWidth = 53;
 	private int hHeight = 45;
@@ -26,6 +31,7 @@ public class HUD {
 		try {
 			BufferedImage imageHealth = ImageIO.read(getClass().getResourceAsStream("/sprites/items/health.png"));
 			BufferedImage imageEnergy = ImageIO.read(getClass().getResourceAsStream("/sprites/items/pink_energy.png"));
+			icon = ImageIO.read(getClass().getResourceAsStream("/sprites/items/lives.png"));
 
 			spritesHealth = new BufferedImage[imageHealth.getWidth() / hWidth];
 			for (int i = 0; i < spritesHealth.length; i++) {
@@ -44,6 +50,7 @@ public class HUD {
 	public void render(Graphics2D graphics) {
 		renderHealth(graphics);
 		renderEnergy(graphics);
+		renderLives(graphics);
 	}
 
 	private void renderHealth(Graphics2D graphics) {
@@ -89,6 +96,19 @@ public class HUD {
 				xOffsetTotal += spritesEnergy[1].getWidth();
 			}
 		}
+	}
+
+	private void renderLives(Graphics2D graphics) {
+
+		Font font = new Font("Comic Note", Font.PLAIN, 80);
+
+		graphics.drawImage(icon, GamePanel.WIDTH - icon.getWidth() - 100, 20, null);
+		graphics.setColor(new Color(241, 156, 183));
+		graphics.setFont(font);
+		FontMetrics fm = graphics.getFontMetrics(font);
+		int stringWidth = fm.stringWidth(String.valueOf(player.getLives()));
+		int stringHeight = fm.getHeight();
+		graphics.drawString(String.valueOf(player.getLives()), GamePanel.WIDTH - stringWidth - 30, stringHeight - 7);
 
 	}
 }

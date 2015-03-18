@@ -17,6 +17,7 @@ public class Player extends Entity {
 	private double maxHealth;
 	private int energy;
 	private int maxEnergy;
+	private int lives;
 	private boolean dead;
 	private boolean flinching;
 	private long flinchTimer;
@@ -54,8 +55,9 @@ public class Player extends Entity {
 
 		faceingRight = true;
 
+		lives = 3;
 		health = maxHealth = 5;
-		energy = maxEnergy = 2500;
+		energy = maxEnergy = 2000;
 
 		weapons = new ArrayList<DefaultWeapon>();
 
@@ -106,9 +108,11 @@ public class Player extends Entity {
 		if (energy > maxEnergy) energy = maxEnergy;
 		if (firing && currentAction != FIRE) {
 			DefaultWeapon weapon = new DefaultWeapon(tileMap, faceingRight);
-			weapon.setPosition(x + weapon.xOffset, y + weapon.yOffset);
-			weapons.add(weapon);
-			if (energy > weapon.getEnergyCost()) energy -= weapon.getEnergyCost();
+			if (energy > weapon.getEnergyCost()) {
+				weapon.setPosition(x + weapon.xOffset, y + weapon.yOffset);
+				weapons.add(weapon);
+				energy -= weapon.getEnergyCost();
+			}
 		}
 
 		for (int i = 0; i < weapons.size(); i++) {
@@ -138,6 +142,13 @@ public class Player extends Entity {
 		if (currentAction != FIRE) {
 			if (right) faceingRight = true;
 			if (left) faceingRight = false;
+		}
+
+		//TODO remove edit player respawn position
+		if (y > tileMap.getHeight()) {
+			setPosition(200, 850);
+			lives--;
+			if (lives == 0) dead = true;
 		}
 	}
 
@@ -219,7 +230,6 @@ public class Player extends Entity {
 			if (dy > maxFallSpeed) dy = maxFallSpeed;
 
 		}
-
 	}
 
 	public double getHealth() {
@@ -240,6 +250,14 @@ public class Player extends Entity {
 
 	public void setFiring() {
 		firing = true;
+	}
+
+	public int getLives() {
+		return lives;
+	}
+
+	public boolean isDead() {
+		return dead;
 	}
 
 }
