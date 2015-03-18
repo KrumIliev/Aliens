@@ -1,4 +1,4 @@
-package com.kdi.aliens.entities.effects;
+package com.kdi.aliens.entities.weapons;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -19,21 +19,26 @@ public class DefaultWeapon extends Entity {
 
 	private int eWidth, eHeight;
 
-	public DefaultWeapon(TileMap tileMap) {
+	public int xOffset = 40; 
+	public int yOffset = 20;
+
+	public DefaultWeapon(TileMap tileMap, boolean right) {
 		super(tileMap);
 
 		faceingRight = right;
 
-		moveSpeed = 3.8;
-		if (right)
+		moveSpeed = 8;
+		if (right) {
 			dx = moveSpeed;
-		else
+		} else {
 			dx = -moveSpeed;
+			xOffset = -xOffset;
+		}
 
 		width = 30;
 		height = 30;
-		cWidth = 14;
-		cHeight = 14;
+		cWidth = 20;
+		cHeight = 20;
 
 		eWidth = 70;
 		eHeight = 70;
@@ -88,7 +93,7 @@ public class DefaultWeapon extends Entity {
 	}
 
 	@Override
-	protected void render(Graphics2D graphics) {
+	public void render(Graphics2D graphics) {
 		setMapPosition();
 		super.render(graphics);
 	}

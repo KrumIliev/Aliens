@@ -2,6 +2,7 @@ package com.kdi.aliens.entities;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 import com.kdi.aliens.GamePanel;
 import com.kdi.aliens.graphics.Animation;
@@ -73,10 +74,13 @@ public abstract class Entity {
 	public abstract void update();
 
 	protected void render(Graphics2D graphics) {
+		BufferedImage image = animation.getImage();
+
 		if (faceingRight) {
-			graphics.drawImage(animation.getImage(), (int) (x + xMap - width / 2), (int) (y + yMap - height / 2), null);
+			graphics.drawImage(image, (int) (x + xMap - image.getWidth() / 2), (int) (y + yMap - image.getHeight() / 2), null);
 		} else {
-			graphics.drawImage(animation.getImage(), (int) (x + xMap - width / 2 + width), (int) (y + yMap - height / 2), -width, height, null);
+			graphics.drawImage(image, (int) (x + xMap - image.getWidth() / 2 + image.getWidth()), (int) (y + yMap - image.getHeight() / 2),
+					-image.getWidth(), image.getHeight(), null);
 		}
 	}
 
@@ -105,7 +109,6 @@ public abstract class Entity {
 		if (dy < 0) {
 			if (topLeft || topRight) {
 				dy = 0;
-				System.out.println("Top " + dy);
 				yTemp = currentRow * tileSize + cHeight / 2;
 			} else {
 				yTemp += dy;
@@ -115,7 +118,6 @@ public abstract class Entity {
 		if (dy > 0) {
 			if (bottomLeft || bottomRight) {
 				dy = 0;
-				System.out.println("Bottom " + dy);
 				falling = false;
 				yTemp = (currentRow + 1) * tileSize - cHeight / 2;
 			} else {

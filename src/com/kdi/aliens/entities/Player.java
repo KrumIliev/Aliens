@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import com.kdi.aliens.entities.effects.DefaultWeapon;
+import com.kdi.aliens.entities.weapons.DefaultWeapon;
 import com.kdi.aliens.graphics.Animation;
 import com.kdi.aliens.tilemap.TileMap;
 
@@ -25,7 +25,7 @@ public class Player extends Entity {
 	private boolean firing;
 	private int bulletCost;
 	private int bulletDamage;
-	private ArrayList<DefaultWeapon> fire;
+	private ArrayList<DefaultWeapon> weapons;
 
 	// animations
 	private ArrayList<BufferedImage[]> sprites;
@@ -61,7 +61,7 @@ public class Player extends Entity {
 
 		bulletCost = 200;
 		bulletDamage = 5;
-		fire = new ArrayList<DefaultWeapon>();
+		weapons = new ArrayList<DefaultWeapon>();
 
 		// load sprites
 		try {
@@ -105,6 +105,25 @@ public class Player extends Entity {
 		if (currentAction == FIRE) {
 			if (animation.hasPlayedOnce()) firing = false;
 		}
+		
+		bullets += 1;
+		if (bullets > maxBullets) bullets = maxBullets;
+		if (firing && currentAction != FIRE) {
+			if (bullets > bulletCost) {
+				bullets -= bulletCost;
+				DefaultWeapon weapon = new DefaultWeapon(tileMap, faceingRight);
+				weapon.setPosition(x + weapon.xOffset, y + weapon.yOffset);
+				weapons.add(weapon);
+			}
+		}
+
+		for (int i = 0; i < weapons.size(); i++) {
+			weapons.get(i).update();
+			if (weapons.get(i).shouldRemove()) {
+				weapons.remove(i);
+				i--;
+			}
+		}
 
 		// set animation
 		if (firing) {
@@ -142,9 +161,9 @@ public class Player extends Entity {
 
 		setMapPosition();
 
-		//for (Fireball fireball : fireBalls) {
-		//	fireball.draw(graphics);
-		//}
+		for (DefaultWeapon weapon : weapons) {
+			weapon.render(graphics);
+		}
 
 		// draw player
 		if (flinching) {
