@@ -48,10 +48,10 @@ public class Player extends Entity {
 		moveSpeed = 4;
 		maxSpeed = 8;
 		stopSpeed = 0.4;
-		fallSpeed = 2.0;
+		fallSpeed = 1.0;
 		maxFallSpeed = 20.0;
-		jumpStart = -40.0;
-		stopJumpSpeed = 4.0;
+		jumpStart = -30.0;
+		stopJumpSpeed = 6.0;
 
 		faceingRight = true;
 
