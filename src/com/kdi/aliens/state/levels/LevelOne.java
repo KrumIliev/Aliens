@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import com.kdi.aliens.GamePanel;
+import com.kdi.aliens.effects.Effect;
 import com.kdi.aliens.entities.Player;
 import com.kdi.aliens.entities.enemies.Enemy;
 import com.kdi.aliens.entities.enemies.PinkBlob;
@@ -14,6 +15,7 @@ import com.kdi.aliens.graphics.HUD;
 import com.kdi.aliens.state.GameState;
 import com.kdi.aliens.state.GameStateManager;
 import com.kdi.aliens.tilemap.TileMap;
+import com.kdi.aliens.util.Reference;
 
 public class LevelOne extends GameState {
 
@@ -23,6 +25,7 @@ public class LevelOne extends GameState {
 	private HUD hud;
 
 	private ArrayList<Enemy> enemies;
+	private ArrayList<Effect> effects;
 
 	public LevelOne(GameStateManager gameStateManager) {
 		super(gameStateManager);
@@ -36,7 +39,7 @@ public class LevelOne extends GameState {
 		tileMap.loadMap("/levels/level1.map");
 		tileMap.setPosition(0, 0);
 
-		background = new Background("/backgrounds/level1_background.png", 0.5);
+		background = new Background(Reference.RESOURCE_BACKGROUNDS + "level1_background.png", 0.5);
 
 		player = new Player(tileMap);
 		player.setPosition(200, 850);
@@ -48,6 +51,8 @@ public class LevelOne extends GameState {
 
 	private void populateEnemies() {
 		enemies = new ArrayList<Enemy>();
+		effects = new ArrayList<Effect>();
+
 		Point[] enemyLocations = new Point[] { new Point(600, 850) };
 
 		PinkBlob pinkBlob;
@@ -64,16 +69,23 @@ public class LevelOne extends GameState {
 		tileMap.setPosition(GamePanel.WIDTH / 2 - player.getX(), GamePanel.HEIGHT / 2 - player.getY());
 		background.setXPosition(tileMap.getx());
 
+		player.checkAttack(enemies);
+
 		for (int i = 0; i < enemies.size(); i++) {
 			Enemy enemy = enemies.get(i);
 			enemy.update();
 			if (enemy.isDead()) {
 				enemies.remove(i);
 				i--;
-				//explosions.add(new Explosion(enemy.getX(), enemy.getY()));
+				effects.add(new Effect(enemy.getX(), enemy.getY(), 70, 70, "explosion.png", 70));
 			}
 		}
-		
+
+		for (int i = 0; i < effects.size(); i++) {
+			effects.get(i).update();
+			if (effects.get(i).shouldRemove()) effects.remove(i);
+		}
+
 		if (player.isDead()) gameStateManager.setState(GameStateManager.MENU);
 	}
 
@@ -82,11 +94,17 @@ public class LevelOne extends GameState {
 		background.render(graphics);
 		tileMap.render(graphics);
 		player.render(graphics);
-		hud.render(graphics);
 
+		//TODO remove
 		for (Enemy enemy : enemies)
 			enemy.render(graphics);
 
+		for (Effect effect : effects) {
+			effect.setMapPosition((int) tileMap.getx(), (int) tileMap.gety());
+			effect.render(graphics);
+		}
+
+		hud.render(graphics);
 	}
 
 	@Override

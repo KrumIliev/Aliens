@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 import com.kdi.aliens.GamePanel;
 import com.kdi.aliens.entities.Player;
+import com.kdi.aliens.util.Reference;
 
 public class HUD {
 
@@ -29,9 +30,9 @@ public class HUD {
 		this.player = player;
 
 		try {
-			BufferedImage imageHealth = ImageIO.read(getClass().getResourceAsStream("/sprites/items/health.png"));
-			BufferedImage imageEnergy = ImageIO.read(getClass().getResourceAsStream("/sprites/items/pink_energy.png"));
-			icon = ImageIO.read(getClass().getResourceAsStream("/sprites/items/lives.png"));
+			BufferedImage imageHealth = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_ITEMS + "health.png"));
+			BufferedImage imageEnergy = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_ITEMS + "pink_energy.png"));
+			icon = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_ITEMS + "lives.png"));
 
 			spritesHealth = new BufferedImage[imageHealth.getWidth() / hWidth];
 			for (int i = 0; i < spritesHealth.length; i++) {
@@ -54,9 +55,15 @@ public class HUD {
 	}
 
 	private void renderHealth(Graphics2D graphics) {
-		double fullHealthCount = player.getHealth();
 		double halfHealthCount = player.getHealth() % 1;
-		double emptyHealthCount = player.getMaxHealth() - fullHealthCount - halfHealthCount;
+		double fullHealthCount = player.getHealth() - halfHealthCount;
+		double emptyHealthCount;
+
+		if (halfHealthCount > 0) {
+			emptyHealthCount = player.getMaxHealth() - fullHealthCount - 1;
+		} else {
+			emptyHealthCount = player.getMaxHealth() - fullHealthCount;
+		}
 
 		int offset = 20;
 
@@ -75,8 +82,8 @@ public class HUD {
 		}
 
 		for (int i = 0; i < emptyHealthCount; i++) {
-			graphics.drawImage(spritesHealth[3], xOffsetTotal, offset, null);
-			xOffsetTotal = xOffsetTotal + xSpace + spritesHealth[3].getWidth();
+			graphics.drawImage(spritesHealth[2], xOffsetTotal, offset, null);
+			xOffsetTotal = xOffsetTotal + xSpace + spritesHealth[2].getWidth();
 		}
 	}
 

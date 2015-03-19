@@ -6,9 +6,11 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import com.kdi.aliens.entities.enemies.Enemy;
 import com.kdi.aliens.entities.weapons.DefaultWeapon;
 import com.kdi.aliens.graphics.Animation;
 import com.kdi.aliens.tilemap.TileMap;
+import com.kdi.aliens.util.Reference;
 
 public class Player extends Entity {
 
@@ -64,7 +66,7 @@ public class Player extends Entity {
 		// load sprites
 		try {
 
-			BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/sprites/player/pink.png"));
+			BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_PLAYER + "pink.png"));
 
 			sprites = new ArrayList<BufferedImage[]>();
 			for (int i = 0; i < 5; i++) {
@@ -123,6 +125,11 @@ public class Player extends Entity {
 			}
 		}
 
+		if (flinching) {
+			long elapsedTime = (System.nanoTime() - flinchTimer) / 1000000;
+			if (elapsedTime > 1000) flinching = false;
+		}
+
 		// set animation
 		if (firing) {
 			setAnimation(FIRE, 70, 90);
@@ -146,9 +153,7 @@ public class Player extends Entity {
 
 		//TODO remove edit player respawn position
 		if (y > tileMap.getHeight()) {
-			setPosition(200, 850);
-			lives--;
-			if (lives == 0) dead = true;
+			updateLives();
 		}
 	}
 
@@ -178,7 +183,22 @@ public class Player extends Entity {
 			}
 		}
 
-		super.render(graphics);
+		setImageDirection(graphics);
+	}
+
+	public void checkAttack(ArrayList<Enemy> enemies) {
+		for (Enemy enemy : enemies) {
+
+			for (DefaultWeapon weapon : weapons) {
+				if (weapon.intersects(enemy)) {
+					enemy.hit(weapon.getDamage());
+					weapon.setHit();
+					break;
+				}
+			}
+
+			if (intersects(enemy)) hit(enemy.getDamage());
+		}
 	}
 
 	private void getNextPosition() {
@@ -258,6 +278,22 @@ public class Player extends Entity {
 
 	public boolean isDead() {
 		return dead;
+	}
+
+	public void hit(double damage) {
+		if (flinching) return;
+		health -= damage;
+		if (health <= 0) updateLives();
+		flinching = true;
+		flinchTimer = System.nanoTime();
+	}
+
+	private void updateLives() {
+		health = maxHealth;
+		setPosition(200, 850);
+		lives--;
+		if (lives < 0) lives = 0;
+		if (lives == 0) dead = true;
 	}
 
 }

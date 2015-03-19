@@ -38,6 +38,6 @@ public abstract class Enemy extends Entity {
 
 	@Override
 	public void render(Graphics2D graphics) {
-		super.render(graphics);
+		setImageDirection(graphics);
 	}
 }

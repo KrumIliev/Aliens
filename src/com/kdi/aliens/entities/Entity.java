@@ -73,7 +73,9 @@ public abstract class Entity {
 
 	public abstract void update();
 
-	protected void render(Graphics2D graphics) {
+	public abstract void render(Graphics2D graphics);
+
+	protected void setImageDirection(Graphics2D graphics) {
 		BufferedImage image = animation.getImage();
 
 		if (faceingRight) {

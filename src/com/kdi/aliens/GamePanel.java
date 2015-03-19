@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import com.kdi.aliens.state.GameStateManager;
 import com.kdi.aliens.util.Fonts;
+import com.kdi.aliens.util.Reference;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 
@@ -96,7 +97,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	}
 
 	private void loadFonts() {
-		Fonts.addFont(new Fonts("./res/fonts/ComicNoteSmooth.ttf"));
+		Fonts.addFont(new Fonts(Reference.RESOURCE_FONTS + "ComicNoteSmooth.ttf"));
 	}
 
 	@Override

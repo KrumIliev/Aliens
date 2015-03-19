@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import com.kdi.aliens.entities.Entity;
 import com.kdi.aliens.graphics.Animation;
 import com.kdi.aliens.tilemap.TileMap;
+import com.kdi.aliens.util.Reference;
 
 public class DefaultWeapon extends Entity {
 
@@ -16,8 +17,6 @@ public class DefaultWeapon extends Entity {
 
 	private BufferedImage[] sprites;
 	private BufferedImage[] hitSprites;
-
-	private int eWidth, eHeight;
 
 	public int xOffset = 40;
 	public int yOffset = 20;
@@ -43,22 +42,19 @@ public class DefaultWeapon extends Entity {
 		cWidth = 20;
 		cHeight = 20;
 
-		eWidth = 70;
-		eHeight = 70;
-
 		try {
 
-			BufferedImage shootSheet = ImageIO.read(getClass().getResource("/sprites/weapons/shoot.png"));
-			BufferedImage explosionSheet = ImageIO.read(getClass().getResource("/sprites/weapons/explosion.png"));
+			BufferedImage shootSheet = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "default_weapon_bullet.png"));
+			BufferedImage explosionSheet = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "default_weapon_explosion.png"));
 
 			sprites = new BufferedImage[shootSheet.getWidth() / width];
 			for (int i = 0; i < sprites.length; i++) {
 				sprites[i] = shootSheet.getSubimage(i * width, 0, width, height);
 			}
 
-			hitSprites = new BufferedImage[explosionSheet.getWidth() / eWidth];
+			hitSprites = new BufferedImage[explosionSheet.getWidth() / width];
 			for (int i = 0; i < hitSprites.length; i++) {
-				hitSprites[i] = explosionSheet.getSubimage(i * eWidth, 0, eWidth, eHeight);
+				hitSprites[i] = explosionSheet.getSubimage(i * width, 0, width, height);
 			}
 
 			animation = new Animation();
@@ -98,7 +94,7 @@ public class DefaultWeapon extends Entity {
 	@Override
 	public void render(Graphics2D graphics) {
 		setMapPosition();
-		super.render(graphics);
+		setImageDirection(graphics);
 	}
 
 	public int getEnergyCost() {

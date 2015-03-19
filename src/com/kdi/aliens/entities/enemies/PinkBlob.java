@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 
 import com.kdi.aliens.graphics.Animation;
 import com.kdi.aliens.tilemap.TileMap;
+import com.kdi.aliens.util.Reference;
 
 public class PinkBlob extends Enemy {
 
@@ -23,13 +24,13 @@ public class PinkBlob extends Enemy {
 		width = 52;
 		height = 28;
 		cWidth = 42;
-		cHeight = 18;
+		cHeight = 28;
 
 		health = maxHealth = 2;
 		damage = 0.5;
 
 		try {
-			BufferedImage spriteSheet = ImageIO.read(getClass().getResourceAsStream("/sprites/enemies/pink_blob.png"));
+			BufferedImage spriteSheet = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_ENEMIES + "pink_blob.png"));
 
 			sprites = new BufferedImage[spriteSheet.getWidth() / width];
 			for (int i = 0; i < sprites.length; i++) {
