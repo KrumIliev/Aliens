@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import javax.imageio.ImageIO;
 
 import com.kdi.aliens.GamePanel;
+import com.kdi.aliens.util.Reference;
 
 public class TileMap {
 
@@ -47,11 +48,11 @@ public class TileMap {
 		numColsToDraw = GamePanel.WIDTH / tileSize + 2;
 	}
 
-	public void loadTiles(String s) {
+	public void loadTiles(String name) {
 
 		try {
 
-			tileset = ImageIO.read(getClass().getResourceAsStream(s));
+			tileset = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_TILES + name));
 			tileColumns = tileset.getWidth() / tileSize;
 			tileRows = tileset.getHeight() / tileSize;
 
@@ -79,11 +80,10 @@ public class TileMap {
 
 	}
 
-	public void loadMap(String s) {
-
+	public void loadLevel(String name) {
+		
 		try {
-
-			InputStream in = getClass().getResourceAsStream(s);
+			InputStream in = getClass().getResourceAsStream(Reference.RESOURCE_LEVELS + name);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
 			numCols = Integer.parseInt(br.readLine());

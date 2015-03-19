@@ -14,5 +14,6 @@ public class Reference {
 	public static final String RESOURCE_PLAYER = "/sprites/player/";
 	public static final String RESOURCE_WEAPONS = "/sprites/weapons/";
 	public static final String RESOURCE_TILES = "/tiles/";
+	public static final String RESOURCE_HUD = "/hud/";
 
 }

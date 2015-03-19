@@ -66,6 +66,8 @@ public abstract class Entity {
 	protected double jumpSpeed;
 	protected double stopJumpSpeed;
 
+	protected boolean remove;
+
 	public Entity(TileMap tileMap) {
 		this.tileMap = tileMap;
 		tileSize = tileMap.getTileSize();
@@ -238,5 +240,13 @@ public abstract class Entity {
 
 	public boolean notOnScreen() {
 		return x + xMap + width < 0 || x + xMap - width > GamePanel.WIDTH || y + yMap + height < 0 || y + yMap - height > GamePanel.HEIGHT;
+	}
+
+	public boolean shouldRemove() {
+		return remove;
+	}
+
+	public void setRemove(boolean remove) {
+		this.remove = remove;
 	}
 }

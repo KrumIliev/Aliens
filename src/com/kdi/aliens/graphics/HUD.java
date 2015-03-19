@@ -2,7 +2,6 @@ package com.kdi.aliens.graphics;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -18,7 +17,7 @@ public class HUD {
 
 	private BufferedImage[] spritesHealth;
 	private BufferedImage[] spritesEnergy;
-	private BufferedImage icon;
+	private BufferedImage icon, coins;
 
 	private int hWidth = 53;
 	private int hHeight = 45;
@@ -30,9 +29,10 @@ public class HUD {
 		this.player = player;
 
 		try {
-			BufferedImage imageHealth = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_ITEMS + "health.png"));
-			BufferedImage imageEnergy = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_ITEMS + "pink_energy.png"));
-			icon = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_ITEMS + "lives.png"));
+			BufferedImage imageHealth = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_HUD + "health.png"));
+			BufferedImage imageEnergy = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_HUD + "pink_energy.png"));
+			icon = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_HUD + "lives.png"));
+			coins = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_HUD + "coins.png"));
 
 			spritesHealth = new BufferedImage[imageHealth.getWidth() / hWidth];
 			for (int i = 0; i < spritesHealth.length; i++) {
@@ -51,7 +51,7 @@ public class HUD {
 	public void render(Graphics2D graphics) {
 		renderHealth(graphics);
 		renderEnergy(graphics);
-		renderLives(graphics);
+		renderOther(graphics);
 	}
 
 	private void renderHealth(Graphics2D graphics) {
@@ -105,17 +105,24 @@ public class HUD {
 		}
 	}
 
-	private void renderLives(Graphics2D graphics) {
+	private void renderOther(Graphics2D graphics) {
 
 		Font font = new Font("Comic Note", Font.PLAIN, 80);
 
-		graphics.drawImage(icon, GamePanel.WIDTH - icon.getWidth() - 100, 20, null);
+		/**
+		 * Rendering lives
+		 */
+		graphics.drawImage(icon, 20, 140, null);
 		graphics.setColor(new Color(241, 156, 183));
 		graphics.setFont(font);
-		FontMetrics fm = graphics.getFontMetrics(font);
-		int stringWidth = fm.stringWidth(String.valueOf(player.getLives()));
-		int stringHeight = fm.getHeight();
-		graphics.drawString(String.valueOf(player.getLives()), GamePanel.WIDTH - stringWidth - 30, stringHeight - 7);
+		graphics.drawString(String.valueOf(player.getLives()), 120, 195);
 
+		/**
+		 * Rendering coins
+		 */
+		graphics.drawImage(coins, GamePanel.WIDTH - coins.getWidth() - 200, 20, null);
+		graphics.setColor(new Color(241, 156, 183));
+		graphics.setFont(font);
+		graphics.drawString(String.valueOf(player.getCoins()), GamePanel.WIDTH - coins.getWidth() - 130 , 65);
 	}
 }

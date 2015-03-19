@@ -9,7 +9,6 @@ import java.util.Random;
 
 import com.kdi.aliens.GamePanel;
 import com.kdi.aliens.graphics.Background;
-import com.kdi.aliens.util.Reference;
 
 public class MenuState extends GameState {
 
@@ -30,9 +29,9 @@ public class MenuState extends GameState {
 			Random random = new Random();
 
 			if (random.nextBoolean()) {
-				background = new Background(Reference.RESOURCE_BACKGROUNDS + "menu_background.png", 1);
+				background = new Background("menu_background.png", 1);
 			} else {
-				background = new Background(Reference.RESOURCE_BACKGROUNDS + "menu_background_1.png", 1);
+				background = new Background("menu_background_1.png", 1);
 			}
 
 			background.setVector(-0.5, 0);

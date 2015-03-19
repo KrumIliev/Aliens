@@ -9,6 +9,8 @@ import javax.imageio.ImageIO;
 import com.kdi.aliens.entities.enemies.Enemy;
 import com.kdi.aliens.entities.weapons.DefaultWeapon;
 import com.kdi.aliens.graphics.Animation;
+import com.kdi.aliens.items.Coin;
+import com.kdi.aliens.items.Item;
 import com.kdi.aliens.tilemap.TileMap;
 import com.kdi.aliens.util.Reference;
 
@@ -23,6 +25,7 @@ public class Player extends Entity {
 	private boolean dead;
 	private boolean flinching;
 	private long flinchTimer;
+	private int coins = 0;
 
 	// default weapon
 	private boolean firing;
@@ -201,6 +204,18 @@ public class Player extends Entity {
 		}
 	}
 
+	public void checkItems(ArrayList<Item> items) {
+		for (Item item : items) {
+			if (item.intersects(this)) {
+				if (item instanceof Coin) {
+					coins++;
+					item.setRemove();
+					//TODO play sound
+				}
+			}
+		}
+	}
+
 	private void getNextPosition() {
 
 		// movement
@@ -274,6 +289,10 @@ public class Player extends Entity {
 
 	public int getLives() {
 		return lives;
+	}
+
+	public int getCoins() {
+		return coins;
 	}
 
 	public boolean isDead() {

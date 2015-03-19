@@ -12,10 +12,11 @@ import com.kdi.aliens.entities.enemies.Enemy;
 import com.kdi.aliens.entities.enemies.PinkBlob;
 import com.kdi.aliens.graphics.Background;
 import com.kdi.aliens.graphics.HUD;
+import com.kdi.aliens.items.Coin;
+import com.kdi.aliens.items.Item;
 import com.kdi.aliens.state.GameState;
 import com.kdi.aliens.state.GameStateManager;
 import com.kdi.aliens.tilemap.TileMap;
-import com.kdi.aliens.util.Reference;
 
 public class LevelOne extends GameState {
 
@@ -24,6 +25,7 @@ public class LevelOne extends GameState {
 	private Player player;
 	private HUD hud;
 
+	private ArrayList<Item> items;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Effect> effects;
 
@@ -34,12 +36,16 @@ public class LevelOne extends GameState {
 
 	@Override
 	public void init() {
+		enemies = new ArrayList<Enemy>();
+		effects = new ArrayList<Effect>();
+		items = new ArrayList<Item>();
+
 		tileMap = new TileMap(70);
-		tileMap.loadTiles("/tiles/grass.png");
-		tileMap.loadMap("/levels/level1.map");
+		tileMap.loadTiles("grass.png");
+		tileMap.loadLevel("level1.map");
 		tileMap.setPosition(0, 0);
 
-		background = new Background(Reference.RESOURCE_BACKGROUNDS + "level1_background.png", 0.5);
+		background = new Background("level1_background.png", 0.5);
 
 		player = new Player(tileMap);
 		player.setPosition(200, 850);
@@ -47,12 +53,10 @@ public class LevelOne extends GameState {
 		hud = new HUD(player);
 
 		populateEnemies();
+		populateItems();
 	}
 
 	private void populateEnemies() {
-		enemies = new ArrayList<Enemy>();
-		effects = new ArrayList<Effect>();
-
 		Point[] enemyLocations = new Point[] { new Point(600, 850) };
 
 		PinkBlob pinkBlob;
@@ -63,6 +67,16 @@ public class LevelOne extends GameState {
 		}
 	}
 
+	private void populateItems() {
+		Point[] itemLocations = new Point[] { new Point(600, 600) };
+
+		Coin coin;
+		for (Point location : itemLocations) {
+			coin = new Coin(location.x, location.y);
+			items.add(coin);
+		}
+	}
+
 	@Override
 	public void update() {
 		player.update();
@@ -70,6 +84,7 @@ public class LevelOne extends GameState {
 		background.setXPosition(tileMap.getx());
 
 		player.checkAttack(enemies);
+		player.checkItems(items);
 
 		for (int i = 0; i < enemies.size(); i++) {
 			Enemy enemy = enemies.get(i);
@@ -78,6 +93,16 @@ public class LevelOne extends GameState {
 				enemies.remove(i);
 				i--;
 				effects.add(new Effect(enemy.getX(), enemy.getY(), 70, 70, "explosion.png", 70));
+			}
+		}
+
+		for (int i = 0; i < items.size(); i++) {
+			Item item = items.get(i);
+			item.update();
+			if (item.shouldRemove()) {
+				items.remove(i);
+				i--;
+				//TODO play sound
 			}
 		}
 
@@ -95,13 +120,17 @@ public class LevelOne extends GameState {
 		tileMap.render(graphics);
 		player.render(graphics);
 
-		//TODO remove
 		for (Enemy enemy : enemies)
 			enemy.render(graphics);
 
 		for (Effect effect : effects) {
 			effect.setMapPosition((int) tileMap.getx(), (int) tileMap.gety());
 			effect.render(graphics);
+		}
+
+		for (Item item : items) {
+			item.setMapPosition((int) tileMap.getx(), (int) tileMap.gety());
+			item.render(graphics);
 		}
 
 		hud.render(graphics);

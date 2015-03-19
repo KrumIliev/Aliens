@@ -1,30 +1,19 @@
-package com.kdi.aliens.entities.items;
+package com.kdi.aliens.items;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
-import com.kdi.aliens.entities.Entity;
 import com.kdi.aliens.graphics.Animation;
-import com.kdi.aliens.tilemap.TileMap;
 import com.kdi.aliens.util.Reference;
 
-public class Coin extends Entity {
+public class Coin extends Item {
 
 	private BufferedImage[] sprites;
 
-	public Coin(TileMap tileMap, double x, double y) {
-		super(tileMap);
-
-		width = 30;
-		height = 30;
-
-		cWidth = 28;
-		cHeight = 28;
-
-		this.x = x;
-		this.y = y;
+	public Coin(int x, int y) {
+		super(x, y, 30, 30, 28, 28);
 
 		try {
 			BufferedImage spriteSheet = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_ITEMS + "coin.png"));
@@ -50,7 +39,6 @@ public class Coin extends Entity {
 
 	@Override
 	public void render(Graphics2D graphics) {
-		graphics.drawImage(animation.getImage(), (int) x, (int) y, null);
+		graphics.drawImage(animation.getImage(), x + xMap - width / 2, y + yMap - height / 2, null);
 	}
-
 }
