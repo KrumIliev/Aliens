@@ -9,6 +9,7 @@ import java.util.Random;
 
 import com.kdi.aliens.GamePanel;
 import com.kdi.aliens.graphics.Background;
+import com.kdi.aliens.input.KeyInput;
 import com.kdi.aliens.util.AudioPlayer;
 import com.kdi.aliens.util.Reference;
 
@@ -22,6 +23,8 @@ public class MenuState extends GameState {
 	private Font titleFont;
 
 	private Font defaultFont;
+
+	private byte navigationTimer = 0;
 
 	private AudioPlayer audioPlayer;
 
@@ -58,6 +61,10 @@ public class MenuState extends GameState {
 
 	@Override
 	public void update() {
+		if (navigationTimer > 5) handleInput();
+		if (navigationTimer > 5) navigationTimer = 5;
+		navigationTimer++;
+		System.out.println(navigationTimer);
 		background.update();
 	}
 
@@ -99,26 +106,24 @@ public class MenuState extends GameState {
 	}
 
 	@Override
-	public void keyPressed(int key) {
-		if (key == KeyEvent.VK_ENTER) select();
+	public void release() {
+		audioPlayer.stop();
+	}
 
-		if (key == KeyEvent.VK_UP) {
+	private void handleInput() {
+		if (KeyInput.keys[KeyEvent.VK_ENTER]) select();
+
+		if (KeyInput.keys[KeyEvent.VK_UP]) {
+			navigationTimer = 0;
 			currentChoise--;
 			if (currentChoise == -1) currentChoise = options.length - 1;
 		}
 
-		if (key == KeyEvent.VK_DOWN) {
+		if (KeyInput.keys[KeyEvent.VK_DOWN]) {
+			navigationTimer = 0;
 			currentChoise++;
 			if (currentChoise == options.length) currentChoise = 0;
 		}
-	}
-
-	@Override
-	public void keyReleased(int key) {}
-
-	@Override
-	public void release() {
-		audioPlayer.stop();
 	}
 
 }

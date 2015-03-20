@@ -1,6 +1,7 @@
 package com.kdi.aliens.entities;
 
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -9,6 +10,7 @@ import javax.imageio.ImageIO;
 import com.kdi.aliens.entities.enemies.Enemy;
 import com.kdi.aliens.entities.weapons.DefaultWeapon;
 import com.kdi.aliens.graphics.Animation;
+import com.kdi.aliens.input.KeyInput;
 import com.kdi.aliens.items.Coin;
 import com.kdi.aliens.items.Item;
 import com.kdi.aliens.tilemap.TileMap;
@@ -100,6 +102,7 @@ public class Player extends Entity {
 
 	@Override
 	public void update() {
+		handleInput();
 		// update position
 		getNextPosition();
 		checkTileMapCollision();
@@ -312,4 +315,32 @@ public class Player extends Entity {
 		if (lives == 0) dead = true;
 	}
 
+	private void handleInput() {
+		if (KeyInput.keys[KeyEvent.VK_LEFT])
+			left = true;
+		else
+			left = false;
+
+		if (KeyInput.keys[KeyEvent.VK_RIGHT])
+			right = true;
+		else
+			right = false;
+
+		if (KeyInput.keys[KeyEvent.VK_UP])
+			up = true;
+		else
+			up = false;
+
+		if (KeyInput.keys[KeyEvent.VK_DOWN])
+			down = true;
+		else
+			down = false;
+
+		if (KeyInput.keys[KeyEvent.VK_SPACE])
+			jumping = true;
+		else
+			jumping = false;
+
+		if (KeyInput.keys[KeyEvent.VK_Q]) firing = true;
+	}
 }

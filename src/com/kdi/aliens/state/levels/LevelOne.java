@@ -2,7 +2,6 @@ package com.kdi.aliens.state.levels;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import com.kdi.aliens.GamePanel;
@@ -102,7 +101,6 @@ public class LevelOne extends GameState {
 			if (item.shouldRemove()) {
 				items.remove(i);
 				i--;
-				//TODO play sound
 			}
 		}
 
@@ -137,28 +135,5 @@ public class LevelOne extends GameState {
 	}
 
 	@Override
-	public void keyPressed(int key) {
-		if (key == KeyEvent.VK_LEFT) player.setLeft(true);
-		if (key == KeyEvent.VK_RIGHT) player.setRight(true);
-		if (key == KeyEvent.VK_UP) player.setUp(true);
-		if (key == KeyEvent.VK_DOWN) player.setDown(true);
-		if (key == KeyEvent.VK_SPACE) player.setJumping(true);
-		if (key == KeyEvent.VK_Q) player.setFiring();
-	}
-
-	@Override
-	public void keyReleased(int key) {
-		if (key == KeyEvent.VK_LEFT) player.setLeft(false);
-		if (key == KeyEvent.VK_RIGHT) player.setRight(false);
-		if (key == KeyEvent.VK_UP) player.setUp(false);
-		if (key == KeyEvent.VK_DOWN) player.setDown(false);
-		if (key == KeyEvent.VK_SPACE) player.setJumping(false);
-	}
-
-	@Override
-	public void release() {
-		// TODO Auto-generated method stub
-		
-	}
-
+	public void release() {}
 }

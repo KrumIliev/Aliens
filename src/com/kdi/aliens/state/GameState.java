@@ -16,9 +16,5 @@ public abstract class GameState {
 
 	public abstract void render(Graphics2D graphics);
 
-	public abstract void keyPressed(int key);
-
-	public abstract void keyReleased(int key);
-
 	public abstract void release();
 }

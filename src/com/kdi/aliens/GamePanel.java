@@ -4,17 +4,16 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import com.kdi.aliens.input.KeyInput;
 import com.kdi.aliens.state.GameStateManager;
 import com.kdi.aliens.util.Fonts;
 import com.kdi.aliens.util.Reference;
 
-public class GamePanel extends JPanel implements Runnable, KeyListener {
+public class GamePanel extends JPanel implements Runnable {
 
 	private static final long serialVersionUID = -1796066489627262395L;
 
@@ -91,7 +90,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		super.addNotify();
 		if (thread == null) {
 			thread = new Thread(this);
-			addKeyListener(this);
+			addKeyListener(new KeyInput());
 			thread.start();
 		}
 	}
@@ -99,17 +98,4 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private void loadFonts() {
 		Fonts.addFont(new Fonts(Reference.RESOURCE_FONTS + "ComicNoteSmooth.ttf"));
 	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		gameStateManager.keyPressed(e.getKeyCode());
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		gameStateManager.keyReleased(e.getKeyCode());
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {}
 }

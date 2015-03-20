@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import com.kdi.aliens.state.levels.LevelOne;
 
 public class GameStateManager {
-
 	private int numStates = 2;
 
 	public static final int MENU = 0;
@@ -34,28 +33,13 @@ public class GameStateManager {
 		unloadState(currentState);
 		currentState = state;
 		loadState(currentState);
-
-		// gameStates[currentState].init();
 	}
 
 	public void update() {
-		try {
-			gameStates[currentState].update();
-		} catch (Exception e) {}
+		gameStates[currentState].update();
 	}
 
 	public void render(Graphics2D graphics) {
-		try {
-			gameStates[currentState].render(graphics);
-		} catch (Exception e) {}
+		gameStates[currentState].render(graphics);
 	}
-
-	public void keyPressed(int key) {
-		gameStates[currentState].keyPressed(key);
-	}
-
-	public void keyReleased(int key) {
-		gameStates[currentState].keyReleased(key);
-	}
-
 }
