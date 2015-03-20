@@ -1,44 +1,61 @@
 package com.kdi.aliens.state;
 
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 
 import com.kdi.aliens.state.levels.LevelOne;
 
 public class GameStateManager {
 
+	private int numStates = 2;
+
 	public static final int MENU = 0;
 	public static final int LEVEL1 = 1;
 
-	private ArrayList<GameState> gameStates;
+	private GameState[] gameStates;
 	private int currentState;
 
 	public GameStateManager() {
+		gameStates = new GameState[numStates];
 		currentState = MENU;
-		gameStates = new ArrayList<GameState>();
-		gameStates.add(new MenuState(this));
-		gameStates.add(new LevelOne(this));
+		loadState(currentState);
+	}
+
+	private void loadState(int state) {
+		if (state == MENU) gameStates[state] = new MenuState(this);
+		if (state == LEVEL1) gameStates[state] = new LevelOne(this);
+	}
+
+	private void unloadState(int state) {
+		gameStates[state] = null;
 	}
 
 	public void setState(int state) {
+		gameStates[currentState].release();
+		unloadState(currentState);
 		currentState = state;
-		gameStates.get(currentState).init();
+		loadState(currentState);
+
+		// gameStates[currentState].init();
 	}
 
 	public void update() {
-		gameStates.get(currentState).update();
+		try {
+			gameStates[currentState].update();
+		} catch (Exception e) {}
 	}
 
 	public void render(Graphics2D graphics) {
-		gameStates.get(currentState).render(graphics);
+		try {
+			gameStates[currentState].render(graphics);
+		} catch (Exception e) {}
 	}
 
 	public void keyPressed(int key) {
-		gameStates.get(currentState).keyPressed(key);
+		gameStates[currentState].keyPressed(key);
 	}
 
 	public void keyReleased(int key) {
-		gameStates.get(currentState).keyReleased(key);
+		gameStates[currentState].keyReleased(key);
 	}
 
 }

@@ -155,4 +155,10 @@ public class LevelOne extends GameState {
 		if (key == KeyEvent.VK_SPACE) player.setJumping(false);
 	}
 
+	@Override
+	public void release() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

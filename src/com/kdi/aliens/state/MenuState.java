@@ -9,6 +9,8 @@ import java.util.Random;
 
 import com.kdi.aliens.GamePanel;
 import com.kdi.aliens.graphics.Background;
+import com.kdi.aliens.util.AudioPlayer;
+import com.kdi.aliens.util.Reference;
 
 public class MenuState extends GameState {
 
@@ -20,6 +22,8 @@ public class MenuState extends GameState {
 	private Font titleFont;
 
 	private Font defaultFont;
+
+	private AudioPlayer audioPlayer;
 
 	public MenuState(GameStateManager gameStateManager) {
 		super(gameStateManager);
@@ -40,6 +44,9 @@ public class MenuState extends GameState {
 			titleFont = new Font("Comic Note", Font.PLAIN, 100);
 
 			defaultFont = new Font("Comic Note", Font.PLAIN, 60);
+
+			audioPlayer = new AudioPlayer(Reference.RESOURCE_MUSIC + "menu.mp3");
+			audioPlayer.play();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -108,5 +115,10 @@ public class MenuState extends GameState {
 
 	@Override
 	public void keyReleased(int key) {}
+
+	@Override
+	public void release() {
+		audioPlayer.stop();
+	}
 
 }

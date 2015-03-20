@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 import com.kdi.aliens.graphics.Animation;
+import com.kdi.aliens.util.AudioPlayer;
 import com.kdi.aliens.util.Reference;
 
 public class Coin extends Item {
@@ -30,6 +31,7 @@ public class Coin extends Item {
 		animation = new Animation();
 		animation.setFrames(sprites);
 		animation.setDelay(200);
+		setSound(new AudioPlayer(Reference.RESOURCE_SOUNDS + "coin.mp3"));
 	}
 
 	@Override

@@ -205,15 +205,12 @@ public class Player extends Entity {
 	}
 
 	public void checkItems(ArrayList<Item> items) {
-		for (Item item : items) {
-			if (item.intersects(this)) {
-				if (item instanceof Coin) {
-					coins++;
-					item.setRemove();
-					//TODO play sound
-				}
+		for (Item item : items)
+			if (item.intersects(this)) if (item instanceof Coin) {
+				coins++;
+				item.setRemove();
 			}
-		}
+
 	}
 
 	private void getNextPosition() {

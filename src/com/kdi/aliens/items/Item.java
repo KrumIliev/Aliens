@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 import com.kdi.aliens.entities.Player;
 import com.kdi.aliens.graphics.Animation;
+import com.kdi.aliens.util.AudioPlayer;
 
 public abstract class Item {
 
@@ -35,6 +36,9 @@ public abstract class Item {
 
 	protected boolean remove;
 
+	protected AudioPlayer sound;
+	private boolean hasSound = false;
+
 	public Item(int x, int y, int width, int height, int cWidth, int cHeight) {
 		this.x = x;
 		this.y = y;
@@ -59,11 +63,17 @@ public abstract class Item {
 		return rItem.intersects(rPlayer);
 	}
 
+	protected void setSound(AudioPlayer sound) {
+		this.sound = sound;
+		hasSound = true;
+	}
+
 	public boolean shouldRemove() {
 		return remove;
 	}
 
 	public void setRemove() {
+		if (hasSound) sound.play();
 		remove = true;
 	}
 
