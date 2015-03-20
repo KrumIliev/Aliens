@@ -5,10 +5,11 @@ import java.awt.Graphics2D;
 import com.kdi.aliens.state.levels.LevelOne;
 
 public class GameStateManager {
-	private int numStates = 2;
+	private int numStates = 3;
 
 	public static final int MENU = 0;
-	public static final int LEVEL1 = 1;
+	public static final int OPTIONS = 1;
+	public static final int LEVEL1 = 2;
 
 	private GameState[] gameStates;
 	private int currentState;
@@ -21,6 +22,7 @@ public class GameStateManager {
 
 	private void loadState(int state) {
 		if (state == MENU) gameStates[state] = new MenuState(this);
+		if (state == OPTIONS) gameStates[state] = new OptionsState(this);
 		if (state == LEVEL1) gameStates[state] = new LevelOne(this);
 	}
 

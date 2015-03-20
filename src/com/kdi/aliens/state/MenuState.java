@@ -16,7 +16,7 @@ import com.kdi.aliens.util.Reference;
 public class MenuState extends GameState {
 
 	private Background background;
-	private String[] options = { "Start", "Help", "Quit" };
+	private String[] options = { "Start", "Options", "Quit" };
 	private int currentChoise = 0;
 
 	private Color titleColor;
@@ -93,13 +93,9 @@ public class MenuState extends GameState {
 	}
 
 	private void select() {
-		if (currentChoise == 0) {
-			gameStateManager.setState(GameStateManager.LEVEL1);
-		}
+		if (currentChoise == 0) gameStateManager.setState(GameStateManager.LEVEL1);
 
-		if (currentChoise == 1) {
-
-		}
+		if (currentChoise == 1) gameStateManager.setState(GameStateManager.OPTIONS);
 
 		if (currentChoise == 2) System.exit(0);
 	}
