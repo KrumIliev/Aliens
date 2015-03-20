@@ -61,7 +61,7 @@ public class MenuState extends GameState {
 
 	@Override
 	public void update() {
-		if (navigationTimer > 5) handleInput();
+		if (navigationTimer > 5) hanleInput();
 		if (navigationTimer > 5) navigationTimer = 5;
 		navigationTimer++;
 		background.update();
@@ -109,7 +109,8 @@ public class MenuState extends GameState {
 		audioPlayer.stop();
 	}
 
-	private void handleInput() {
+	@Override
+	public void hanleInput() {
 		if (KeyInput.keys[KeyEvent.VK_ENTER]) select();
 
 		if (KeyInput.keys[KeyEvent.VK_UP]) {

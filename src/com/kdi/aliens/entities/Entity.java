@@ -45,7 +45,7 @@ public abstract class Entity {
 	protected Animation animation;
 	protected int currentAction;
 	protected int previousAction;
-	protected boolean faceingRight;
+	protected boolean facingRight;
 
 	/**
 	 * Movement
@@ -80,12 +80,11 @@ public abstract class Entity {
 	protected void setImageDirection(Graphics2D graphics) {
 		BufferedImage image = animation.getImage();
 
-		if (faceingRight) {
+		if (facingRight)
 			graphics.drawImage(image, (int) (x + xMap - image.getWidth() / 2), (int) (y + yMap - image.getHeight() / 2), null);
-		} else {
+		else
 			graphics.drawImage(image, (int) (x + xMap - image.getWidth() / 2 + image.getWidth()), (int) (y + yMap - image.getHeight() / 2),
 					-image.getWidth(), image.getHeight(), null);
-		}
 	}
 
 	public boolean intersects(Entity mapObject) {
@@ -216,26 +215,6 @@ public abstract class Entity {
 	public void setMapPosition() {
 		xMap = tileMap.getx();
 		yMap = tileMap.gety();
-	}
-
-	public void setLeft(boolean left) {
-		this.left = left;
-	}
-
-	public void setRight(boolean right) {
-		this.right = right;
-	}
-
-	public void setUp(boolean up) {
-		this.up = up;
-	}
-
-	public void setDown(boolean down) {
-		this.down = down;
-	}
-
-	public void setJumping(boolean jumping) {
-		this.jumping = jumping;
 	}
 
 	public boolean notOnScreen() {

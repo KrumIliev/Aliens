@@ -2,6 +2,7 @@ package com.kdi.aliens.state.levels;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import com.kdi.aliens.GamePanel;
@@ -11,6 +12,7 @@ import com.kdi.aliens.entities.enemies.Enemy;
 import com.kdi.aliens.entities.enemies.PinkBlob;
 import com.kdi.aliens.graphics.Background;
 import com.kdi.aliens.graphics.HUD;
+import com.kdi.aliens.input.KeyInput;
 import com.kdi.aliens.items.Coin;
 import com.kdi.aliens.items.Item;
 import com.kdi.aliens.state.GameState;
@@ -56,11 +58,11 @@ public class LevelOne extends GameState {
 	}
 
 	private void populateEnemies() {
-		Point[] enemyLocations = new Point[] { new Point(600, 850) };
+		Point[] enemyLocations = new Point[] { new Point(600, 850), new Point(900, 450) };
 
 		PinkBlob pinkBlob;
 		for (Point location : enemyLocations) {
-			pinkBlob = new PinkBlob(tileMap);
+			pinkBlob = new PinkBlob(tileMap, player);
 			pinkBlob.setPosition(location.x, location.y);
 			enemies.add(pinkBlob);
 		}
@@ -78,6 +80,7 @@ public class LevelOne extends GameState {
 
 	@Override
 	public void update() {
+		hanleInput();
 		player.update();
 		tileMap.setPosition(GamePanel.WIDTH / 2 - player.getX(), GamePanel.HEIGHT / 2 - player.getY());
 		background.setXPosition(tileMap.getx());
@@ -91,7 +94,7 @@ public class LevelOne extends GameState {
 			if (enemy.isDead()) {
 				enemies.remove(i);
 				i--;
-				effects.add(new Effect(enemy.getX(), enemy.getY(), 70, 70, "explosion.png", 70));
+				effects.add(new Effect(enemy.getX(), enemy.getY(), 118, 118, "explosion.png", 70));
 			}
 		}
 
@@ -136,4 +139,9 @@ public class LevelOne extends GameState {
 
 	@Override
 	public void release() {}
+
+	@Override
+	public void hanleInput() {
+		if (KeyInput.keys[KeyEvent.VK_ESCAPE]) gameStateManager.setState(GameStateManager.MENU);
+	}
 }

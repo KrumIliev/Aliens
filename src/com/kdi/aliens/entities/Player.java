@@ -61,7 +61,7 @@ public class Player extends Entity {
 		jumpStart = -30.0;
 		stopJumpSpeed = 6.0;
 
-		faceingRight = true;
+		facingRight = true;
 
 		lives = 3;
 		health = maxHealth = 5;
@@ -103,20 +103,24 @@ public class Player extends Entity {
 
 	@Override
 	public void update() {
+		/**
+		 * Handle user input
+		 */
 		handleInput();
-		// update position
+
+		/**
+		 * Update position
+		 */
 		getNextPosition();
 		checkTileMapCollision();
 		setPosition(xTemp, yTemp);
 
-		if (currentAction == FIRE) {
-			if (animation.hasPlayedOnce()) firing = false;
-		}
+		if (currentAction == FIRE) if (animation.hasPlayedOnce()) firing = false;
 
 		energy += 1; // TODO remove after energy pickup system is ready
 		if (energy > maxEnergy) energy = maxEnergy;
 		if (firing && currentAction != FIRE) {
-			DefaultWeapon weapon = new DefaultWeapon(tileMap, faceingRight);
+			DefaultWeapon weapon = new DefaultWeapon(tileMap, facingRight);
 			if (energy > weapon.getEnergyCost()) {
 				weapon.setPosition(x + weapon.xOffset, y + weapon.yOffset);
 				weapons.add(weapon);
@@ -154,14 +158,13 @@ public class Player extends Entity {
 
 		// set direction
 		if (currentAction != FIRE) {
-			if (right) faceingRight = true;
-			if (left) faceingRight = false;
+			if (right) facingRight = true;
+			if (left) facingRight = false;
 		}
 
 		//TODO remove edit player respawn position
-		if (y > tileMap.getHeight()) {
-			updateLives();
-		}
+		if (y > tileMap.getHeight()) updateLives();
+
 	}
 
 	private void setAnimation(int action, int delay, int width) {
@@ -178,16 +181,13 @@ public class Player extends Entity {
 
 		setMapPosition();
 
-		for (DefaultWeapon weapon : weapons) {
+		for (DefaultWeapon weapon : weapons)
 			weapon.render(graphics);
-		}
 
 		// draw player
 		if (flinching) {
 			long elapsed = (System.nanoTime() - flinchTimer) / 1000000;
-			if (elapsed / 100 % 2 == 0) {
-				return;
-			}
+			if (elapsed / 100 % 2 == 0) return;
 		}
 
 		setImageDirection(graphics);
@@ -214,63 +214,63 @@ public class Player extends Entity {
 				coins++;
 				item.setRemove();
 			}
-
 	}
 
 	private void getNextPosition() {
 
+		/**
+		 * Knockback
+		 */
 		if (knockback) {
 			dy += fallSpeed * 2;
 			if (!falling) knockback = false;
 			return;
 		}
 
-		// movement
+		/**
+		 * Movement
+		 */
 		if (left) {
 			dx -= moveSpeed;
-			if (dx < -maxSpeed) {
-				dx = -maxSpeed;
-			}
+			if (dx < -maxSpeed) dx = -maxSpeed;
+
 		} else if (right) {
 			dx += moveSpeed;
-			if (dx > maxSpeed) {
-				dx = maxSpeed;
-			}
+			if (dx > maxSpeed) dx = maxSpeed;
+
 		} else {
 			if (dx > 0) {
 				dx -= stopSpeed;
-				if (dx < 0) {
-					dx = 0;
-				}
+				if (dx < 0) dx = 0;
+
 			} else if (dx < 0) {
 				dx += stopSpeed;
-				if (dx > 0) {
-					dx = 0;
-				}
+				if (dx > 0) dx = 0;
 			}
 		}
 
-		// cannot move while attacking, except in air
-		if (currentAction == FIRE && !(jumping || falling)) {
-			dx = 0;
-		}
+		/**
+		 * Cannot move while attacking, except in air
+		 */
+		if (currentAction == FIRE && !(jumping || falling)) dx = 0;
 
-		// jumping
+		/**
+		 * Jumping
+		 */
 		if (jumping && !falling) {
 			dy = jumpStart;
 			falling = true;
 		}
 
-		// falling
+		/**
+		 * Falling
+		 */
 		if (falling) {
-			// TODO change gravity
+			// TODO implement lower gravity
 			dy += fallSpeed;
-
 			if (dy > 0) jumping = false;
 			if (dy < 0 && !jumping) dy += stopJumpSpeed;
-
 			if (dy > maxFallSpeed) dy = maxFallSpeed;
-
 		}
 	}
 
@@ -282,11 +282,11 @@ public class Player extends Entity {
 		return maxHealth;
 	}
 
-	public int getBullets() {
+	public int getEnergy() {
 		return energy;
 	}
 
-	public int getMaxBullets() {
+	public int getMaxEnergy() {
 		return maxEnergy;
 	}
 
@@ -308,11 +308,20 @@ public class Player extends Entity {
 
 	public void hit(double damage) {
 		if (flinching) return;
+
 		health -= damage;
 		if (health <= 0) updateLives();
+
+		/**
+		 * Flinching
+		 */
 		flinching = true;
 		flinchTimer = System.nanoTime();
-		if (faceingRight)
+
+		/**
+		 * Knockback
+		 */
+		if (facingRight)
 			dx = -5;
 		else
 			dx = 5;
@@ -324,7 +333,7 @@ public class Player extends Entity {
 
 	private void updateLives() {
 		health = maxHealth;
-		setPosition(200, 850);
+		setPosition(200, 850); // TODO change 
 		lives--;
 		if (lives < 0) lives = 0;
 		if (lives == 0) dead = true;

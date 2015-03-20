@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
+import com.kdi.aliens.GamePanel;
+import com.kdi.aliens.entities.Player;
 import com.kdi.aliens.graphics.Animation;
 import com.kdi.aliens.tilemap.TileMap;
 import com.kdi.aliens.util.Reference;
@@ -13,10 +15,10 @@ public class PinkBlob extends Enemy {
 
 	private BufferedImage[] sprites;
 
-	public PinkBlob(TileMap tileMap) {
-		super(tileMap);
+	public PinkBlob(TileMap tileMap, Player player) {
+		super(tileMap, player);
 
-		moveSpeed = 0.3;
+		moveSpeed = 0.5;
 		maxSpeed = 0.3;
 		fallSpeed = 1.0;
 		maxFallSpeed = 20.0;
@@ -45,46 +47,56 @@ public class PinkBlob extends Enemy {
 		animation.setFrames(sprites);
 		animation.setDelay(300);
 		right = true;
-		faceingRight = true;
+		facingRight = true;
 	}
 
 	private void getNextPosition() {
-		if (left) {
-			dx -= moveSpeed;
-			if (dx < -maxSpeed) {
-				dx = -maxSpeed;
-			}
-		} else if (right) {
-			dx += moveSpeed;
-			if (dx > maxSpeed) {
-				dx = maxSpeed;
-			}
-		}
-
+		if (left)
+			dx = -moveSpeed;
+		else if (right)
+			dx = moveSpeed;
+		else
+			dx = 0;
 		if (falling) {
 			dy += fallSpeed;
+			if (dy > maxFallSpeed) dy = maxFallSpeed;
 		}
 	}
 
 	@Override
 	public void update() {
-		getNextPosition();
-		checkTileMapCollision();
-		setPosition(xTemp, yTemp);
+
+		if (!active) {
+			if (Math.abs(player.getX() - x) < GamePanel.WIDTH) active = true;
+			return;
+		}
 
 		if (flinching) {
 			long elapsedTime = (System.nanoTime() - flinchTimer) / 1000000;
 			if (elapsedTime > 400) flinching = false;
 		}
 
+		getNextPosition();
+		checkTileMapCollision();
+		calculateCorners(x, yDest + 1);
+		if (!bottomLeft) {
+			left = false;
+			right = facingRight = true;
+		}
+		if (!bottomRight) {
+			left = true;
+			right = facingRight = false;
+		}
+		setPosition(xTemp, yTemp);
+
 		if (right && dx == 0) {
 			right = false;
 			left = true;
-			faceingRight = false;
+			facingRight = false;
 		} else if (left && dx == 0) {
 			right = true;
 			left = false;
-			faceingRight = true;
+			facingRight = true;
 		}
 
 		animation.update();

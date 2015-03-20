@@ -27,7 +27,7 @@ public class DefaultWeapon extends Entity {
 	public DefaultWeapon(TileMap tileMap, boolean right) {
 		super(tileMap);
 
-		faceingRight = right;
+		facingRight = right;
 
 		moveSpeed = 8;
 		if (right) {

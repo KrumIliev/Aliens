@@ -92,11 +92,11 @@ public class HUD {
 		int yOffset = 90;
 		int xOffsetTotal = 10;
 
-		for (int i = 0; i < player.getBullets() / 100; i++) {
+		for (int i = 0; i < player.getEnergy() / 100; i++) {
 			if (i == 0) {
 				graphics.drawImage(spritesEnergy[0], xOffsetTotal, yOffset, null);
 				xOffsetTotal += spritesEnergy[0].getWidth();
-			} else if (i == player.getBullets() / 100 - 1) {
+			} else if (i == player.getEnergy() / 100 - 1) {
 				graphics.drawImage(spritesEnergy[2], xOffsetTotal, yOffset, null);
 			} else {
 				graphics.drawImage(spritesEnergy[1], xOffsetTotal, yOffset, null);

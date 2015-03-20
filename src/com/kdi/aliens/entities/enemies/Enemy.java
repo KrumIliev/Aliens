@@ -3,6 +3,7 @@ package com.kdi.aliens.entities.enemies;
 import java.awt.Graphics2D;
 
 import com.kdi.aliens.entities.Entity;
+import com.kdi.aliens.entities.Player;
 import com.kdi.aliens.tilemap.TileMap;
 
 public abstract class Enemy extends Entity {
@@ -14,9 +15,13 @@ public abstract class Enemy extends Entity {
 
 	protected boolean flinching;
 	protected long flinchTimer;
+	
+	protected Player player;
+	protected boolean active;
 
-	public Enemy(TileMap tileMap) {
+	public Enemy(TileMap tileMap, Player player) {
 		super(tileMap);
+		this.player = player;
 	}
 
 	public boolean isDead() {
