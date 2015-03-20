@@ -64,7 +64,6 @@ public class MenuState extends GameState {
 		if (navigationTimer > 5) handleInput();
 		if (navigationTimer > 5) navigationTimer = 5;
 		navigationTimer++;
-		System.out.println(navigationTimer);
 		background.update();
 	}
 

@@ -24,6 +24,7 @@ public class Player extends Entity {
 	private int energy;
 	private int maxEnergy;
 	private int lives;
+	private boolean knockback;
 	private boolean dead;
 	private boolean flinching;
 	private long flinchTimer;
@@ -218,6 +219,12 @@ public class Player extends Entity {
 
 	private void getNextPosition() {
 
+		if (knockback) {
+			dy += fallSpeed * 2;
+			if (!falling) knockback = false;
+			return;
+		}
+
 		// movement
 		if (left) {
 			dx -= moveSpeed;
@@ -305,6 +312,14 @@ public class Player extends Entity {
 		if (health <= 0) updateLives();
 		flinching = true;
 		flinchTimer = System.nanoTime();
+		if (faceingRight)
+			dx = -5;
+		else
+			dx = 5;
+		dy = -20;
+		knockback = true;
+		falling = true;
+		jumping = false;
 	}
 
 	private void updateLives() {
