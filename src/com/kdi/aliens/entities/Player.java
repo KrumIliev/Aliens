@@ -14,6 +14,7 @@ import com.kdi.aliens.input.KeyInput;
 import com.kdi.aliens.items.Coin;
 import com.kdi.aliens.items.Item;
 import com.kdi.aliens.tilemap.TileMap;
+import com.kdi.aliens.util.AudioPlayer;
 import com.kdi.aliens.util.Reference;
 
 public class Player extends Entity {
@@ -30,20 +31,35 @@ public class Player extends Entity {
 	private long flinchTimer;
 	private int coins = 0;
 
+	/**
+	 * Keys
+	 */
+	private boolean greenKey, blueKey, yellowKey, redKey;
+
 	// default weapon
 	private boolean firing;
 	private ArrayList<DefaultWeapon> weapons;
 
-	// animations
+	/**
+	 * Animations
+	 */
 	private ArrayList<BufferedImage[]> sprites;
 	private final int[] numFrames = { 7, 1, 1, 4, 2 };
 
-	// animation actions
+	/**
+	 * Animation actions
+	 */
 	private static final int WALKING = 0;
 	private static final int FALLING = 1;
 	private static final int JUMPING = 2;
 	private static final int IDLE = 3;
 	private static final int FIRE = 4;
+
+	/**
+	 * Sounds
+	 */
+	private String jumpSoundKey = "jump";
+	private String laserSoundKey = "laser";
 
 	public Player(TileMap tileMap) {
 		super(tileMap);
@@ -65,7 +81,7 @@ public class Player extends Entity {
 
 		lives = 3;
 		health = maxHealth = 5;
-		energy = maxEnergy = 2000;
+		energy = maxEnergy = 1000;
 
 		weapons = new ArrayList<DefaultWeapon>();
 
@@ -99,6 +115,9 @@ public class Player extends Entity {
 		currentAction = IDLE;
 		animation.setFrames(sprites.get(IDLE));
 		animation.setDelay(400);
+
+		AudioPlayer.loadSound(Reference.RESOURCE_SOUNDS + "jump.mp3", jumpSoundKey);
+		AudioPlayer.loadSound(Reference.RESOURCE_SOUNDS + "laser.mp3", laserSoundKey);
 	}
 
 	@Override
@@ -125,6 +144,7 @@ public class Player extends Entity {
 				weapon.setPosition(x + weapon.xOffset, y + weapon.yOffset);
 				weapons.add(weapon);
 				energy -= weapon.getEnergyCost();
+				AudioPlayer.playSound(laserSoundKey);
 			}
 		}
 
@@ -360,11 +380,45 @@ public class Player extends Entity {
 		else
 			down = false;
 
-		if (KeyInput.keys[KeyEvent.VK_SPACE])
+		if (KeyInput.keys[KeyEvent.VK_SPACE]) {
 			jumping = true;
-		else
+			AudioPlayer.playSound(jumpSoundKey);
+		} else {
 			jumping = false;
+		}
 
 		if (KeyInput.keys[KeyEvent.VK_Q]) firing = true;
+	}
+
+	public boolean hasGreenKey() {
+		return greenKey;
+	}
+
+	public void setGreenKey(boolean greenKey) {
+		this.greenKey = greenKey;
+	}
+
+	public boolean hasBlueKey() {
+		return blueKey;
+	}
+
+	public void setBlueKey(boolean blueKey) {
+		this.blueKey = blueKey;
+	}
+
+	public boolean hasYellowKey() {
+		return yellowKey;
+	}
+
+	public void setYellowKey(boolean yellowKey) {
+		this.yellowKey = yellowKey;
+	}
+
+	public boolean hasRedKey() {
+		return redKey;
+	}
+
+	public void setRedKey(boolean redKey) {
+		this.redKey = redKey;
 	}
 }

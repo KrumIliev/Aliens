@@ -18,6 +18,8 @@ import com.kdi.aliens.items.Item;
 import com.kdi.aliens.state.GameState;
 import com.kdi.aliens.state.GameStateManager;
 import com.kdi.aliens.tilemap.TileMap;
+import com.kdi.aliens.util.AudioPlayer;
+import com.kdi.aliens.util.Reference;
 
 public class LevelOne extends GameState {
 
@@ -29,6 +31,8 @@ public class LevelOne extends GameState {
 	private ArrayList<Item> items;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Effect> effects;
+
+	private String soundExplosionKey = "explosion";
 
 	public LevelOne(GameStateManager gameStateManager) {
 		super(gameStateManager);
@@ -55,6 +59,8 @@ public class LevelOne extends GameState {
 
 		populateEnemies();
 		populateItems();
+
+		AudioPlayer.loadSound(Reference.RESOURCE_SOUNDS + "explosion.mp3", soundExplosionKey);
 	}
 
 	private void populateEnemies() {
@@ -95,6 +101,7 @@ public class LevelOne extends GameState {
 				enemies.remove(i);
 				i--;
 				effects.add(new Effect(enemy.getX(), enemy.getY(), 118, 118, "explosion.png", 70));
+				AudioPlayer.playSound(soundExplosionKey);
 			}
 		}
 

@@ -17,35 +17,53 @@ public class HUD {
 
 	private BufferedImage[] spritesHealth;
 	private BufferedImage[] spritesEnergy;
+	private BufferedImage[] spritesKeys;
 	private BufferedImage icon, coins;
 
-	private int hWidth = 53;
-	private int hHeight = 45;
+	private int hWidth = 29;
+	private int hHeight = 25;
 
-	private int eWidth = 16;
-	private int eHeight = 26;
+	private int eWidth = 18;
+	private int eHeight = 18;
+
+	private int kWidth = 28;
+	private int kHeight = 25;
+
+	private int topYOffset;
+	private int energyYOffset;
+	private int livesYOffset;
+
+	private int keys = 4; //TODO input from constructor later
 
 	public HUD(Player player) {
 		this.player = player;
 
 		try {
-			BufferedImage imageHealth = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_HUD + "health.png"));
-			BufferedImage imageEnergy = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_HUD + "pink_energy.png"));
-			icon = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_HUD + "lives.png"));
-			coins = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_HUD + "coins.png"));
+			BufferedImage hud = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_HUD + "hud.png"));
+			coins = hud.getSubimage(25 * 5, 0, 25, 25);
+			icon = hud.getSubimage(0, 0, 25, 25);
 
-			spritesHealth = new BufferedImage[imageHealth.getWidth() / hWidth];
+			spritesHealth = new BufferedImage[3];
 			for (int i = 0; i < spritesHealth.length; i++) {
-				spritesHealth[i] = imageHealth.getSubimage(i * hWidth, 0, hWidth, hHeight);
+				spritesHealth[i] = hud.getSubimage(i * hWidth, 25, hWidth, hHeight);
 			}
 
-			spritesEnergy = new BufferedImage[imageEnergy.getWidth() / eWidth];
+			spritesEnergy = new BufferedImage[3];
 			for (int i = 0; i < spritesEnergy.length; i++) {
-				spritesEnergy[i] = imageEnergy.getSubimage(i * eWidth, 0, eWidth, eHeight);
+				spritesEnergy[i] = hud.getSubimage(i * eWidth, eHeight * 5, eWidth, eHeight);
+			}
+
+			spritesKeys = new BufferedImage[hud.getWidth() / kWidth];
+			for (int i = 0; i < spritesKeys.length; i++) {
+				spritesKeys[i] = hud.getSubimage(i * kWidth, kHeight * 2, kWidth, kHeight);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		topYOffset = 20;
+		energyYOffset = topYOffset + hHeight + 15;
+		livesYOffset = energyYOffset + eHeight + 15;
 	}
 
 	public void render(Graphics2D graphics) {
@@ -65,41 +83,37 @@ public class HUD {
 			emptyHealthCount = player.getMaxHealth() - fullHealthCount;
 		}
 
-		int offset = 20;
-
-		int xOffsetTotal = offset; // Next heart offset
+		int xOffsetTotal = topYOffset; // Next heart offset
 
 		int xSpace = 5; // Space between hearts
 
 		for (int i = 0; i < fullHealthCount; i++) {
-			graphics.drawImage(spritesHealth[0], xOffsetTotal, offset, null);
+			graphics.drawImage(spritesHealth[0], xOffsetTotal, topYOffset, null);
 			xOffsetTotal = xOffsetTotal + xSpace + spritesHealth[0].getWidth();
 		}
 
 		if (halfHealthCount > 0) {
-			graphics.drawImage(spritesHealth[1], xOffsetTotal, offset, null);
+			graphics.drawImage(spritesHealth[1], xOffsetTotal, topYOffset, null);
 			xOffsetTotal = xOffsetTotal + xSpace + spritesHealth[1].getWidth();
 		}
 
 		for (int i = 0; i < emptyHealthCount; i++) {
-			graphics.drawImage(spritesHealth[2], xOffsetTotal, offset, null);
+			graphics.drawImage(spritesHealth[2], xOffsetTotal, topYOffset, null);
 			xOffsetTotal = xOffsetTotal + xSpace + spritesHealth[2].getWidth();
 		}
 	}
 
 	private void renderEnergy(Graphics2D graphics) {
-
-		int yOffset = 90;
-		int xOffsetTotal = 10;
+		int xOffsetTotal = 17;
 
 		for (int i = 0; i < player.getEnergy() / 100; i++) {
 			if (i == 0) {
-				graphics.drawImage(spritesEnergy[0], xOffsetTotal, yOffset, null);
+				graphics.drawImage(spritesEnergy[0], xOffsetTotal, energyYOffset, null);
 				xOffsetTotal += spritesEnergy[0].getWidth();
 			} else if (i == player.getEnergy() / 100 - 1) {
-				graphics.drawImage(spritesEnergy[2], xOffsetTotal, yOffset, null);
+				graphics.drawImage(spritesEnergy[2], xOffsetTotal, energyYOffset, null);
 			} else {
-				graphics.drawImage(spritesEnergy[1], xOffsetTotal, yOffset, null);
+				graphics.drawImage(spritesEnergy[1], xOffsetTotal, energyYOffset, null);
 				xOffsetTotal += spritesEnergy[1].getWidth();
 			}
 		}
@@ -107,22 +121,53 @@ public class HUD {
 
 	private void renderOther(Graphics2D graphics) {
 
-		Font font = new Font("Comic Note", Font.PLAIN, 80);
-
 		/**
 		 * Rendering lives
 		 */
-		graphics.drawImage(icon, 20, 140, null);
-		graphics.setColor(new Color(241, 156, 183));
-		graphics.setFont(font);
-		graphics.drawString(String.valueOf(player.getLives()), 120, 195);
+		int xOffset = 20;
+		for (int i = 0; i < player.getLives(); i++) {
+			graphics.drawImage(icon, xOffset, livesYOffset, null);
+			xOffset = xOffset + icon.getWidth() + 5;
+		}
+
+		xOffset = GamePanel.WIDTH / 2;
+		for (int i = 0; i < keys; i++) {
+			if (i == 0) {
+				if (player.hasBlueKey()) {
+					graphics.drawImage(spritesKeys[0], xOffset, topYOffset, null);
+				} else {
+					graphics.drawImage(spritesKeys[1], xOffset, topYOffset, null);
+				}
+			} else if (i == 1) {
+				if (player.hasGreenKey()) {
+					graphics.drawImage(spritesKeys[2], xOffset, topYOffset, null);
+				} else {
+					graphics.drawImage(spritesKeys[3], xOffset, topYOffset, null);
+				}
+			} else if (i == 2) {
+				if (player.hasRedKey()) {
+					graphics.drawImage(spritesKeys[4], xOffset, topYOffset, null);
+				} else {
+					graphics.drawImage(spritesKeys[5], xOffset, topYOffset, null);
+				}
+			} else {
+				if (player.hasRedKey()) {
+					graphics.drawImage(spritesKeys[6], xOffset, topYOffset, null);
+				} else {
+					graphics.drawImage(spritesKeys[7], xOffset, topYOffset, null);
+				}
+			}
+
+			xOffset = xOffset + kWidth + 10;
+		}
 
 		/**
 		 * Rendering coins
 		 */
-		graphics.drawImage(coins, GamePanel.WIDTH - coins.getWidth() - 200, 20, null);
+		Font font = new Font("Comic Note", Font.PLAIN, 40);
+		graphics.drawImage(coins, GamePanel.WIDTH - coins.getWidth() - 100, topYOffset, null);
 		graphics.setColor(new Color(241, 156, 183));
 		graphics.setFont(font);
-		graphics.drawString(String.valueOf(player.getCoins()), GamePanel.WIDTH - coins.getWidth() - 130 , 65);
+		graphics.drawString(String.valueOf(player.getCoins()), GamePanel.WIDTH - coins.getWidth() - 60, topYOffset + 23);
 	}
 }

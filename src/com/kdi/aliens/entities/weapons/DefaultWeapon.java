@@ -56,14 +56,14 @@ public class DefaultWeapon extends Entity {
 			for (int i = 0; i < hitSprites.length; i++) {
 				hitSprites[i] = explosionSheet.getSubimage(i * width, 0, width, height);
 			}
-
-			animation = new Animation();
-			animation.setFrames(sprites);
-			animation.setDelay(70);
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		animation = new Animation();
+		animation.setFrames(sprites);
+		animation.setDelay(70);
 	}
 
 	@Override

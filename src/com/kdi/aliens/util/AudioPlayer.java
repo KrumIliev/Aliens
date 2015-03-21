@@ -21,6 +21,7 @@ public class AudioPlayer {
 		gap = 0;
 		
 		loadMusic(Reference.RESOURCE_MUSIC + "menu.mp3", Reference.MUSIC_MENU);
+		loadMusic(Reference.RESOURCE_MUSIC + "level1.mp3", Reference.MUSIC_LEVEL1);
 	}
 
 	public static void loadSound(String path, String key) {

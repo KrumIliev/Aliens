@@ -10,15 +10,15 @@ import com.kdi.aliens.util.Reference;
 
 public class Effect {
 
-	protected int x, y;
-	protected int xMap, yMap;
+	private int x, y;
+	private int xMap, yMap;
 
-	protected int width, height;
+	private int width, height;
 
-	protected Animation animation;
-	protected BufferedImage[] sprites;
+	private Animation animation;
+	private BufferedImage[] sprites;
 
-	protected boolean remove;
+	private boolean remove;
 
 	public Effect(int x, int y, int width, int height, String file, int animationDelay) {
 		this.x = x;

@@ -22,4 +22,5 @@ public class Reference {
 	 * Music keys 
 	 */
 	public static final String MUSIC_MENU = "menu";
+	public static final String MUSIC_LEVEL1 = "level1";
 }

@@ -37,7 +37,7 @@ public class GameStateManager {
 		}
 		if (state == LEVEL1) {
 			gameStates[state] = new LevelOne(this);
-			AudioPlayer.stopMusic(currentMusic);
+			changeMusic(Reference.MUSIC_LEVEL1);
 		}
 	}
 

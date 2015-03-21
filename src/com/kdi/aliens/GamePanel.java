@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public static final String GAME_NAME = "ALIENS ARE REAL";
 	public static final int WIDTH = 1280; // Window width
 	public static final int HEIGHT = 720; // Window height
+	public static final int SCALE = 1; // Used for lowering graphics
 
 	private Thread thread;
 	private boolean running;
