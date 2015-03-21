@@ -17,5 +17,9 @@ public class Reference {
 	public static final String RESOURCE_HUD = "/hud/";
 	public static final String RESOURCE_SOUNDS = "/audio/sounds/";
 	public static final String RESOURCE_MUSIC = "/audio/music/";
-
+	
+	/**
+	 * Music keys 
+	 */
+	public static final String MUSIC_MENU = "menu";
 }

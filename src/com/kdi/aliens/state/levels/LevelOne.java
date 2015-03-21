@@ -69,7 +69,7 @@ public class LevelOne extends GameState {
 	}
 
 	private void populateItems() {
-		Point[] itemLocations = new Point[] { new Point(600, 600) };
+		Point[] itemLocations = new Point[] { new Point(300, 600), new Point(400, 600), new Point(500, 600), new Point(600, 600) };
 
 		Coin coin;
 		for (Point location : itemLocations) {
@@ -136,9 +136,6 @@ public class LevelOne extends GameState {
 
 		hud.render(graphics);
 	}
-
-	@Override
-	public void release() {}
 
 	@Override
 	public void hanleInput() {

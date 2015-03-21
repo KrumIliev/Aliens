@@ -16,7 +16,5 @@ public abstract class GameState {
 
 	public abstract void render(Graphics2D graphics);
 
-	public abstract void release();
-
 	public abstract void hanleInput();
 }

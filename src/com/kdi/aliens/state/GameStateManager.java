@@ -3,6 +3,8 @@ package com.kdi.aliens.state;
 import java.awt.Graphics2D;
 
 import com.kdi.aliens.state.levels.LevelOne;
+import com.kdi.aliens.util.AudioPlayer;
+import com.kdi.aliens.util.Reference;
 
 public class GameStateManager {
 	private int numStates = 3;
@@ -14,16 +16,29 @@ public class GameStateManager {
 	private GameState[] gameStates;
 	private int currentState;
 
+	private String currentMusic;
+
 	public GameStateManager() {
 		gameStates = new GameState[numStates];
 		currentState = MENU;
+		currentMusic = Reference.MUSIC_MENU;
+		AudioPlayer.playMusic(currentMusic);
 		loadState(currentState);
 	}
 
 	private void loadState(int state) {
-		if (state == MENU) gameStates[state] = new MenuState(this);
-		if (state == OPTIONS) gameStates[state] = new OptionsState(this);
-		if (state == LEVEL1) gameStates[state] = new LevelOne(this);
+		if (state == MENU) {
+			gameStates[state] = new MenuState(this);
+			changeMusic(Reference.MUSIC_MENU);
+		}
+		if (state == OPTIONS) {
+			gameStates[state] = new OptionsState(this);
+			changeMusic(Reference.MUSIC_MENU);
+		}
+		if (state == LEVEL1) {
+			gameStates[state] = new LevelOne(this);
+			AudioPlayer.stopMusic(currentMusic);
+		}
 	}
 
 	private void unloadState(int state) {
@@ -31,7 +46,6 @@ public class GameStateManager {
 	}
 
 	public void setState(int state) {
-		gameStates[currentState].release();
 		unloadState(currentState);
 		currentState = state;
 		loadState(currentState);
@@ -43,5 +57,12 @@ public class GameStateManager {
 
 	public void render(Graphics2D graphics) {
 		gameStates[currentState].render(graphics);
+	}
+
+	private void changeMusic(String key) {
+		if (currentMusic.equals(key)) return;
+		AudioPlayer.stopMusic(currentMusic);
+		currentMusic = key;
+		AudioPlayer.loop(currentMusic);
 	}
 }

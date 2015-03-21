@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import com.kdi.aliens.input.KeyInput;
 import com.kdi.aliens.state.GameStateManager;
+import com.kdi.aliens.util.AudioPlayer;
 import com.kdi.aliens.util.Fonts;
 import com.kdi.aliens.util.Reference;
 
@@ -36,6 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
 		setFocusable(true);
 		requestFocus();
 		loadFonts();
+		AudioPlayer.init();
 	}
 
 	private void init() {

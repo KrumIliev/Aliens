@@ -12,6 +12,7 @@ import com.kdi.aliens.util.Reference;
 public class Coin extends Item {
 
 	private BufferedImage[] sprites;
+	private String soundKey = "coin";
 
 	public Coin(int x, int y) {
 		super(x, y, 30, 30, 28, 28);
@@ -31,7 +32,8 @@ public class Coin extends Item {
 		animation = new Animation();
 		animation.setFrames(sprites);
 		animation.setDelay(200);
-		setSound(new AudioPlayer(Reference.RESOURCE_SOUNDS + "coin.mp3"));
+		AudioPlayer.loadSound(Reference.RESOURCE_SOUNDS + "coin.mp3", soundKey);
+		hasSound = true;
 	}
 
 	@Override
@@ -42,5 +44,11 @@ public class Coin extends Item {
 	@Override
 	public void render(Graphics2D graphics) {
 		graphics.drawImage(animation.getImage(), x + xMap - width / 2, y + yMap - height / 2, null);
+	}
+
+	@Override
+	public void playSound() {
+		AudioPlayer.playSound(soundKey);
+
 	}
 }
