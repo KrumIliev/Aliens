@@ -14,7 +14,9 @@ import com.kdi.aliens.graphics.Background;
 import com.kdi.aliens.graphics.HUD;
 import com.kdi.aliens.input.KeyInput;
 import com.kdi.aliens.items.Coin;
+import com.kdi.aliens.items.Health;
 import com.kdi.aliens.items.Item;
+import com.kdi.aliens.items.Life;
 import com.kdi.aliens.state.GameState;
 import com.kdi.aliens.state.GameStateManager;
 import com.kdi.aliens.tilemap.TileMap;
@@ -75,12 +77,27 @@ public class LevelOne extends GameState {
 	}
 
 	private void populateItems() {
-		Point[] itemLocations = new Point[] { new Point(300, 600), new Point(400, 600), new Point(500, 600), new Point(600, 600) };
+		Point[] coinLocations = new Point[] { new Point(300, 600), new Point(400, 600), new Point(500, 600), new Point(600, 600) };
+		Point[] heatsLocations = new Point[] { new Point(300, 550), new Point(400, 550), new Point(500, 550), new Point(600, 550) };
+		Point[] lifesLocations = new Point[] { new Point(300, 650), new Point(400, 650), new Point(500, 650), new Point(600, 650) };
+		
 
 		Coin coin;
-		for (Point location : itemLocations) {
+		for (Point location : coinLocations) {
 			coin = new Coin(location.x, location.y);
 			items.add(coin);
+		}
+		
+		Health health;
+		for (Point location : heatsLocations) {
+			health = new Health(location.x, location.y);
+			items.add(health);
+		}
+		
+		Life life;
+		for (Point location : lifesLocations) {
+			life = new Life(location.x, location.y);
+			items.add(life);
 		}
 	}
 

@@ -44,26 +44,22 @@ public class DefaultWeapon extends Entity {
 
 		try {
 
-			BufferedImage shootSheet = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "default_weapon_bullet.png"));
+			sprites = new BufferedImage[1];
+			sprites[0] = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "def.png"));
 			BufferedImage explosionSheet = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "default_weapon_explosion.png"));
-
-			sprites = new BufferedImage[shootSheet.getWidth() / width];
-			for (int i = 0; i < sprites.length; i++) {
-				sprites[i] = shootSheet.getSubimage(i * width, 0, width, height);
-			}
 
 			hitSprites = new BufferedImage[explosionSheet.getWidth() / width];
 			for (int i = 0; i < hitSprites.length; i++) {
 				hitSprites[i] = explosionSheet.getSubimage(i * width, 0, width, height);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		animation = new Animation();
 		animation.setFrames(sprites);
-		animation.setDelay(70);
+		animation.setDelay(-1);
 	}
 
 	@Override

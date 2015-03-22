@@ -46,10 +46,14 @@ public abstract class Item {
 		this.cHeight = cHeight;
 	}
 
-	public abstract void update();
+	public void update() {
+		animation.update();
+	}
 
-	public abstract void render(Graphics2D graphics);
-	
+	public void render(Graphics2D graphics) {
+		graphics.drawImage(animation.getImage(), x + xMap - width / 2, y + yMap - height / 2, null);
+	}
+
 	public abstract void playSound();
 
 	public void setMapPosition(int x, int y) {

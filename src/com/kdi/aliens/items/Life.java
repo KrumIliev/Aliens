@@ -5,15 +5,13 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 import com.kdi.aliens.graphics.Animation;
-import com.kdi.aliens.util.AudioPlayer;
 import com.kdi.aliens.util.Reference;
 
-public class Coin extends Item {
+public class Life extends Item {
 
 	private BufferedImage[] sprites;
-	private String soundKey = "coin";
 
-	public Coin(int x, int y) {
+	public Life(int x, int y) {
 		super(x, y, 30, 30, 30, 30);
 
 		try {
@@ -21,7 +19,7 @@ public class Coin extends Item {
 
 			sprites = new BufferedImage[spriteSheet.getWidth() / width];
 			for (int i = 0; i < sprites.length; i++) {
-				sprites[i] = spriteSheet.getSubimage(i * width, 0, width, height);
+				sprites[i] = spriteSheet.getSubimage(i * width, 60, width, height);
 			}
 
 		} catch (Exception e) {
@@ -31,13 +29,9 @@ public class Coin extends Item {
 		animation = new Animation();
 		animation.setFrames(sprites);
 		animation.setDelay(200);
-		AudioPlayer.loadSound(Reference.RESOURCE_SOUNDS + "coin.mp3", soundKey);
-		hasSound = true;
 	}
 
 	@Override
-	public void playSound() {
-		AudioPlayer.playSound(soundKey);
+	public void playSound() {}
 
-	}
 }

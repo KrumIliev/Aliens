@@ -12,7 +12,9 @@ import com.kdi.aliens.entities.weapons.DefaultWeapon;
 import com.kdi.aliens.graphics.Animation;
 import com.kdi.aliens.input.KeyInput;
 import com.kdi.aliens.items.Coin;
+import com.kdi.aliens.items.Health;
 import com.kdi.aliens.items.Item;
+import com.kdi.aliens.items.Life;
 import com.kdi.aliens.tilemap.TileMap;
 import com.kdi.aliens.util.AudioPlayer;
 import com.kdi.aliens.util.Reference;
@@ -30,6 +32,7 @@ public class Player extends Entity {
 	private boolean flinching;
 	private long flinchTimer;
 	private int coins = 0;
+	private int eWidth; // Attacking width
 
 	/**
 	 * Keys
@@ -44,7 +47,7 @@ public class Player extends Entity {
 	 * Animations
 	 */
 	private ArrayList<BufferedImage[]> sprites;
-	private final int[] numFrames = { 7, 1, 1, 4, 2 };
+	private final int[] numFrames = { 7, 1, 1, 4, 5 };
 
 	/**
 	 * Animation actions
@@ -65,6 +68,7 @@ public class Player extends Entity {
 		super(tileMap);
 
 		width = 70;
+		eWidth = 158;
 		height = 94;
 		cWidth = 50;
 		cHeight = 80;
@@ -100,7 +104,7 @@ public class Player extends Entity {
 					if (i != 4) {
 						bi[j] = spritesheet.getSubimage(j * width, i * height, width, height);
 					} else {
-						bi[j] = spritesheet.getSubimage(j * 90, i * height, 90, height);
+						bi[j] = spritesheet.getSubimage(j * eWidth, i * height, eWidth, height);
 					}
 				}
 
@@ -141,6 +145,7 @@ public class Player extends Entity {
 		if (firing && currentAction != FIRE) {
 			DefaultWeapon weapon = new DefaultWeapon(tileMap, facingRight);
 			if (energy > weapon.getEnergyCost()) {
+				setAnimation(FIRE, 30, eWidth);
 				weapon.setPosition(x + weapon.xOffset, y + weapon.yOffset);
 				weapons.add(weapon);
 				energy -= weapon.getEnergyCost();
@@ -162,9 +167,7 @@ public class Player extends Entity {
 		}
 
 		// set animation
-		if (firing) {
-			setAnimation(FIRE, 70, 90);
-		} else if (dy > 0) {
+		if (firing) {} else if (dy > 0) {
 			setAnimation(FALLING, -1, 70);
 		} else if (dy < 0) {
 			setAnimation(JUMPING, -1, 70);
@@ -230,8 +233,15 @@ public class Player extends Entity {
 
 	public void checkItems(ArrayList<Item> items) {
 		for (Item item : items)
-			if (item.intersects(this)) if (item instanceof Coin) {
-				coins++;
+			if (item.intersects(this)) {
+				if (item instanceof Coin) coins++;
+
+				if (item instanceof Health) {
+					health++;
+					if (health > maxHealth) health = maxHealth;
+				}
+				if (item instanceof Life) lives++;
+
 				item.setRemove();
 			}
 	}
