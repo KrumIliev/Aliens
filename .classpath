@@ -6,5 +6,10 @@
 	<classpathentry kind="lib" path="libs/jl1.0.1.jar"/>
 	<classpathentry kind="lib" path="libs/mp3spi1.9.5.jar"/>
 	<classpathentry kind="lib" path="libs/tritonus_share.jar"/>
+	<classpathentry kind="lib" path="libs/lwjgl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AliensAreReal/libs/native/windows"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
