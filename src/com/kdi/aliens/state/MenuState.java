@@ -56,8 +56,8 @@ public class MenuState extends GameState {
 
 	@Override
 	public void update() {
-		if (navigationTimer > 5) hanleInput();
-		if (navigationTimer > 5) navigationTimer = 5;
+		if (navigationTimer > 10) hanleInput();
+		if (navigationTimer > 10) navigationTimer = 10;
 		navigationTimer++;
 		background.update();
 	}

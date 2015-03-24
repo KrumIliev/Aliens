@@ -38,6 +38,7 @@ public abstract class Entity {
 	protected double xDest, yDest;
 	protected double xTemp, yTemp;
 	protected boolean topLeft, topRight, bottomLeft, bottomRight; // Four corner collision
+	protected boolean dmgTopLeft, dmgTopRight, dmgButtomLeft, dmgButtomRight;
 
 	/**
 	 * Animation
@@ -53,6 +54,7 @@ public abstract class Entity {
 	protected boolean left, right, up, down;
 	protected boolean jumping;
 	protected boolean falling;
+	protected boolean hit;
 
 	/**
 	 * Movement Attribute
@@ -150,8 +152,11 @@ public abstract class Entity {
 
 		if (!falling) {
 			calculateCorners(x, yDest + 1);
+
 			if (!bottomLeft && !bottomRight) falling = true;
 		}
+
+		if (dmgTopLeft || dmgTopRight || dmgButtomLeft || dmgButtomRight) hit = true;
 	}
 
 	public void calculateCorners(double x, double y) {
@@ -175,7 +180,10 @@ public abstract class Entity {
 		bottomLeft = bl == Tile.BLOCKED;
 		bottomRight = br == Tile.BLOCKED;
 
-		//TODO add damage surface
+		dmgTopLeft = tl == Tile.DAMAGE;
+		dmgTopRight = tr == Tile.DAMAGE;
+		dmgButtomLeft = bl == Tile.DAMAGE;
+		dmgButtomRight = br == Tile.DAMAGE;
 	}
 
 	public int getX() {

@@ -2,8 +2,10 @@ package com.kdi.aliens;
 
 import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.DisplayMode;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
@@ -39,12 +41,14 @@ public class AlienGame extends Canvas implements Runnable {
 	private JFrame frame;
 	private Thread gameThread;
 
-	private static GraphicsConfiguration config = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice()
-			.getDefaultConfiguration();
+	private static GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+	private static GraphicsConfiguration config = device.getDefaultConfiguration();
 
 	public static final String GAME_NAME = "ALIENS ARE REAL";
 	public static final int WIDTH = 1280; // Window width
 	public static final int HEIGHT = 720; // Window height
+
+	private boolean setFullscreen = false;
 
 	private GameStateManager gameStateManager;
 
@@ -73,11 +77,20 @@ public class AlienGame extends Canvas implements Runnable {
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
 		frame = new JFrame(GAME_NAME);
+		if (setFullscreen) frame.setUndecorated(true); // Only on fullscreen 
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(this);
 		frame.pack();
 		frame.setVisible(true);
+
+		/**
+		 * Fullscreen mode
+		 */
+		if (setFullscreen) {
+			device.setFullScreenWindow(frame);
+			device.setDisplayMode(new DisplayMode(WIDTH, HEIGHT, 32, DisplayMode.REFRESH_RATE_UNKNOWN));
+		}
 
 		addKeyListener(new KeyInput());
 
@@ -122,7 +135,6 @@ public class AlienGame extends Canvas implements Runnable {
 	private void loading(Graphics2D g) {
 
 		try {
-
 			Graphics2D gb = getBuffer();
 
 			BufferedImage loadingImage = ImageIO.read(AlienGame.class.getResourceAsStream(Reference.RESOURCE_BACKGROUNDS + "menu_background.png"));

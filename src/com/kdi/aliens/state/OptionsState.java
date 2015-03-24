@@ -82,7 +82,6 @@ public class OptionsState extends GameState {
 
 		String currRes = AlienGame.WIDTH + "x" + AlienGame.HEIGHT;
 		for (int i = 0; i < resolutions.size(); i++) {
-			System.out.println(resolutions.get(i));
 			if (resolutions.get(i).equals(currRes)) {
 				currentResolution = i;
 			}
@@ -94,8 +93,8 @@ public class OptionsState extends GameState {
 
 	@Override
 	public void update() {
-		if (navigationTimer > 5) hanleInput();
-		if (navigationTimer > 5) navigationTimer = 5;
+		if (navigationTimer > 10) hanleInput();
+		if (navigationTimer > 10) navigationTimer = 10;
 		navigationTimer++;
 		background.update();
 	}
@@ -117,8 +116,8 @@ public class OptionsState extends GameState {
 			}
 
 			if (i < OPTIONS.length - 2) {
-				graphics.drawString(OPTIONS[i], xOffset, 200 + counter * 60);
-				graphics.drawString(optionsData[i], AlienGame.WIDTH - fm.stringWidth(optionsData[i]) - xOffset, 200 + counter * 60);
+				graphics.drawString(OPTIONS[i], xOffset, 100 + counter * 60);
+				graphics.drawString(optionsData[i], AlienGame.WIDTH - fm.stringWidth(optionsData[i]) - xOffset, 100 + counter * 60);
 				counter++;
 
 			} else if (i < OPTIONS.length - 1) {

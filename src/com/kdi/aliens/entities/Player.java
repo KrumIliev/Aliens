@@ -70,7 +70,7 @@ public class Player extends Entity {
 		width = 70;
 		eWidth = 158;
 		height = 94;
-		cWidth = 50;
+		cWidth = 40;
 		cHeight = 80;
 
 		moveSpeed = 4;
@@ -137,6 +137,10 @@ public class Player extends Entity {
 		getNextPosition();
 		checkTileMapCollision();
 		setPosition(xTemp, yTemp);
+		if (hit) {
+			hit = false;
+			hit(1);
+		}
 
 		if (currentAction == FIRE) if (animation.hasPlayedOnce()) firing = false;
 

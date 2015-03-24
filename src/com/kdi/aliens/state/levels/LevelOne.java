@@ -9,6 +9,7 @@ import com.kdi.aliens.AlienGame;
 import com.kdi.aliens.effects.Effect;
 import com.kdi.aliens.entities.Player;
 import com.kdi.aliens.entities.enemies.Enemy;
+import com.kdi.aliens.entities.enemies.Fly;
 import com.kdi.aliens.entities.enemies.PinkBlob;
 import com.kdi.aliens.graphics.Background;
 import com.kdi.aliens.graphics.HUD;
@@ -61,7 +62,7 @@ public class LevelOne extends GameState {
 		hud = new HUD(player);
 
 		populateEnemies();
-		populateItems();
+		//populateItems();
 
 		AudioPlayer.loadSound(Reference.RESOURCE_SOUNDS + "explosion.mp3", soundExplosionKey);
 	}
@@ -75,6 +76,10 @@ public class LevelOne extends GameState {
 			pinkBlob.setPosition(location.x, location.y);
 			enemies.add(pinkBlob);
 		}
+		
+		Fly fly = new Fly(tileMap, player);
+		fly.setPosition(1400, 650);
+		enemies.add(fly);
 	}
 
 	private void populateItems() {
