@@ -5,7 +5,7 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import com.kdi.aliens.GamePanel;
+import com.kdi.aliens.AlienGame;
 import com.kdi.aliens.effects.Effect;
 import com.kdi.aliens.entities.Player;
 import com.kdi.aliens.entities.enemies.Enemy;
@@ -105,7 +105,7 @@ public class LevelOne extends GameState {
 	public void update() {
 		hanleInput();
 		player.update();
-		tileMap.setPosition(GamePanel.WIDTH / 2 - player.getX(), GamePanel.HEIGHT / 2 - player.getY());
+		tileMap.setPosition(AlienGame.WIDTH / 2 - player.getX(), AlienGame.HEIGHT / 2 - player.getY());
 		background.setXPosition(tileMap.getx());
 
 		player.checkAttack(enemies);

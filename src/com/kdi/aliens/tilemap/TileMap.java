@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
-import com.kdi.aliens.GamePanel;
+import com.kdi.aliens.AlienGame;
 import com.kdi.aliens.util.Reference;
 
 public class TileMap {
@@ -44,8 +44,8 @@ public class TileMap {
 
 	public TileMap(int tileSize) {
 		this.tileSize = tileSize;
-		numRowsToDraw = GamePanel.HEIGHT / tileSize + 2;
-		numColsToDraw = GamePanel.WIDTH / tileSize + 2;
+		numRowsToDraw = AlienGame.HEIGHT / tileSize + 2;
+		numColsToDraw = AlienGame.WIDTH / tileSize + 2;
 	}
 
 	public void loadTiles(String name) {
@@ -92,9 +92,9 @@ public class TileMap {
 			width = numCols * tileSize;
 			height = numRows * tileSize;
 
-			xmin = GamePanel.WIDTH - width;
+			xmin = AlienGame.WIDTH - width;
 			xmax = 0;
-			ymin = GamePanel.HEIGHT - height;
+			ymin = AlienGame.HEIGHT - height;
 			ymax = 0;
 
 			String delims = "\\s+";

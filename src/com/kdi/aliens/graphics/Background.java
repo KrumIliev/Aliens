@@ -3,7 +3,7 @@ package com.kdi.aliens.graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import com.kdi.aliens.GamePanel;
+import com.kdi.aliens.AlienGame;
 
 public class Background {
 
@@ -20,7 +20,7 @@ public class Background {
 	}
 
 	public void setXPosition(double x) {
-		this.x = (x * moveScale) % GamePanel.WIDTH;
+		this.x = (x * moveScale) % AlienGame.WIDTH;
 	}
 
 	public void setVector(double dx, double dy) {
@@ -35,8 +35,8 @@ public class Background {
 
 	public void render(Graphics2D graphics) {
 		graphics.drawImage(image, (int) x, (int) y, null);
-		if (x < 0) graphics.drawImage(image, (int) x + GamePanel.WIDTH, (int) y, null);
-		if (x > 0) graphics.drawImage(image, (int) x - GamePanel.WIDTH, (int) y, null);
+		if (x < 0) graphics.drawImage(image, (int) x + AlienGame.WIDTH, (int) y, null);
+		if (x > 0) graphics.drawImage(image, (int) x - AlienGame.WIDTH, (int) y, null);
 	}
 
 }

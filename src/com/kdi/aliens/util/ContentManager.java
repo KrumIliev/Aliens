@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 import org.imgscalr.Scalr;
 
-import com.kdi.aliens.GamePanel;
+import com.kdi.aliens.AlienGame;
 
 public class ContentManager {
 
@@ -17,9 +17,9 @@ public class ContentManager {
 	public static void loadImages() {
 		images = new HashMap<String, BufferedImage>();
 
-		addImage(Reference.CM_BACKGROUND_MENU_1, Reference.RESOURCE_BACKGROUNDS + "menu_background.png", GamePanel.WIDTH, GamePanel.HEIGHT);
-		addImage(Reference.CM_BACKGROUND_MENU_2, Reference.RESOURCE_BACKGROUNDS + "menu_background_1.png", GamePanel.WIDTH, GamePanel.HEIGHT);
-		addImage(Reference.CM_BACKGROUND_LEVEL_1, Reference.RESOURCE_BACKGROUNDS + "level1_background.png", GamePanel.WIDTH, GamePanel.HEIGHT);
+		addImage(Reference.CM_BACKGROUND_MENU_1, Reference.RESOURCE_BACKGROUNDS + "menu_background.png", AlienGame.WIDTH, AlienGame.HEIGHT);
+		addImage(Reference.CM_BACKGROUND_MENU_2, Reference.RESOURCE_BACKGROUNDS + "menu_background_1.png", AlienGame.WIDTH, AlienGame.HEIGHT);
+		addImage(Reference.CM_BACKGROUND_LEVEL_1, Reference.RESOURCE_BACKGROUNDS + "level1_background.png", AlienGame.WIDTH, AlienGame.HEIGHT);
 
 		addImage(Reference.CM_TILES_LEVEL_1, Reference.RESOURCE_TILES + "grass.png");
 

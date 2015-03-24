@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 
-import com.kdi.aliens.GamePanel;
+import com.kdi.aliens.AlienGame;
 import com.kdi.aliens.graphics.Background;
 import com.kdi.aliens.input.KeyInput;
 import com.kdi.aliens.util.ContentManager;
@@ -68,7 +68,7 @@ public class MenuState extends GameState {
 
 		graphics.setColor(titleColor);
 		graphics.setFont(titleFont);
-		graphics.drawString(GamePanel.GAME_NAME, centerHorisontal(graphics, titleFont, GamePanel.GAME_NAME), 200);
+		graphics.drawString(AlienGame.GAME_NAME, centerHorisontal(graphics, titleFont, AlienGame.GAME_NAME), 200);
 
 		graphics.setFont(defaultFont);
 		for (int i = 0; i < options.length; i++) {
@@ -84,7 +84,7 @@ public class MenuState extends GameState {
 	private int centerHorisontal(Graphics2D graphics, Font font, String text) {
 		FontMetrics fm = graphics.getFontMetrics(font);
 		int stringWidth = fm.stringWidth(text);
-		return (GamePanel.WIDTH + stringWidth) / 2 - stringWidth;
+		return (AlienGame.WIDTH + stringWidth) / 2 - stringWidth;
 	}
 
 	private void select() {

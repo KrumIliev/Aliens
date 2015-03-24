@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import com.kdi.aliens.GamePanel;
+import com.kdi.aliens.AlienGame;
 import com.kdi.aliens.graphics.Animation;
 import com.kdi.aliens.tilemap.Tile;
 import com.kdi.aliens.tilemap.TileMap;
@@ -218,7 +218,7 @@ public abstract class Entity {
 	}
 
 	public boolean notOnScreen() {
-		return x + xMap + width < 0 || x + xMap - width > GamePanel.WIDTH || y + yMap + height < 0 || y + yMap - height > GamePanel.HEIGHT;
+		return x + xMap + width < 0 || x + xMap - width > AlienGame.WIDTH || y + yMap + height < 0 || y + yMap - height > AlienGame.HEIGHT;
 	}
 
 	public boolean shouldRemove() {

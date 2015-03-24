@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
-import com.kdi.aliens.GamePanel;
+import com.kdi.aliens.AlienGame;
 import com.kdi.aliens.entities.Player;
 import com.kdi.aliens.util.Reference;
 
@@ -130,7 +130,7 @@ public class HUD {
 			xOffset = xOffset + icon.getWidth() + 5;
 		}
 
-		xOffset = GamePanel.WIDTH / 2;
+		xOffset = AlienGame.WIDTH / 2;
 		for (int i = 0; i < keys; i++) {
 			if (i == 0) {
 				if (player.hasBlueKey()) {
@@ -165,9 +165,9 @@ public class HUD {
 		 * Rendering coins
 		 */
 		Font font = new Font("Comic Note", Font.PLAIN, 40);
-		graphics.drawImage(coins, GamePanel.WIDTH - coins.getWidth() - 100, topYOffset, null);
+		graphics.drawImage(coins, AlienGame.WIDTH - coins.getWidth() - 100, topYOffset, null);
 		graphics.setColor(new Color(241, 156, 183));
 		graphics.setFont(font);
-		graphics.drawString(String.valueOf(player.getCoins()), GamePanel.WIDTH - coins.getWidth() - 60, topYOffset + 23);
+		graphics.drawString(String.valueOf(player.getCoins()), AlienGame.WIDTH - coins.getWidth() - 60, topYOffset + 23);
 	}
 }

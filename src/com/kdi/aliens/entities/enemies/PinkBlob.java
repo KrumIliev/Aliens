@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
-import com.kdi.aliens.GamePanel;
+import com.kdi.aliens.AlienGame;
 import com.kdi.aliens.entities.Player;
 import com.kdi.aliens.graphics.Animation;
 import com.kdi.aliens.tilemap.TileMap;
@@ -67,7 +67,7 @@ public class PinkBlob extends Enemy {
 	public void update() {
 
 		if (!active) {
-			if (Math.abs(player.getX() - x) < GamePanel.WIDTH) active = true;
+			if (Math.abs(player.getX() - x) < AlienGame.WIDTH) active = true;
 			return;
 		}
 
