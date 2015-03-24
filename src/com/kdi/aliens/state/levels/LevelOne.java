@@ -21,6 +21,7 @@ import com.kdi.aliens.state.GameState;
 import com.kdi.aliens.state.GameStateManager;
 import com.kdi.aliens.tilemap.TileMap;
 import com.kdi.aliens.util.AudioPlayer;
+import com.kdi.aliens.util.ContentManager;
 import com.kdi.aliens.util.Reference;
 
 public class LevelOne extends GameState {
@@ -52,7 +53,7 @@ public class LevelOne extends GameState {
 		tileMap.loadLevel("level1.map");
 		tileMap.setPosition(0, 0);
 
-		background = new Background("level1_background.png", 0.5);
+		background = new Background(ContentManager.getImage(Reference.CM_BACKGROUND_LEVEL_1), 0.5);
 
 		player = new Player(tileMap);
 		player.setPosition(200, 850);
@@ -80,20 +81,19 @@ public class LevelOne extends GameState {
 		Point[] coinLocations = new Point[] { new Point(300, 600), new Point(400, 600), new Point(500, 600), new Point(600, 600) };
 		Point[] heatsLocations = new Point[] { new Point(300, 550), new Point(400, 550), new Point(500, 550), new Point(600, 550) };
 		Point[] lifesLocations = new Point[] { new Point(300, 650), new Point(400, 650), new Point(500, 650), new Point(600, 650) };
-		
 
 		Coin coin;
 		for (Point location : coinLocations) {
 			coin = new Coin(location.x, location.y);
 			items.add(coin);
 		}
-		
+
 		Health health;
 		for (Point location : heatsLocations) {
 			health = new Health(location.x, location.y);
 			items.add(health);
 		}
-		
+
 		Life life;
 		for (Point location : lifesLocations) {
 			life = new Life(location.x, location.y);

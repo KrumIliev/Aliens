@@ -3,15 +3,19 @@ package com.kdi.aliens;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import com.kdi.aliens.input.KeyInput;
 import com.kdi.aliens.state.GameStateManager;
-import com.kdi.aliens.util.AudioPlayer;
-import com.kdi.aliens.util.Fonts;
+import com.kdi.aliens.util.ContentManager;
 import com.kdi.aliens.util.Reference;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -37,14 +41,42 @@ public class GamePanel extends JPanel implements Runnable {
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setFocusable(true);
 		requestFocus();
-		loadFonts();
-		AudioPlayer.init();
 	}
 
 	private void init() {
-		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+		BufferedImage temp = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice gd = ge.getDefaultScreenDevice();
+		GraphicsConfiguration gc = gd.getDefaultConfiguration();
+		image = gc.createCompatibleImage(temp.getWidth(), temp.getHeight(), temp.getTransparency());
 		graphics = (Graphics2D) image.getGraphics();
 		graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
+
+		/**
+		 * Render load screen
+		 */
+		try {
+			BufferedImage loadingImage = ImageIO.read(GamePanel.class.getResourceAsStream(Reference.RESOURCE_BACKGROUNDS + "menu_background.png"));
+			BufferedImage loadingText = ImageIO.read(GamePanel.class.getResourceAsStream(Reference.RESOURCE_BACKGROUNDS + "loading.png"));
+
+			graphics.drawImage(loadingImage, 0, 0, null);
+			graphics.drawImage(loadingText, WIDTH / 2 - loadingText.getWidth() / 2, HEIGHT / 2 - loadingText.getHeight() / 2, null);
+			drawToScreen();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		/**
+		 * Loading resources
+		 */
+		ContentManager.loadImages();
+		ContentManager.loadFonts();
+		ContentManager.loadAudio();
+
+		/**
+		 * Running game
+		 */
 		running = true;
 		gameStateManager = new GameStateManager();
 	}
@@ -96,9 +128,5 @@ public class GamePanel extends JPanel implements Runnable {
 			addKeyListener(new KeyInput());
 			thread.start();
 		}
-	}
-
-	private void loadFonts() {
-		Fonts.addFont(new Fonts(Reference.RESOURCE_FONTS + "ComicNoteSmooth.ttf"));
 	}
 }

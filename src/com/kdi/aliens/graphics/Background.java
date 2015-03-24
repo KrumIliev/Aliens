@@ -2,12 +2,8 @@ package com.kdi.aliens.graphics;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import com.kdi.aliens.GamePanel;
-import com.kdi.aliens.util.Reference;
 
 public class Background {
 
@@ -18,13 +14,9 @@ public class Background {
 
 	private double moveScale;
 
-	public Background(String name, double moveScale) {
-		try {
-			image = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_BACKGROUNDS + name));
-			this.moveScale = moveScale;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public Background(BufferedImage image, double moveScale) {
+		this.image = image;
+		this.moveScale = moveScale;
 	}
 
 	public void setXPosition(double x) {
