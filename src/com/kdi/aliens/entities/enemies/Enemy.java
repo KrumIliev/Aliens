@@ -23,6 +23,11 @@ public abstract class Enemy extends Entity {
 		super(tileMap);
 		this.player = player;
 	}
+	
+	public Enemy(TileMap tileMap, double x, double y) {
+		super(tileMap);
+		setPosition(x, y);
+	}
 
 	public boolean isDead() {
 		return dead;

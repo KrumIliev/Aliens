@@ -1,7 +1,6 @@
 package com.kdi.aliens.state.levels;
 
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
@@ -9,15 +8,10 @@ import com.kdi.aliens.AlienGame;
 import com.kdi.aliens.effects.Effect;
 import com.kdi.aliens.entities.Player;
 import com.kdi.aliens.entities.enemies.Enemy;
-import com.kdi.aliens.entities.enemies.Fly;
-import com.kdi.aliens.entities.enemies.PinkBlob;
 import com.kdi.aliens.graphics.Background;
 import com.kdi.aliens.graphics.HUD;
 import com.kdi.aliens.input.KeyInput;
-import com.kdi.aliens.items.Coin;
-import com.kdi.aliens.items.Health;
 import com.kdi.aliens.items.Item;
-import com.kdi.aliens.items.Life;
 import com.kdi.aliens.state.GameState;
 import com.kdi.aliens.state.GameStateManager;
 import com.kdi.aliens.tilemap.TileMap;
@@ -61,49 +55,7 @@ public class LevelOne extends GameState {
 
 		hud = new HUD(player);
 
-		populateEnemies();
-		//populateItems();
-
 		AudioPlayer.loadSound(Reference.RESOURCE_SOUNDS + "explosion.mp3", soundExplosionKey);
-	}
-
-	private void populateEnemies() {
-		Point[] enemyLocations = new Point[] { new Point(600, 850), new Point(900, 450) };
-
-		PinkBlob pinkBlob;
-		for (Point location : enemyLocations) {
-			pinkBlob = new PinkBlob(tileMap, player);
-			pinkBlob.setPosition(location.x, location.y);
-			enemies.add(pinkBlob);
-		}
-		
-		Fly fly = new Fly(tileMap, player);
-		fly.setPosition(1400, 650);
-		enemies.add(fly);
-	}
-
-	private void populateItems() {
-		Point[] coinLocations = new Point[] { new Point(300, 600), new Point(400, 600), new Point(500, 600), new Point(600, 600) };
-		Point[] heatsLocations = new Point[] { new Point(300, 550), new Point(400, 550), new Point(500, 550), new Point(600, 550) };
-		Point[] lifesLocations = new Point[] { new Point(300, 650), new Point(400, 650), new Point(500, 650), new Point(600, 650) };
-
-		Coin coin;
-		for (Point location : coinLocations) {
-			coin = new Coin(location.x, location.y);
-			items.add(coin);
-		}
-
-		Health health;
-		for (Point location : heatsLocations) {
-			health = new Health(location.x, location.y);
-			items.add(health);
-		}
-
-		Life life;
-		for (Point location : lifesLocations) {
-			life = new Life(location.x, location.y);
-			items.add(life);
-		}
 	}
 
 	@Override

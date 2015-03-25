@@ -3,15 +3,50 @@ package com.kdi.aliens.tilemap;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.kdi.aliens.AlienGame;
+import com.kdi.aliens.entities.enemies.Enemy;
+import com.kdi.aliens.items.Item;
 import com.kdi.aliens.util.Reference;
 
 public class TileMap {
+
+	private static final String XML_TILEINFO = "tileset";
+	private static final String XML_TILESIZE = "tilewidth";
+	private static final String XML_TILESET = "image";
+	private static final String XML_TILESET_IMAGE = "source";
+	private static final String XML_TILESET_WIDTH = "width";
+	private static final String XML_TILESET_HEIGHT = "height";
+
+	private static final String XML_LAYER = "layer";
+	private static final String XML_LAYER_DATA = "data";
+	private static final String XML_LAYER_GID = "gid";
+
+	private static final String XML_LAYER_NAME = "name";
+	private static final String XML_LAYER_SOLID = "Solid"; //TODO change
+	private static final String XML_LAYER_DAMAGE = "damage";
+	private static final String XML_LAYER_LIQUID = "liquid";
+	private static final String XML_LAYER_DECOR = "decor";
+	private static final String XML_LAYER_RED_LOCK = "red"; //TODO change and add all
+	private static final String XML_LAYER_RED_KEY = "redkey"; //TODO change and add all
+
+	private static final String XML_OBJECT = "objectgroup";
+	private static final String XML_OBJECT_COIN = "coins"; // TODO add all
+	private static final String XML_OBJECT_ENEMY_PINK_BLOB = "pink_blob";
+	private static final String XML_OBJECT_ENEMY_BAT = "bat"; //TODO add all enemies
 
 	// position
 	private double x;
@@ -41,6 +76,9 @@ public class TileMap {
 	private int colOffset;
 	private int numRowsToDraw;
 	private int numColsToDraw;
+
+	private ArrayList<Enemy> enemies;
+	private ArrayList<Item> items;
 
 	public TileMap(int tileSize) {
 		this.tileSize = tileSize;
@@ -81,7 +119,7 @@ public class TileMap {
 	}
 
 	public void loadLevel(String name) {
-		
+
 		try {
 			InputStream in = getClass().getResourceAsStream(Reference.RESOURCE_LEVELS + name);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -110,6 +148,91 @@ public class TileMap {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void loadWorld(String name) {
+
+	}
+
+	private void extractWorld(String xmlFilePath) {
+		try {
+
+			File fXmlFile = new File(xmlFilePath);
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(fXmlFile);
+			doc.getDocumentElement().normalize();
+
+			/**
+			 * Tile size
+			 */
+			Element tileInfo = (Element) doc.getElementsByTagName(XML_TILEINFO).item(0);
+			tileSize = Integer.valueOf(tileInfo.getAttribute(XML_TILESIZE));
+
+			/**
+			 * Tile set image name
+			 */
+			Element tileSetImage = (Element) doc.getElementsByTagName(XML_TILESET).item(0);
+			initTileSetImage(tileSetImage.getAttribute(XML_TILESET_IMAGE));
+
+			/**
+			 * Map
+			 */
+			width = Integer.valueOf(tileSetImage.getAttribute(XML_TILESET_WIDTH));
+			height = Integer.valueOf(tileSetImage.getAttribute(XML_TILESET_HEIGHT));
+			initMapArray(doc);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void initTileSetImage(String name) {
+		try {
+			tileset = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_TILES + name));
+			tileColumns = tileset.getWidth() / tileSize;
+			tileRows = tileset.getHeight() / tileSize;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Extracts the map from XML. All layers have the same length
+	 */
+	private void initMapArray(Document doc) {
+		numCols = width / tileSize;
+		numRows = height / tileSize;
+		map = new int[numRows][numCols];
+
+		xmin = AlienGame.WIDTH - width;
+		xmax = 0;
+		ymin = AlienGame.HEIGHT - height;
+		ymax = 0;
+
+		NodeList layers = doc.getElementsByTagName(XML_LAYER);
+		Node layerSolid, layerDamage, layerLiquid, layerDecor, laterRedLock, layerRedKey;
+
+		for (int i = 0; i < layers.getLength(); i++) {
+
+			Node layer = layers.item(i);
+
+			Element element = (Element) layer;
+			String layerName = element.getAttribute(XML_LAYER_NAME);
+
+			if (layerName.equalsIgnoreCase(XML_LAYER_SOLID)) layerSolid = layers.item(i);
+			if (layerName.equalsIgnoreCase(XML_LAYER_DAMAGE)) layerDamage = layers.item(i);
+			if (layerName.equalsIgnoreCase(XML_LAYER_LIQUID)) layerLiquid = layers.item(i);
+			if (layerName.equalsIgnoreCase(XML_LAYER_DECOR)) layerDecor = layers.item(i);
+			if (layerName.equalsIgnoreCase(XML_LAYER_RED_LOCK)) laterRedLock = layers.item(i);
+			if (layerName.equalsIgnoreCase(XML_LAYER_RED_KEY)) layerRedKey = layers.item(i);
+		}
+
+		//TODO Add layer information to array
+	}
+
+	private void initMapObjects(Document doc) {
+		// TODO
 	}
 
 	public int getTileSize() {
