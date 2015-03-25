@@ -211,7 +211,12 @@ public class TileMap {
 		ymax = 0;
 
 		NodeList layers = doc.getElementsByTagName(XML_LAYER);
-		Node layerSolid, layerDamage, layerLiquid, layerDecor, laterRedLock, layerRedKey;
+		NodeList layerSolid = null;
+		NodeList layerDamage = null;
+		NodeList layerLiquid = null;
+		NodeList layerDecor = null;
+		NodeList laterRedLock = null;
+		NodeList layerRedKey = null;
 
 		for (int i = 0; i < layers.getLength(); i++) {
 
@@ -220,12 +225,41 @@ public class TileMap {
 			Element element = (Element) layer;
 			String layerName = element.getAttribute(XML_LAYER_NAME);
 
-			if (layerName.equalsIgnoreCase(XML_LAYER_SOLID)) layerSolid = layers.item(i);
-			if (layerName.equalsIgnoreCase(XML_LAYER_DAMAGE)) layerDamage = layers.item(i);
-			if (layerName.equalsIgnoreCase(XML_LAYER_LIQUID)) layerLiquid = layers.item(i);
-			if (layerName.equalsIgnoreCase(XML_LAYER_DECOR)) layerDecor = layers.item(i);
-			if (layerName.equalsIgnoreCase(XML_LAYER_RED_LOCK)) laterRedLock = layers.item(i);
-			if (layerName.equalsIgnoreCase(XML_LAYER_RED_KEY)) layerRedKey = layers.item(i);
+			if (layerName.equalsIgnoreCase(XML_LAYER_SOLID)) layerSolid = layers.item(i).getFirstChild().getChildNodes();
+			if (layerName.equalsIgnoreCase(XML_LAYER_DAMAGE)) layerDamage = layers.item(i).getFirstChild().getChildNodes();
+			if (layerName.equalsIgnoreCase(XML_LAYER_LIQUID)) layerLiquid = layers.item(i).getFirstChild().getChildNodes();
+			if (layerName.equalsIgnoreCase(XML_LAYER_DECOR)) layerDecor = layers.item(i).getFirstChild().getChildNodes();
+			if (layerName.equalsIgnoreCase(XML_LAYER_RED_LOCK)) laterRedLock = layers.item(i).getFirstChild().getChildNodes();
+			if (layerName.equalsIgnoreCase(XML_LAYER_RED_KEY)) layerRedKey = layers.item(i).getFirstChild().getChildNodes();
+		}
+
+		int solid, damage, liquid, decor, redLock, redKey;
+		int rowCounter = 1;
+		int tileCode;
+		for (int i = 0; i < layerSolid.getLength(); i++) {
+			solid = Integer.valueOf(((Element) layerSolid.item(i)).getAttribute(XML_LAYER_GID));
+			damage = Integer.valueOf(((Element) layerDamage.item(i)).getAttribute(XML_LAYER_GID));
+			liquid = Integer.valueOf(((Element) layerLiquid.item(i)).getAttribute(XML_LAYER_GID));
+			decor = Integer.valueOf(((Element) layerDecor.item(i)).getAttribute(XML_LAYER_GID));
+			redLock = Integer.valueOf(((Element) laterRedLock.item(i)).getAttribute(XML_LAYER_GID));
+			redKey = Integer.valueOf(((Element) layerRedKey.item(i)).getAttribute(XML_LAYER_GID));
+
+			if (solid != 0)
+				tileCode = solid;
+			else if (damage != 0)
+				tileCode = damage;
+			else if (liquid != 0)
+				tileCode = liquid;
+			else if (decor != 0)
+				tileCode = decor;
+			else if (redLock != 0)
+				tileCode = redLock;
+			else if (redKey != 0)
+				tileCode = redKey;
+			else
+				tileCode = 0;
+			
+			
 		}
 
 		//TODO Add layer information to array
