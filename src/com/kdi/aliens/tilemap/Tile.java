@@ -9,9 +9,11 @@ public class Tile {
 	/**
 	 * Tile types
 	 */
-	public static final int NORMAL = 0;
-	public static final int BLOCKED = 1;
+	public static final int DECOR = 0;
+	public static final int SOLID = 1;
 	public static final int DAMAGE = 2;
+	public static final int LIQUID = 3;
+	public static final int LOCK_RED = 4;
 
 	public Tile(BufferedImage image, int type) {
 		this.image = image;

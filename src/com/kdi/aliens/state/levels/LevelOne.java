@@ -44,14 +44,16 @@ public class LevelOne extends GameState {
 		items = new ArrayList<Item>();
 
 		tileMap = new TileMap(70);
-		tileMap.loadTiles("grass.png");
-		tileMap.loadLevel("level1.map");
-		tileMap.setPosition(0, 0);
+		tileMap.loadWorld("world1_1.tmx");
+		//tileMap.loadTiles("grass.png");
+		//tileMap.loadLevel("level1.map");
+		
 
 		background = new Background(ContentManager.getImage(Reference.CM_BACKGROUND_LEVEL_1), 0.5);
 
 		player = new Player(tileMap);
-		player.setPosition(200, 850);
+		player.setPosition(200, 0);
+		tileMap.setPosition(200, 0);
 
 		hud = new HUD(player);
 

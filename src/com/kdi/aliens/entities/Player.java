@@ -190,7 +190,12 @@ public class Player extends Entity {
 		}
 
 		//TODO remove edit player respawn position
-		if (y > tileMap.getHeight()) updateLives();
+		if (y > tileMap.getHeight()){
+			System.out.println(y);
+			System.out.println(tileMap.getHeight());
+			updateLives();
+		}
+			
 
 	}
 
@@ -367,7 +372,7 @@ public class Player extends Entity {
 
 	private void updateLives() {
 		health = maxHealth;
-		setPosition(200, 850); // TODO change 
+		setPosition(200, 0); // TODO change 
 		lives--;
 		if (lives < 0) lives = 0;
 		if (lives == 0) dead = true;
