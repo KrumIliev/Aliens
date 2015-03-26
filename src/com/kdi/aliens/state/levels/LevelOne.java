@@ -39,15 +39,11 @@ public class LevelOne extends GameState {
 
 	@Override
 	public void init() {
-		enemies = new ArrayList<Enemy>();
 		effects = new ArrayList<Effect>();
-		items = new ArrayList<Item>();
 
-		tileMap = new TileMap(70);
-		tileMap.loadWorld("world1_1.tmx");
-		//tileMap.loadTiles("grass.png");
-		//tileMap.loadLevel("level1.map");
-		
+		tileMap = new TileMap(70, "world1_1.tmx");
+		items = tileMap.getItems();
+		enemies = tileMap.getEnemies();
 
 		background = new Background(ContentManager.getImage(Reference.CM_BACKGROUND_LEVEL_1), 0.5);
 
@@ -56,6 +52,10 @@ public class LevelOne extends GameState {
 		tileMap.setPosition(200, 0);
 
 		hud = new HUD(player);
+
+		for (Enemy enemy : enemies) {
+			enemy.setPlayer(player);
+		}
 
 		AudioPlayer.loadSound(Reference.RESOURCE_SOUNDS + "explosion.mp3", soundExplosionKey);
 	}
@@ -70,6 +70,15 @@ public class LevelOne extends GameState {
 		player.checkAttack(enemies);
 		player.checkItems(items);
 
+		for (int i = 0; i < items.size(); i++) {
+			Item item = items.get(i);
+			item.update();
+			if (item.shouldRemove()) {
+				items.remove(i);
+				i--;
+			}
+		}
+
 		for (int i = 0; i < enemies.size(); i++) {
 			Enemy enemy = enemies.get(i);
 			enemy.update();
@@ -78,15 +87,6 @@ public class LevelOne extends GameState {
 				i--;
 				effects.add(new Effect(enemy.getX(), enemy.getY(), 118, 118, "explosion.png", 70));
 				AudioPlayer.playSound(soundExplosionKey);
-			}
-		}
-
-		for (int i = 0; i < items.size(); i++) {
-			Item item = items.get(i);
-			item.update();
-			if (item.shouldRemove()) {
-				items.remove(i);
-				i--;
 			}
 		}
 
@@ -110,11 +110,6 @@ public class LevelOne extends GameState {
 		for (Effect effect : effects) {
 			effect.setMapPosition((int) tileMap.getx(), (int) tileMap.gety());
 			effect.render(graphics);
-		}
-
-		for (Item item : items) {
-			item.setMapPosition((int) tileMap.getx(), (int) tileMap.gety());
-			item.render(graphics);
 		}
 
 		hud.render(graphics);

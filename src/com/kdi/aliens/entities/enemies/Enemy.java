@@ -8,6 +8,9 @@ import com.kdi.aliens.tilemap.TileMap;
 
 public abstract class Enemy extends Entity {
 
+	public static final int TYPE_PINK_BLOB = 0;
+	public static final int TYPE_BAT = 1;
+
 	protected double health;
 	protected int maxHealth;
 	protected boolean dead;
@@ -15,7 +18,7 @@ public abstract class Enemy extends Entity {
 
 	protected boolean flinching;
 	protected long flinchTimer;
-	
+
 	protected Player player;
 	protected boolean active;
 
@@ -23,7 +26,7 @@ public abstract class Enemy extends Entity {
 		super(tileMap);
 		this.player = player;
 	}
-	
+
 	public Enemy(TileMap tileMap, double x, double y) {
 		super(tileMap);
 		setPosition(x, y);
@@ -49,5 +52,9 @@ public abstract class Enemy extends Entity {
 	@Override
 	public void render(Graphics2D graphics) {
 		setImageDirection(graphics);
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 }

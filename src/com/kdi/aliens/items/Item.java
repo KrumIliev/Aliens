@@ -8,6 +8,10 @@ import com.kdi.aliens.entities.Player;
 import com.kdi.aliens.graphics.Animation;
 
 public abstract class Item {
+	
+	public static final int TYPE_COIN = 0;
+	public static final int TYPE_HEALTH = 0;
+	public static final int TYPE_LIFE = 0;
 
 	/**
 	 * Screen position

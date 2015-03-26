@@ -15,6 +15,9 @@ import org.jdom2.input.SAXBuilder;
 
 import com.kdi.aliens.AlienGame;
 import com.kdi.aliens.entities.enemies.Enemy;
+import com.kdi.aliens.entities.enemies.Fly;
+import com.kdi.aliens.entities.enemies.PinkBlob;
+import com.kdi.aliens.items.Coin;
 import com.kdi.aliens.items.Item;
 import com.kdi.aliens.util.Reference;
 
@@ -37,6 +40,7 @@ public class TileMap {
 	private static final String XML_LAYER_RED_KEY = "redkey"; //TODO change and add all
 
 	private static final String XML_OBJECT = "objectgroup";
+	private static final String XML_OBJECT_NAME = "name";
 	private static final String XML_OBJECT_COIN = "coins"; // TODO add all
 	private static final String XML_OBJECT_ENEMY_PINK_BLOB = "pink_blob";
 	private static final String XML_OBJECT_ENEMY_BAT = "bat"; //TODO add all enemies
@@ -61,7 +65,7 @@ public class TileMap {
 
 	// tileset
 	private BufferedImage tileset;
-	private int tileColumns, tileRows;
+	private int tileColumns;
 	private HashMap<Integer, Tile> tileMap;
 
 	// drawing
@@ -73,15 +77,20 @@ public class TileMap {
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Item> items;
 
-	public TileMap(int tileSize) {
+	public TileMap(int tileSize, String name) {
 		this.tileSize = tileSize;
+
 		numRowsToDraw = AlienGame.HEIGHT / tileSize + 2;
 		numColsToDraw = AlienGame.WIDTH / tileSize + 2;
+
+		tileMap = new HashMap<Integer, Tile>();
+		enemies = new ArrayList<Enemy>();
+		items = new ArrayList<Item>();
+
+		loadWorld(name);
 	}
 
 	public void loadWorld(String name) {
-
-		tileMap = new HashMap<Integer, Tile>();
 
 		try {
 
@@ -122,6 +131,11 @@ public class TileMap {
 			 */
 			initMapArray(root);
 
+			/**
+			 * Adding all objects. Enemies, items, etc ...
+			 */
+			initMapObjects(root);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -131,7 +145,6 @@ public class TileMap {
 		try {
 			tileset = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_TILES + name));
 			tileColumns = tileset.getWidth() / tileSize;
-			tileRows = tileset.getHeight() / tileSize;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -233,8 +246,34 @@ public class TileMap {
 		tileMap.put(tileCode, new Tile(subimage, type));
 	}
 
-	private void initMapObjects(Document doc) {
-		// TODO
+	private void initMapObjects(Element root) {
+		List<Element> objects = root.getChildren(XML_OBJECT);
+
+		for (Element e : objects) {
+			String objName = e.getAttributeValue(XML_OBJECT_NAME);
+			if (objName.equalsIgnoreCase(XML_OBJECT_COIN)) loadItem(e.getChildren("object"), Item.TYPE_COIN);
+			if (objName.equalsIgnoreCase(XML_OBJECT_ENEMY_PINK_BLOB)) loadEnemy(e.getChildren("object"), Enemy.TYPE_PINK_BLOB);
+			if (objName.equalsIgnoreCase(XML_OBJECT_ENEMY_BAT)) loadEnemy(e.getChildren("object"), Enemy.TYPE_BAT);
+		}
+	}
+
+	private void loadItem(List<Element> items, int type) {
+		for (Element item : items) {
+			int x = Integer.valueOf(item.getAttributeValue("x"));
+			int y = Integer.valueOf(item.getAttributeValue("y"));
+			if (type == Item.TYPE_COIN) this.items.add(new Coin(x, y));
+			//TODO add more items
+		}
+	}
+
+	private void loadEnemy(List<Element> enemies, int type) {
+		for (Element enemy : enemies) {
+			int x = Integer.valueOf(enemy.getAttributeValue("x"));
+			int y = Integer.valueOf(enemy.getAttributeValue("y"));
+			if (type == Enemy.TYPE_PINK_BLOB) this.enemies.add(new PinkBlob(this, x, y));
+			if (type == Enemy.TYPE_BAT) this.enemies.add(new Fly(this, x, y));
+			//TODO add more enemies
+		}
 	}
 
 	public int getTileSize() {
@@ -280,7 +319,7 @@ public class TileMap {
 		if (y > ymax) y = ymax;
 	}
 
-	public void render(Graphics2D g) {
+	public void render(Graphics2D graphics) {
 
 		for (int row = rowOffset; row < rowOffset + numRowsToDraw; row++) {
 
@@ -290,8 +329,13 @@ public class TileMap {
 
 				if (col >= numCols) break;
 				if (map[row][col] == 0) continue;
-				g.drawImage(tileMap.get(map[row][col]).getImage(), (int) x + col * tileSize, (int) y + row * tileSize, null);
+				graphics.drawImage(tileMap.get(map[row][col]).getImage(), (int) x + col * tileSize, (int) y + row * tileSize, null);
 			}
+		}
+
+		for (Item item : items) {
+			item.setMapPosition((int) getx(), (int) gety());
+			item.render(graphics);
 		}
 	}
 
@@ -301,6 +345,14 @@ public class TileMap {
 
 	public int getNumCols() {
 		return numCols;
+	}
+
+	public ArrayList<Item> getItems() {
+		return items;
+	}
+
+	public ArrayList<Enemy> getEnemies() {
+		return enemies;
 	}
 
 }
