@@ -7,11 +7,11 @@ import java.awt.image.BufferedImage;
 import com.kdi.aliens.AlienGame;
 import com.kdi.aliens.graphics.Animation;
 import com.kdi.aliens.tilemap.Tile;
-import com.kdi.aliens.tilemap.TileMap;
+import com.kdi.aliens.tilemap.World;
 
 public abstract class Entity {
 
-	protected TileMap tileMap;
+	protected World world;
 	protected int tileSize;
 	protected double xMap, yMap;
 
@@ -70,9 +70,9 @@ public abstract class Entity {
 
 	protected boolean remove;
 
-	public Entity(TileMap tileMap) {
-		this.tileMap = tileMap;
-		tileSize = tileMap.getTileSize();
+	public Entity(World world) {
+		this.world = world;
+		tileSize = world.getTileSize();
 	}
 
 	public abstract void update();
@@ -165,15 +165,15 @@ public abstract class Entity {
 		int topTile = (int) (y - cHeight / 2) / tileSize;
 		int bottomTile = (int) (y + cHeight / 2 - 1) / tileSize;
 
-		if (topTile < 0 || bottomTile >= tileMap.getNumRows() || leftTile < 0 || rightTile >= tileMap.getNumCols()) {
+		if (topTile < 0 || bottomTile >= world.getNumRows() || leftTile < 0 || rightTile >= world.getNumCols()) {
 			topLeft = topRight = bottomLeft = bottomRight = false;
 			return;
 		}
 
-		int tl = tileMap.getType(topTile, leftTile);
-		int tr = tileMap.getType(topTile, rightTile);
-		int bl = tileMap.getType(bottomTile, leftTile);
-		int br = tileMap.getType(bottomTile, rightTile);
+		int tl = world.getType(topTile, leftTile);
+		int tr = world.getType(topTile, rightTile);
+		int bl = world.getType(bottomTile, leftTile);
+		int br = world.getType(bottomTile, rightTile);
 
 		topLeft = tl == Tile.SOLID;
 		topRight = tr == Tile.SOLID;
@@ -221,8 +221,8 @@ public abstract class Entity {
 	}
 
 	public void setMapPosition() {
-		xMap = tileMap.getx();
-		yMap = tileMap.gety();
+		xMap = world.getx();
+		yMap = world.gety();
 	}
 
 	public boolean notOnScreen() {

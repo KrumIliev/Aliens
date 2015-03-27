@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 
 import com.kdi.aliens.entities.Entity;
 import com.kdi.aliens.graphics.Animation;
-import com.kdi.aliens.tilemap.TileMap;
+import com.kdi.aliens.tilemap.World;
 import com.kdi.aliens.util.Reference;
 
 public class DefaultWeapon extends Entity {
@@ -24,8 +24,8 @@ public class DefaultWeapon extends Entity {
 	private int energyCost = 200;
 	private int damage = 1;
 
-	public DefaultWeapon(TileMap tileMap, boolean right) {
-		super(tileMap);
+	public DefaultWeapon(World world, boolean right) {
+		super(world);
 
 		facingRight = right;
 

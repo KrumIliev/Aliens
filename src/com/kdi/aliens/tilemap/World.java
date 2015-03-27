@@ -9,7 +9,7 @@ import com.kdi.aliens.AlienGame;
 import com.kdi.aliens.entities.enemies.Enemy;
 import com.kdi.aliens.items.Item;
 
-public class TileMap {
+public class World {
 
 	// position
 	private double x;
@@ -43,7 +43,7 @@ public class TileMap {
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Item> items;
 
-	public TileMap(String name) {
+	public World(String name) {
 		tiles = new HashMap<Integer, Tile>();
 		enemies = new ArrayList<Enemy>();
 		items = new ArrayList<Item>();
