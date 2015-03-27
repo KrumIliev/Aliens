@@ -41,7 +41,7 @@ public class LevelOne extends GameState {
 	public void init() {
 		effects = new ArrayList<Effect>();
 
-		tileMap = new TileMap(70, "world1_1.tmx");
+		tileMap = new TileMap("world1_1.tmx");
 		items = tileMap.getItems();
 		enemies = tileMap.getEnemies();
 
