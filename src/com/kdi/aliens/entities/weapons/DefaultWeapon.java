@@ -45,7 +45,7 @@ public class DefaultWeapon extends Entity {
 		try {
 
 			sprites = new BufferedImage[1];
-			sprites[0] = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "def.png"));
+			sprites[0] = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "blue.png"));
 			BufferedImage explosionSheet = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "default_weapon_explosion.png"));
 
 			hitSprites = new BufferedImage[explosionSheet.getWidth() / width];
