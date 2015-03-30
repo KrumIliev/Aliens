@@ -2,12 +2,11 @@ package com.kdi.aliens.tilemap;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.kdi.aliens.AlienGame;
-import com.kdi.aliens.entities.enemies.Enemy;
 import com.kdi.aliens.items.Item;
+import com.kdi.aliens.state.levels.LevelObjects;
 
 public class World {
 
@@ -40,13 +39,9 @@ public class World {
 	private int numRowsToDraw;
 	private int numColsToDraw;
 
-	private ArrayList<Enemy> enemies;
-	private ArrayList<Item> items;
-
 	public World(String name) {
+		LevelObjects.clear();
 		tiles = new HashMap<Integer, Tile>();
-		enemies = new ArrayList<Enemy>();
-		items = new ArrayList<Item>();
 
 		TMXLoader.load(this, name);
 
@@ -87,7 +82,7 @@ public class World {
 			}
 		}
 
-		for (Item item : items) {
+		for (Item item : LevelObjects.items) {
 			item.setMapPosition((int) getx(), (int) gety());
 			item.render(graphics);
 		}
@@ -151,22 +146,6 @@ public class World {
 
 	public void setNumCols(int numCols) {
 		this.numCols = numCols;
-	}
-
-	public void addItem(Item item) {
-		items.add(item);
-	}
-
-	public void addEnemy(Enemy enemy) {
-		enemies.add(enemy);
-	}
-
-	public ArrayList<Item> getItems() {
-		return items;
-	}
-
-	public ArrayList<Enemy> getEnemies() {
-		return enemies;
 	}
 
 	public void setXmin(int xmin) {

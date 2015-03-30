@@ -27,8 +27,8 @@ public class Fly extends Enemy {
 		cWidth = 40;
 		cHeight = 25;
 
-		health = maxHealth = 5;
-		damage = 1;
+		health = maxHealth = 2;
+		damage = 0.5;
 
 		try {
 			BufferedImage spriteSheet = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_ENEMIES + "fly.png"));

@@ -2,7 +2,6 @@ package com.kdi.aliens.state.levels;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 import com.kdi.aliens.AlienGame;
 import com.kdi.aliens.effects.Effect;
@@ -26,10 +25,6 @@ public class LevelOne extends GameState {
 	private Player player;
 	private HUD hud;
 
-	private ArrayList<Item> items;
-	private ArrayList<Enemy> enemies;
-	private ArrayList<Effect> effects;
-
 	private String soundExplosionKey = "explosion";
 
 	public LevelOne(GameStateManager gameStateManager) {
@@ -39,11 +34,8 @@ public class LevelOne extends GameState {
 
 	@Override
 	public void init() {
-		effects = new ArrayList<Effect>();
 
 		world = new World("world1_1.tmx");
-		items = world.getItems();
-		enemies = world.getEnemies();
 
 		background = new Background(ContentManager.getImage(Reference.CM_BACKGROUND_LEVEL_1), 0.5);
 
@@ -53,7 +45,7 @@ public class LevelOne extends GameState {
 
 		hud = new HUD(player);
 
-		for (Enemy enemy : enemies) {
+		for (Enemy enemy : LevelObjects.enemies) {
 			enemy.setPlayer(player);
 		}
 
@@ -67,32 +59,32 @@ public class LevelOne extends GameState {
 		world.setPosition(AlienGame.WIDTH / 2 - player.getX(), AlienGame.HEIGHT / 2 - player.getY());
 		background.setXPosition(world.getx());
 
-		player.checkAttack(enemies);
-		player.checkItems(items);
+		player.checkAttack(LevelObjects.enemies);
+		player.checkItems(LevelObjects.items);
 
-		for (int i = 0; i < items.size(); i++) {
-			Item item = items.get(i);
+		for (int i = 0; i < LevelObjects.items.size(); i++) {
+			Item item = LevelObjects.items.get(i);
 			item.update();
 			if (item.shouldRemove()) {
-				items.remove(i);
+				LevelObjects.items.remove(i);
 				i--;
 			}
 		}
 
-		for (int i = 0; i < enemies.size(); i++) {
-			Enemy enemy = enemies.get(i);
+		for (int i = 0; i < LevelObjects.enemies.size(); i++) {
+			Enemy enemy = LevelObjects.enemies.get(i);
 			enemy.update();
 			if (enemy.isDead()) {
-				enemies.remove(i);
+				LevelObjects.enemies.remove(i);
 				i--;
-				effects.add(new Effect(enemy.getX(), enemy.getY(), 118, 118, "explosion.png", 70));
+				LevelObjects.effects.add(new Effect(enemy.getX(), enemy.getY(), 118, 118, "explosion.png", 70));
 				AudioPlayer.playSound(soundExplosionKey);
 			}
 		}
 
-		for (int i = 0; i < effects.size(); i++) {
-			effects.get(i).update();
-			if (effects.get(i).shouldRemove()) effects.remove(i);
+		for (int i = 0; i < LevelObjects.effects.size(); i++) {
+			LevelObjects.effects.get(i).update();
+			if (LevelObjects.effects.get(i).shouldRemove()) LevelObjects.effects.remove(i);
 		}
 
 		if (player.isDead()) gameStateManager.setState(GameStateManager.MENU);
@@ -104,10 +96,10 @@ public class LevelOne extends GameState {
 		world.render(graphics);
 		player.render(graphics);
 
-		for (Enemy enemy : enemies)
+		for (Enemy enemy : LevelObjects.enemies)
 			enemy.render(graphics);
 
-		for (Effect effect : effects) {
+		for (Effect effect : LevelObjects.effects) {
 			effect.setMapPosition((int) world.getx(), (int) world.gety());
 			effect.render(graphics);
 		}

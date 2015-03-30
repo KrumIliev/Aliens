@@ -12,7 +12,7 @@ import com.kdi.aliens.util.Reference;
 public class Blaster extends Weapon {
 
 	public Blaster(World world, boolean right) {
-		super(world, right, 8, 200, 1);
+		super(world, right, 8, 0, 1);
 
 		width = 30;
 		height = 30;
@@ -22,7 +22,7 @@ public class Blaster extends Weapon {
 		try {
 
 			projectileSprites = new BufferedImage[1];
-			projectileSprites[0] = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "blue.png"));
+			projectileSprites[0] = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "def.png"));
 			BufferedImage explosionSheet = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "default_weapon_explosion.png"));
 
 			hitSprites = new BufferedImage[explosionSheet.getWidth() / width];

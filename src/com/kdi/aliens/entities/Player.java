@@ -45,9 +45,8 @@ public class Player extends Entity {
 	/**
 	 * Weapons
 	 */
-	private final int wBlaster = 0;
-	private final int wSpread = 1;
-	private int numWeapons = 2;
+	private final int wBlaster = 1;
+	private final int wSpread = 2;
 	private int currentWeapon = 1;
 	private boolean firing;
 	private ArrayList<Weapon> weapons;
@@ -351,18 +350,18 @@ public class Player extends Entity {
 
 		if (dy < 0) {
 			if (topLeftType != Tile.DECOR || topRightType != Tile.DECOR) {
-				if (topLeftType == Tile.SOLID || topRightType == Tile.SOLID) System.out.println("Top solid");
-				if (topLeftType == Tile.LIQUID || topRightType == Tile.LIQUID) System.out.println("Top Liquid");
-				if (topLeftType == Tile.DAMAGE || topRightType == Tile.DAMAGE) System.out.println("Top Damage");
-				if (topLeftType == Tile.LOCK_RED || topRightType == Tile.LOCK_RED) System.out.println("Top Red lock");
+				//	if (topLeftType == Tile.SOLID || topRightType == Tile.SOLID) System.out.println("Top solid");
+				//	if (topLeftType == Tile.LIQUID || topRightType == Tile.LIQUID) System.out.println("Top Liquid");
+				//	if (topLeftType == Tile.DAMAGE || topRightType == Tile.DAMAGE) System.out.println("Top Damage");
+				//	if (topLeftType == Tile.LOCK_RED || topRightType == Tile.LOCK_RED) System.out.println("Top Red lock");
 			}
 		}
 
 		if (dy > 0) {
 			if (bottomLeftType != Tile.DECOR || bottomRightType != Tile.DECOR) {
-				if (bottomLeftType == Tile.LIQUID || bottomRightType == Tile.LIQUID) System.out.println("Bottom liquid");
-				if (bottomLeftType == Tile.DAMAGE || bottomRightType == Tile.DAMAGE) System.out.println("Bottom Damage");
-				if (bottomLeftType == Tile.LOCK_RED || bottomRightType == Tile.LOCK_RED) System.out.println("Bottom Red lock");
+				//	if (bottomLeftType == Tile.LIQUID || bottomRightType == Tile.LIQUID) System.out.println("Bottom liquid");
+				//	if (bottomLeftType == Tile.DAMAGE || bottomRightType == Tile.DAMAGE) System.out.println("Bottom Damage");
+				//	if (bottomLeftType == Tile.LOCK_RED || bottomRightType == Tile.LOCK_RED) System.out.println("Bottom Red lock");
 			}
 		}
 
@@ -370,17 +369,17 @@ public class Player extends Entity {
 
 		if (dx < 0) {
 			if (topLeftType != Tile.DECOR || bottomLeftType != Tile.DECOR) {
-				if (topLeftType == Tile.LIQUID || bottomLeftType == Tile.LIQUID) System.out.println("Left Liquid");
-				if (topLeftType == Tile.DAMAGE || bottomLeftType == Tile.DAMAGE) System.out.println("Left Damage");
-				if (topLeftType == Tile.LOCK_RED || bottomLeftType == Tile.LOCK_RED) System.out.println("Left Red lock");
+				//	if (topLeftType == Tile.LIQUID || bottomLeftType == Tile.LIQUID) System.out.println("Left Liquid");
+				//	if (topLeftType == Tile.DAMAGE || bottomLeftType == Tile.DAMAGE) System.out.println("Left Damage");
+				//	if (topLeftType == Tile.LOCK_RED || bottomLeftType == Tile.LOCK_RED) System.out.println("Left Red lock");
 			}
 		}
 
 		if (dx > 0) {
 			if (topRightType != Tile.DECOR || bottomRightType != Tile.DECOR) {
-				if (topRightType == Tile.LIQUID || bottomRightType == Tile.LIQUID) System.out.println("Right Liquid");
-				if (topRightType == Tile.DAMAGE || bottomRightType == Tile.DAMAGE) System.out.println("Right Damage");
-				if (topRightType == Tile.LOCK_RED || bottomRightType == Tile.LOCK_RED) System.out.println("Right Red lock");
+				//	if (topRightType == Tile.LIQUID || bottomRightType == Tile.LIQUID) System.out.println("Right Liquid");
+				//	if (topRightType == Tile.DAMAGE || bottomRightType == Tile.DAMAGE) System.out.println("Right Damage");
+				//	if (topRightType == Tile.LOCK_RED || bottomRightType == Tile.LOCK_RED) System.out.println("Right Red lock");
 			}
 		}
 	}
@@ -496,6 +495,10 @@ public class Player extends Entity {
 		}
 
 		if (KeyInput.keys[KeyEvent.VK_Q]) firing = true;
+
+		if (KeyInput.keys[KeyEvent.VK_1]) currentWeapon = 1;
+		if (KeyInput.keys[KeyEvent.VK_2]) currentWeapon = 2;
+
 	}
 
 	public boolean hasGreenKey() {

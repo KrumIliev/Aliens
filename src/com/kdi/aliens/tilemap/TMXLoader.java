@@ -17,6 +17,7 @@ import com.kdi.aliens.entities.enemies.Fly;
 import com.kdi.aliens.entities.enemies.PinkBlob;
 import com.kdi.aliens.items.Coin;
 import com.kdi.aliens.items.Item;
+import com.kdi.aliens.state.levels.LevelObjects;
 import com.kdi.aliens.util.Reference;
 
 public class TMXLoader {
@@ -134,10 +135,8 @@ public class TMXLoader {
 					addToTilesArray(world, tileCode, Tile.DECOR);
 				} else if (redLock != 0) {
 					tileCode = redLock;
-					System.out.println("adding red lock");
 					addToTilesArray(world, tileCode, Tile.LOCK_RED);
 				} else if (redKey != 0) {
-					System.out.println("adding red key");
 					tileCode = redKey;
 					addToTilesArray(world, tileCode, Tile.LOCK_RED);
 				} else {
@@ -175,8 +174,8 @@ public class TMXLoader {
 		if (tileCol < 0) tileCol = 0;
 		if (tileRow < 0) tileRow = 0;
 
-		BufferedImage subimage = world.getTileset().getSubimage(tileCol * world.getTileSize(), tileRow * world.getTileSize(),
-				world.getTileSize(), world.getTileSize());
+		BufferedImage subimage = world.getTileset().getSubimage(tileCol * world.getTileSize(), tileRow * world.getTileSize(), world.getTileSize(),
+				world.getTileSize());
 		world.setTile(tileCode, new Tile(subimage, type));
 	}
 
@@ -195,7 +194,7 @@ public class TMXLoader {
 		for (Element item : items) {
 			int x = Integer.valueOf(item.getAttributeValue("x"));
 			int y = Integer.valueOf(item.getAttributeValue("y"));
-			if (type == Item.TYPE_COIN) world.addItem(new Coin(x, y));
+			if (type == Item.TYPE_COIN) LevelObjects.items.add(new Coin(x, y));
 			//TODO add more items
 		}
 	}
@@ -204,8 +203,8 @@ public class TMXLoader {
 		for (Element enemy : enemies) {
 			int x = Integer.valueOf(enemy.getAttributeValue("x"));
 			int y = Integer.valueOf(enemy.getAttributeValue("y"));
-			if (type == Enemy.TYPE_PINK_BLOB) world.addEnemy(new PinkBlob(world, x, y));
-			if (type == Enemy.TYPE_BAT) world.addEnemy(new Fly(world, x, y));
+			if (type == Enemy.TYPE_PINK_BLOB) LevelObjects.enemies.add(new PinkBlob(world, x, y));
+			if (type == Enemy.TYPE_BAT) LevelObjects.enemies.add(new Fly(world, x, y));
 			//TODO add more enemies
 		}
 	}

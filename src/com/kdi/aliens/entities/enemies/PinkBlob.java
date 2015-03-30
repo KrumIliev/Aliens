@@ -27,7 +27,7 @@ public class PinkBlob extends Enemy {
 		cWidth = 42;
 		cHeight = 28;
 
-		health = maxHealth = 2;
+		health = maxHealth = 5;
 		damage = 0.5;
 
 		try {
