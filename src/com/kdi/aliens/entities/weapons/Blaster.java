@@ -5,37 +5,14 @@ import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
-import com.kdi.aliens.entities.Entity;
 import com.kdi.aliens.graphics.Animation;
 import com.kdi.aliens.tilemap.World;
 import com.kdi.aliens.util.Reference;
 
-public class DefaultWeapon extends Entity {
+public class Blaster extends Weapon {
 
-	private boolean hit;
-	private boolean remove;
-
-	private BufferedImage[] sprites;
-	private BufferedImage[] hitSprites;
-
-	public int xOffset = 40;
-	public int yOffset = 20;
-
-	private int energyCost = 200;
-	private int damage = 1;
-
-	public DefaultWeapon(World world, boolean right) {
-		super(world);
-
-		facingRight = right;
-
-		moveSpeed = 8;
-		if (right) {
-			dx = moveSpeed;
-		} else {
-			dx = -moveSpeed;
-			xOffset = -xOffset;
-		}
+	public Blaster(World world, boolean right) {
+		super(world, right, 8, 200, 1);
 
 		width = 30;
 		height = 30;
@@ -44,8 +21,8 @@ public class DefaultWeapon extends Entity {
 
 		try {
 
-			sprites = new BufferedImage[1];
-			sprites[0] = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "blue.png"));
+			projectileSprites = new BufferedImage[1];
+			projectileSprites[0] = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "blue.png"));
 			BufferedImage explosionSheet = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "default_weapon_explosion.png"));
 
 			hitSprites = new BufferedImage[explosionSheet.getWidth() / width];
@@ -58,7 +35,7 @@ public class DefaultWeapon extends Entity {
 		}
 
 		animation = new Animation();
-		animation.setFrames(sprites);
+		animation.setFrames(projectileSprites);
 		animation.setDelay(-1);
 	}
 
@@ -75,29 +52,10 @@ public class DefaultWeapon extends Entity {
 		}
 	}
 
-	public void setHit() {
-		if (hit) return;
-		hit = true;
-		animation.setFrames(hitSprites);
-		animation.setDelay(70);
-		dx = 0;
-	}
-
-	public boolean shouldRemove() {
-		return remove;
-	}
-
 	@Override
 	public void render(Graphics2D graphics) {
 		setMapPosition();
 		setImageDirection(graphics);
 	}
 
-	public int getEnergyCost() {
-		return energyCost;
-	}
-
-	public int getDamage() {
-		return damage;
-	}
 }

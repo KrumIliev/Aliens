@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import com.kdi.aliens.entities.enemies.Enemy;
-import com.kdi.aliens.entities.weapons.DefaultWeapon;
+import com.kdi.aliens.entities.weapons.Blaster;
+import com.kdi.aliens.entities.weapons.SpreadWapon;
+import com.kdi.aliens.entities.weapons.Weapon;
 import com.kdi.aliens.graphics.Animation;
 import com.kdi.aliens.input.KeyInput;
 import com.kdi.aliens.items.Coin;
@@ -40,9 +42,15 @@ public class Player extends Entity {
 	 */
 	private boolean greenKey, blueKey, yellowKey, redKey;
 
-	// default weapon
+	/**
+	 * Weapons
+	 */
+	private final int wBlaster = 0;
+	private final int wSpread = 1;
+	private int numWeapons = 2;
+	private int currentWeapon = 1;
 	private boolean firing;
-	private ArrayList<DefaultWeapon> weapons;
+	private ArrayList<Weapon> weapons;
 
 	/**
 	 * Animations
@@ -88,7 +96,7 @@ public class Player extends Entity {
 		health = maxHealth = 5;
 		energy = maxEnergy = 1000;
 
-		weapons = new ArrayList<DefaultWeapon>();
+		weapons = new ArrayList<Weapon>();
 
 		// load sprites
 		try {
@@ -149,14 +157,7 @@ public class Player extends Entity {
 		energy += 1; // TODO remove after energy pickup system is ready
 		if (energy > maxEnergy) energy = maxEnergy;
 		if (firing && currentAction != FIRE) {
-			DefaultWeapon weapon = new DefaultWeapon(world, facingRight);
-			if (energy > weapon.getEnergyCost()) {
-				setAnimation(FIRE, 30, eWidth);
-				weapon.setPosition(x + weapon.xOffset, y + weapon.yOffset);
-				weapons.add(weapon);
-				energy -= weapon.getEnergyCost();
-				AudioPlayer.playSound(laserSoundKey);
-			}
+			fire();
 		}
 
 		for (int i = 0; i < weapons.size(); i++) {
@@ -197,7 +198,30 @@ public class Player extends Entity {
 			System.out.println(world.getHeight());
 			updateLives();
 		}
+	}
 
+	private void fire() {
+		Weapon[] weapon = null;
+
+		if (currentWeapon == wBlaster) {
+			weapon = new Weapon[1];
+			weapon[0] = new Blaster(world, facingRight);
+		} else if (currentWeapon == wSpread) {
+			weapon = new Weapon[3];
+			weapon[0] = new SpreadWapon(world, facingRight, SpreadWapon.X_SPEED, SpreadWapon.Y_TOP_SPEED);
+			weapon[1] = new SpreadWapon(world, facingRight, SpreadWapon.X_SPEED, SpreadWapon.Y_MID_SPEED);
+			weapon[2] = new SpreadWapon(world, facingRight, SpreadWapon.X_SPEED, SpreadWapon.Y_BOT_SPEED);
+		}
+
+		if (energy > weapon[0].getEnergyCost()) {
+			setAnimation(FIRE, 30, eWidth);
+			for (Weapon w : weapon) {
+				w.setPosition(x + w.getXOffset(), y + w.getYOffset());
+				weapons.add(w);
+			}
+			energy -= weapon[0].getEnergyCost();
+			AudioPlayer.playSound(laserSoundKey);
+		}
 	}
 
 	private void setAnimation(int action, int delay, int width) {
@@ -214,7 +238,7 @@ public class Player extends Entity {
 
 		setMapPosition();
 
-		for (DefaultWeapon weapon : weapons)
+		for (Weapon weapon : weapons)
 			weapon.render(graphics);
 
 		// draw player
@@ -229,7 +253,7 @@ public class Player extends Entity {
 	public void checkAttack(ArrayList<Enemy> enemies) {
 		for (Enemy enemy : enemies) {
 
-			for (DefaultWeapon weapon : weapons) {
+			for (Weapon weapon : weapons) {
 				if (weapon.intersects(enemy)) {
 					enemy.hit(weapon.getDamage());
 					weapon.setHit();
