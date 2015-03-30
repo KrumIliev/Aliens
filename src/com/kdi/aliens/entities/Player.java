@@ -17,6 +17,7 @@ import com.kdi.aliens.items.Coin;
 import com.kdi.aliens.items.Health;
 import com.kdi.aliens.items.Item;
 import com.kdi.aliens.items.Life;
+import com.kdi.aliens.state.levels.LevelObjects;
 import com.kdi.aliens.tilemap.Tile;
 import com.kdi.aliens.tilemap.World;
 import com.kdi.aliens.util.AudioPlayer;
@@ -146,6 +147,7 @@ public class Player extends Entity {
 		playerCheckCollision();
 		checkTileMapCollision();
 		setPosition(xTemp, yTemp);
+
 		if (hit) {
 			hit = false;
 			hit(1);
@@ -197,6 +199,8 @@ public class Player extends Entity {
 			System.out.println(world.getHeight());
 			updateLives();
 		}
+
+		checkObjectCollision();
 	}
 
 	private void fire() {
@@ -223,6 +227,34 @@ public class Player extends Entity {
 		}
 	}
 
+	public void checkObjectCollision() {
+
+		for (Enemy enemy : LevelObjects.enemies) {
+			if (intersects(enemy)) hit(enemy.getDamage());
+
+			for (Weapon weapon : weapons) {
+				if (weapon.intersects(enemy)) {
+					enemy.hit(weapon.getDamage());
+					weapon.setHit();
+					break;
+				}
+			}
+		}
+
+		for (Item item : LevelObjects.items)
+			if (item.intersects(this)) {
+				if (item instanceof Coin) coins++;
+
+				if (item instanceof Health) {
+					health++;
+					if (health > maxHealth) health = maxHealth;
+				}
+				if (item instanceof Life) lives++;
+
+				item.setRemove();
+			}
+	}
+
 	private void setAnimation(int action, int delay, int width) {
 		if (currentAction != action) {
 			currentAction = action;
@@ -247,36 +279,6 @@ public class Player extends Entity {
 		}
 
 		setImageDirection(graphics);
-	}
-
-	public void checkAttack(ArrayList<Enemy> enemies) {
-		for (Enemy enemy : enemies) {
-
-			for (Weapon weapon : weapons) {
-				if (weapon.intersects(enemy)) {
-					enemy.hit(weapon.getDamage());
-					weapon.setHit();
-					break;
-				}
-			}
-
-			if (intersects(enemy)) hit(enemy.getDamage());
-		}
-	}
-
-	public void checkItems(ArrayList<Item> items) {
-		for (Item item : items)
-			if (item.intersects(this)) {
-				if (item instanceof Coin) coins++;
-
-				if (item instanceof Health) {
-					health++;
-					if (health > maxHealth) health = maxHealth;
-				}
-				if (item instanceof Life) lives++;
-
-				item.setRemove();
-			}
 	}
 
 	private void getNextPosition() {

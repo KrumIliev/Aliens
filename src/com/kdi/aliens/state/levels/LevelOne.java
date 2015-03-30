@@ -59,9 +59,6 @@ public class LevelOne extends GameState {
 		world.setPosition(AlienGame.WIDTH / 2 - player.getX(), AlienGame.HEIGHT / 2 - player.getY());
 		background.setXPosition(world.getx());
 
-		player.checkAttack(LevelObjects.enemies);
-		player.checkItems(LevelObjects.items);
-
 		for (int i = 0; i < LevelObjects.items.size(); i++) {
 			Item item = LevelObjects.items.get(i);
 			item.update();
