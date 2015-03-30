@@ -14,14 +14,14 @@ import com.kdi.aliens.input.KeyInput;
 import com.kdi.aliens.items.Item;
 import com.kdi.aliens.state.GameState;
 import com.kdi.aliens.state.GameStateManager;
-import com.kdi.aliens.tilemap.TileMap;
+import com.kdi.aliens.tilemap.World;
 import com.kdi.aliens.util.AudioPlayer;
 import com.kdi.aliens.util.ContentManager;
 import com.kdi.aliens.util.Reference;
 
 public class LevelOne extends GameState {
 
-	private TileMap tileMap;
+	private World world;
 	private Background background;
 	private Player player;
 	private HUD hud;
@@ -41,15 +41,15 @@ public class LevelOne extends GameState {
 	public void init() {
 		effects = new ArrayList<Effect>();
 
-		tileMap = new TileMap(70, "world1_1.tmx");
-		items = tileMap.getItems();
-		enemies = tileMap.getEnemies();
+		world = new World("world1_1.tmx");
+		items = world.getItems();
+		enemies = world.getEnemies();
 
 		background = new Background(ContentManager.getImage(Reference.CM_BACKGROUND_LEVEL_1), 0.5);
 
-		player = new Player(tileMap);
+		player = new Player(world);
 		player.setPosition(200, 0);
-		tileMap.setPosition(200, 0);
+		world.setPosition(200, 0);
 
 		hud = new HUD(player);
 
@@ -64,8 +64,8 @@ public class LevelOne extends GameState {
 	public void update() {
 		hanleInput();
 		player.update();
-		tileMap.setPosition(AlienGame.WIDTH / 2 - player.getX(), AlienGame.HEIGHT / 2 - player.getY());
-		background.setXPosition(tileMap.getx());
+		world.setPosition(AlienGame.WIDTH / 2 - player.getX(), AlienGame.HEIGHT / 2 - player.getY());
+		background.setXPosition(world.getx());
 
 		player.checkAttack(enemies);
 		player.checkItems(items);
@@ -101,14 +101,14 @@ public class LevelOne extends GameState {
 	@Override
 	public void render(Graphics2D graphics) {
 		background.render(graphics);
-		tileMap.render(graphics);
+		world.render(graphics);
 		player.render(graphics);
 
 		for (Enemy enemy : enemies)
 			enemy.render(graphics);
 
 		for (Effect effect : effects) {
-			effect.setMapPosition((int) tileMap.getx(), (int) tileMap.gety());
+			effect.setMapPosition((int) world.getx(), (int) world.gety());
 			effect.render(graphics);
 		}
 

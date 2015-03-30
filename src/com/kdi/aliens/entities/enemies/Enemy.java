@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 
 import com.kdi.aliens.entities.Entity;
 import com.kdi.aliens.entities.Player;
-import com.kdi.aliens.tilemap.TileMap;
+import com.kdi.aliens.tilemap.World;
 
 public abstract class Enemy extends Entity {
 
@@ -22,12 +22,12 @@ public abstract class Enemy extends Entity {
 	protected Player player;
 	protected boolean active;
 
-	public Enemy(TileMap tileMap, Player player) {
-		super(tileMap);
+	public Enemy(World world, Player player) {
+		super(world);
 		this.player = player;
 	}
 
-	public Enemy(TileMap tileMap, double x, double y) {
+	public Enemy(World tileMap, double x, double y) {
 		super(tileMap);
 		setPosition(x, y);
 	}

@@ -15,7 +15,8 @@ import com.kdi.aliens.items.Coin;
 import com.kdi.aliens.items.Health;
 import com.kdi.aliens.items.Item;
 import com.kdi.aliens.items.Life;
-import com.kdi.aliens.tilemap.TileMap;
+import com.kdi.aliens.tilemap.Tile;
+import com.kdi.aliens.tilemap.World;
 import com.kdi.aliens.util.AudioPlayer;
 import com.kdi.aliens.util.Reference;
 
@@ -64,8 +65,8 @@ public class Player extends Entity {
 	private String jumpSoundKey = "jump";
 	private String laserSoundKey = "laser";
 
-	public Player(TileMap tileMap) {
-		super(tileMap);
+	public Player(World world) {
+		super(world);
 
 		width = 70;
 		eWidth = 158;
@@ -135,6 +136,7 @@ public class Player extends Entity {
 		 * Update position
 		 */
 		getNextPosition();
+		playerCheckCollision();
 		checkTileMapCollision();
 		setPosition(xTemp, yTemp);
 		if (hit) {
@@ -147,7 +149,7 @@ public class Player extends Entity {
 		energy += 1; // TODO remove after energy pickup system is ready
 		if (energy > maxEnergy) energy = maxEnergy;
 		if (firing && currentAction != FIRE) {
-			DefaultWeapon weapon = new DefaultWeapon(tileMap, facingRight);
+			DefaultWeapon weapon = new DefaultWeapon(world, facingRight);
 			if (energy > weapon.getEnergyCost()) {
 				setAnimation(FIRE, 30, eWidth);
 				weapon.setPosition(x + weapon.xOffset, y + weapon.yOffset);
@@ -190,12 +192,11 @@ public class Player extends Entity {
 		}
 
 		//TODO remove edit player respawn position
-		if (y > tileMap.getHeight()){
+		if (y > world.getHeight()) {
 			System.out.println(y);
-			System.out.println(tileMap.getHeight());
+			System.out.println(world.getHeight());
 			updateLives();
 		}
-			
 
 	}
 
@@ -311,6 +312,70 @@ public class Player extends Entity {
 			if (dy < 0 && !jumping) dy += stopJumpSpeed;
 			if (dy > maxFallSpeed) dy = maxFallSpeed;
 		}
+	}
+
+	private int topLeftType, topRightType, bottomLeftType, bottomRightType;
+
+	private void playerCheckCollision() {
+		currentCol = (int) x / tileSize;
+		currentRow = (int) y / tileSize;
+
+		xDest = x + dx;
+		yDest = y + dy;
+
+		playerCalculateCorners(x, yDest);
+
+		if (dy < 0) {
+			if (topLeftType != Tile.DECOR || topRightType != Tile.DECOR) {
+				if (topLeftType == Tile.SOLID || topRightType == Tile.SOLID) System.out.println("Top solid");
+				if (topLeftType == Tile.LIQUID || topRightType == Tile.LIQUID) System.out.println("Top Liquid");
+				if (topLeftType == Tile.DAMAGE || topRightType == Tile.DAMAGE) System.out.println("Top Damage");
+				if (topLeftType == Tile.LOCK_RED || topRightType == Tile.LOCK_RED) System.out.println("Top Red lock");
+			}
+		}
+
+		if (dy > 0) {
+			if (bottomLeftType != Tile.DECOR || bottomRightType != Tile.DECOR) {
+				if (bottomLeftType == Tile.LIQUID || bottomRightType == Tile.LIQUID) System.out.println("Bottom liquid");
+				if (bottomLeftType == Tile.DAMAGE || bottomRightType == Tile.DAMAGE) System.out.println("Bottom Damage");
+				if (bottomLeftType == Tile.LOCK_RED || bottomRightType == Tile.LOCK_RED) System.out.println("Bottom Red lock");
+			}
+		}
+
+		playerCalculateCorners(xDest, y);
+
+		if (dx < 0) {
+			if (topLeftType != Tile.DECOR || bottomLeftType != Tile.DECOR) {
+				if (topLeftType == Tile.LIQUID || bottomLeftType == Tile.LIQUID) System.out.println("Left Liquid");
+				if (topLeftType == Tile.DAMAGE || bottomLeftType == Tile.DAMAGE) System.out.println("Left Damage");
+				if (topLeftType == Tile.LOCK_RED || bottomLeftType == Tile.LOCK_RED) System.out.println("Left Red lock");
+			}
+		}
+
+		if (dx > 0) {
+			if (topRightType != Tile.DECOR || bottomRightType != Tile.DECOR) {
+				if (topRightType == Tile.LIQUID || bottomRightType == Tile.LIQUID) System.out.println("Right Liquid");
+				if (topRightType == Tile.DAMAGE || bottomRightType == Tile.DAMAGE) System.out.println("Right Damage");
+				if (topRightType == Tile.LOCK_RED || bottomRightType == Tile.LOCK_RED) System.out.println("Right Red lock");
+			}
+		}
+	}
+
+	private void playerCalculateCorners(double x, double y) {
+		int leftTile = (int) (x - cWidth / 2) / tileSize;
+		int rightTile = (int) (x + cWidth / 2 - 1) / tileSize;
+		int topTile = (int) (y - cHeight / 2) / tileSize;
+		int bottomTile = (int) (y + cHeight / 2 - 1) / tileSize;
+
+		if (topTile < 0 || bottomTile >= world.getNumRows() || leftTile < 0 || rightTile >= world.getNumCols()) {
+			topLeftType = topRightType = bottomLeftType = bottomRightType = Tile.DECOR;
+			return;
+		}
+
+		topLeftType = world.getType(topTile, leftTile);
+		topRightType = world.getType(topTile, rightTile);
+		bottomLeftType = world.getType(bottomTile, leftTile);
+		bottomRightType = world.getType(bottomTile, rightTile);
 	}
 
 	public double getHealth() {

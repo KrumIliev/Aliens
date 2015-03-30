@@ -7,15 +7,15 @@ import javax.imageio.ImageIO;
 
 import com.kdi.aliens.AlienGame;
 import com.kdi.aliens.graphics.Animation;
-import com.kdi.aliens.tilemap.TileMap;
+import com.kdi.aliens.tilemap.World;
 import com.kdi.aliens.util.Reference;
 
 public class PinkBlob extends Enemy {
 
 	private BufferedImage[] sprites;
 
-	public PinkBlob(TileMap tileMap, int x, int y) {
-		super(tileMap, x, y);
+	public PinkBlob(World world, int x, int y) {
+		super(world, x, y);
 
 		moveSpeed = 0.5;
 		maxSpeed = 0.3;

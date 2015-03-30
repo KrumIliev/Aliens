@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 
 import com.kdi.aliens.AlienGame;
 import com.kdi.aliens.graphics.Animation;
-import com.kdi.aliens.tilemap.TileMap;
+import com.kdi.aliens.tilemap.World;
 import com.kdi.aliens.util.Reference;
 
 public class Fly extends Enemy {
@@ -16,8 +16,8 @@ public class Fly extends Enemy {
 
 	private int steps = 0;
 
-	public Fly(TileMap tileMap, int x, int y) {
-		super(tileMap, x, y);
+	public Fly(World world, int x, int y) {
+		super(world, x, y);
 
 		moveSpeed = 1;
 		maxSpeed = 1.5;
