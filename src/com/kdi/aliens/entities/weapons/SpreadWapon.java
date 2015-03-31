@@ -25,8 +25,9 @@ public class SpreadWapon extends Weapon {
 	private static final int DAMAGE = 1;
 
 	public SpreadWapon(World world, boolean right, double dx, double dy) {
-		super(world, right, dx, dy, ENERGY_COST, DAMAGE);
+		super(world, right, ENERGY_COST, DAMAGE);
 		setDimensions(WIDTH, HEIGHT, COLLISION_WIDTH, COLLISION_HEIGHT);
+		setMovement(dx, dy);
 
 		try {
 

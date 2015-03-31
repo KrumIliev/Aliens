@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 
 import com.kdi.aliens.entities.enemies.Enemy;
 import com.kdi.aliens.entities.weapons.Blaster;
+import com.kdi.aliens.entities.weapons.HomingRocket;
 import com.kdi.aliens.entities.weapons.SpreadWapon;
 import com.kdi.aliens.entities.weapons.Weapon;
 import com.kdi.aliens.graphics.Animation;
@@ -48,6 +49,7 @@ public class Player extends Entity {
 	 */
 	private final int wBlaster = 1;
 	private final int wSpread = 2;
+	private final int wHoming = 3;
 	private int currentWeapon = 1;
 	private boolean firing;
 	private ArrayList<Weapon> weapons;
@@ -214,6 +216,9 @@ public class Player extends Entity {
 			weapon[0] = new SpreadWapon(world, facingRight, SpreadWapon.X_SPEED, SpreadWapon.Y_TOP_SPEED);
 			weapon[1] = new SpreadWapon(world, facingRight, SpreadWapon.X_SPEED, SpreadWapon.Y_MID_SPEED);
 			weapon[2] = new SpreadWapon(world, facingRight, SpreadWapon.X_SPEED, SpreadWapon.Y_BOT_SPEED);
+		} else if (currentWeapon == wHoming) {
+			weapon = new Weapon[1];
+			weapon[0] = new HomingRocket(world, facingRight);
 		}
 
 		if (energy > weapon[0].getEnergyCost()) {
@@ -500,6 +505,7 @@ public class Player extends Entity {
 
 		if (KeyInput.keys[KeyEvent.VK_1]) currentWeapon = 1;
 		if (KeyInput.keys[KeyEvent.VK_2]) currentWeapon = 2;
+		if (KeyInput.keys[KeyEvent.VK_3]) currentWeapon = 3;
 
 	}
 

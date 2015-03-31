@@ -19,36 +19,11 @@ public abstract class Weapon extends Entity {
 	protected int energyCost;
 	protected int damage;
 
-	public Weapon(World world, boolean right, int moveSpeed, int energyCost, int damage) {
+	public Weapon(World world, boolean right, int energyCost, int damage) {
 		super(world);
 		facingRight = right;
 		this.energyCost = energyCost;
 		this.damage = damage;
-		this.moveSpeed = moveSpeed;
-
-		if (right) {
-			dx = moveSpeed;
-		} else {
-			dx = -moveSpeed;
-			xOffset = -xOffset;
-		}
-	}
-
-	public Weapon(World world, boolean right, double dx, double dy, int energyCost, int damage) {
-		super(world);
-		facingRight = right;
-		this.energyCost = energyCost;
-		this.damage = damage;
-
-		this.dx = dx;
-		this.dy = dy;
-
-		if (right) {
-			this.dx = dx;
-		} else {
-			this.dx = -dx;
-			xOffset = -xOffset;
-		}
 	}
 
 	protected void setDimensions(int width, int height, int cWidth, int cHeight) {
@@ -56,6 +31,18 @@ public abstract class Weapon extends Entity {
 		this.height = height;
 		this.cWidth = cWidth;
 		this.cHeight = cHeight;
+	}
+	
+	protected void setMovement(double dx, double dy) {
+		this.dx = dx;
+		this.dy = dy;
+		
+		if (right) {
+			this.dx = dx;
+		} else {
+			this.dx = -dx;
+			xOffset = -xOffset;
+		}
 	}
 
 	public void setHit() {

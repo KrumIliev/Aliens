@@ -10,14 +10,22 @@ import com.kdi.aliens.tilemap.World;
 import com.kdi.aliens.util.Reference;
 
 public class Blaster extends Weapon {
+	
+	public static final int X_SPEED = 8;
+	public static final int Y_SPEED = 0;
+	
+	private static final int WIDTH = 30;
+	private static final int HEIGHT = 30;
+	private static final int COLLISION_WIDTH = 20;
+	private static final int COLLISION_HEIGHT = 20;
+
+	private static final int ENERGY_COST = 0;
+	private static final int DAMAGE = 1;
 
 	public Blaster(World world, boolean right) {
-		super(world, right, 8, 0, 1);
-
-		width = 30;
-		height = 30;
-		cWidth = 20;
-		cHeight = 20;
+		super(world, right, ENERGY_COST, DAMAGE);
+		setDimensions(WIDTH, HEIGHT, COLLISION_WIDTH, COLLISION_HEIGHT);
+		setMovement(X_SPEED, Y_SPEED);
 
 		try {
 
