@@ -17,7 +17,7 @@ import com.kdi.aliens.util.Reference;
 
 public class HomingRocket extends Weapon {
 
-	public static final int SPEED = 3;
+	public static final int SPEED = 5;
 	public static final int SPEED_STOP = 0;
 
 	public static final int HOMING_DISTANCE = 200;
@@ -71,6 +71,8 @@ public class HomingRocket extends Weapon {
 	}
 
 	private void findEnemy() {
+		if (hit) return;
+		
 		Enemy enemy = closestEnemy();
 
 		/**
