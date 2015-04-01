@@ -37,7 +37,7 @@ public abstract class Weapon extends Entity {
 		this.dx = dx;
 		this.dy = dy;
 		
-		if (right) {
+		if (facingRight) {
 			this.dx = dx;
 		} else {
 			this.dx = -dx;

@@ -17,18 +17,18 @@ import com.kdi.aliens.util.Reference;
 
 public class HomingRocket extends Weapon {
 
-	public static final int SPEED = 8;
+	public static final int SPEED = 3;
 	public static final int SPEED_STOP = 0;
 
-	public static final int HOMING_DISTANCE = 100;
+	public static final int HOMING_DISTANCE = 200;
 
 	private static final int WIDTH = 30;
 	private static final int HEIGHT = 30;
 	private static final int COLLISION_WIDTH = 20;
 	private static final int COLLISION_HEIGHT = 20;
 
-	private static final int ENERGY_COST = 400;
-	private static final int DAMAGE = 5;
+	private static final int ENERGY_COST = 0;
+	private static final int DAMAGE = 1;
 
 	public HomingRocket(World world, boolean right) {
 		super(world, right, ENERGY_COST, DAMAGE);
@@ -70,27 +70,119 @@ public class HomingRocket extends Weapon {
 		findEnemy();
 	}
 
-	// TODO
 	private void findEnemy() {
 		Enemy enemy = closestEnemy();
-		System.out.println("Weapon location " + x + " / " + y);
-		System.out.println("Enemy location " + enemy.getX() + " / " + enemy.getY());
 
-		if (y - enemy.getY() > 0) {
-			if (y - HOMING_DISTANCE < enemy.getY()) dy = -SPEED;
-		} else if (y - enemy.getY() < 0) {
-			if (y + HOMING_DISTANCE > enemy.getY()) dy = SPEED;
-		} else {
-			if (dx != SPEED_STOP) dy = SPEED_STOP;
+		/**
+		 * Enemy is on the same X axis and up
+		 */
+		if (x == enemy.getX() && y - enemy.getY() > 0) {
+			if (y - HOMING_DISTANCE < enemy.getY()) {
+				dy = -SPEED;
+				dx = SPEED_STOP;
+			}
 		}
 
-		if (x - enemy.getX() > 0) {
-			if (x - HOMING_DISTANCE < enemy.getX()) dx = -SPEED;
-		} else if (x - enemy.getX() < 0) {
-			if (x + HOMING_DISTANCE > enemy.getX()) dx = SPEED;
-		} else {
-			if (dy != SPEED_STOP) dx = SPEED_STOP;
+		/**
+		 * Enemy is on the same X axis and down
+		 */
+		else if (x == enemy.getX() && y - enemy.getY() < 0) {
+			if (y + HOMING_DISTANCE > enemy.getY()) {
+				dy = SPEED;
+				dx = SPEED_STOP;
+			}
+		}
 
+		/**
+		 * Enemy is on the same Y axis and left
+		 */
+		else if (y == enemy.getY() && x - enemy.getX() > 0) {
+			if (x - HOMING_DISTANCE < enemy.getX()) {
+				dy = SPEED_STOP;
+				dx = -SPEED;
+			}
+		}
+
+		/**
+		 * Enemy is on the same Y axis and right
+		 */
+		else if (y == enemy.getY() && x - enemy.getX() < 0) {
+			if (x + HOMING_DISTANCE > enemy.getX()) {
+				dy = SPEED_STOP;
+				dx = SPEED;
+			}
+		}
+
+		/**
+		 * Enemy is on the left and top
+		 */
+		else if (x - enemy.getX() > 0 && y - enemy.getY() > 0) {
+			if (x - HOMING_DISTANCE < enemy.getX() && y - HOMING_DISTANCE < enemy.getY()) {
+				if (SPEED > x - enemy.getX()) {
+					dx = -(x - enemy.getX());
+				} else {
+					dx = -SPEED;
+				}
+				if (SPEED > y - enemy.getY()) {
+					dy = -(y - enemy.getY());
+				} else {
+					dy = -SPEED;
+				}
+			}
+		}
+
+		/**
+		 * Enemy is on the left and down
+		 */
+		else if (x - enemy.getX() > 0 && y - enemy.getY() < 0) {
+			if (x - HOMING_DISTANCE < enemy.getX() && y + HOMING_DISTANCE > enemy.getY()) {
+				if (SPEED > x - enemy.getX()) {
+					dx = -(x - enemy.getX());
+				} else {
+					dx = -SPEED;
+				}
+				if (SPEED > enemy.getY() - y) {
+					dy = enemy.getY() - y;
+				} else {
+					dy = SPEED;
+				}
+			}
+		}
+
+		/**
+		 * Enemy is on the right and top
+		 */
+		else if (x - enemy.getX() < 0 && y - enemy.getY() > 0) {
+			if (x + HOMING_DISTANCE > enemy.getX() && y - HOMING_DISTANCE < enemy.getY()) {
+				if (SPEED > enemy.getX() - x) {
+					dx = enemy.getX() - x;
+				} else {
+					dx = SPEED;
+				}
+				if (SPEED > y - enemy.getY()) {
+					dy = -(y - enemy.getY());
+				} else {
+					dy = -SPEED;
+				}
+			}
+		}
+
+		/**
+		 * Enemy is on the right and down
+		 */
+		else if (x - enemy.getX() < 0 && y - enemy.getY() < 0) {
+			if (x + HOMING_DISTANCE > enemy.getX() && y + HOMING_DISTANCE > enemy.getY()) {
+				if (SPEED > enemy.getX() - x) {
+					dx = enemy.getX() - x;
+				} else {
+					dx = SPEED;
+				}
+				if (SPEED > enemy.getY() - y) {
+					dy = enemy.getY() - y;
+				} else {
+					dy = SPEED;
+				}
+			}
 		}
 	}
 
