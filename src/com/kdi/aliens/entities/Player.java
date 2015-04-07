@@ -198,11 +198,7 @@ public class Player extends Entity {
 		}
 
 		//TODO remove edit player respawn position
-		if (y > world.getHeight()) {
-			System.out.println(y);
-			System.out.println(world.getHeight());
-			updateLives();
-		}
+		if (y > world.getHeight()) updateLives();
 
 		checkObjectCollision();
 	}
@@ -244,7 +240,7 @@ public class Player extends Entity {
 
 			for (Weapon weapon : weapons) {
 				if (weapon.intersects(enemy)) {
-					enemy.hit(weapon.getDamage());
+					if (!(weapon instanceof Balista)) enemy.hit(weapon.getDamage());
 					weapon.setHit();
 					break;
 				}

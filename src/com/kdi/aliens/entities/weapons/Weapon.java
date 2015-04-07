@@ -10,6 +10,9 @@ public abstract class Weapon extends Entity {
 	protected boolean hit;
 	protected boolean remove;
 
+	protected int explosionWidth;
+	protected int explosionHeight;
+
 	protected BufferedImage[] projectileSprites;
 	protected BufferedImage[] hitSprites;
 
@@ -26,17 +29,19 @@ public abstract class Weapon extends Entity {
 		this.damage = damage;
 	}
 
-	protected void setDimensions(int width, int height, int cWidth, int cHeight) {
+	protected void setDimensions(int width, int height, int cWidth, int cHeight, int explosionWidth, int explosionHeight) {
 		this.width = width;
 		this.height = height;
 		this.cWidth = cWidth;
 		this.cHeight = cHeight;
+		this.explosionWidth = explosionWidth;
+		this.explosionHeight = explosionHeight;
 	}
-	
+
 	protected void setMovement(double dx, double dy) {
 		this.dx = dx;
 		this.dy = dy;
-		
+
 		if (facingRight) {
 			this.dx = dx;
 		} else {

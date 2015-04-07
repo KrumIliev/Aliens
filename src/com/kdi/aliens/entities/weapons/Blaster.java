@@ -18,13 +18,15 @@ public class Blaster extends Weapon {
 	private static final int HEIGHT = 30;
 	private static final int COLLISION_WIDTH = 20;
 	private static final int COLLISION_HEIGHT = 20;
+	private static final int EXPLOSION_WIDTH = 30;
+	private static final int EXPLOSION_HEIGHT = 30;
 
 	private static final int ENERGY_COST = 0;
 	private static final int DAMAGE = 1;
 
 	public Blaster(World world, boolean right) {
 		super(world, right, ENERGY_COST, DAMAGE);
-		setDimensions(WIDTH, HEIGHT, COLLISION_WIDTH, COLLISION_HEIGHT);
+		setDimensions(WIDTH, HEIGHT, COLLISION_WIDTH, COLLISION_HEIGHT, EXPLOSION_WIDTH, EXPLOSION_HEIGHT);
 		setMovement(X_SPEED, Y_SPEED);
 
 		try {
@@ -33,9 +35,9 @@ public class Blaster extends Weapon {
 			projectileSprites[0] = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "def.png"));
 			BufferedImage explosionSheet = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "default_weapon_explosion.png"));
 
-			hitSprites = new BufferedImage[explosionSheet.getWidth() / width];
+			hitSprites = new BufferedImage[explosionSheet.getWidth() / explosionWidth];
 			for (int i = 0; i < hitSprites.length; i++) {
-				hitSprites[i] = explosionSheet.getSubimage(i * width, 0, width, height);
+				hitSprites[i] = explosionSheet.getSubimage(i * explosionWidth, 0, explosionWidth, explosionHeight);
 			}
 
 		} catch (Exception e) {
