@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import com.kdi.aliens.entities.enemies.Enemy;
+import com.kdi.aliens.entities.weapons.Balista;
 import com.kdi.aliens.entities.weapons.Blaster;
 import com.kdi.aliens.entities.weapons.HomingRocket;
 import com.kdi.aliens.entities.weapons.SpreadWapon;
@@ -50,6 +51,7 @@ public class Player extends Entity {
 	private final int wBlaster = 1;
 	private final int wSpread = 2;
 	private final int wHoming = 3;
+	private final int wBalista = 4;
 	private int currentWeapon = 1;
 	private boolean firing;
 	private ArrayList<Weapon> weapons;
@@ -219,6 +221,9 @@ public class Player extends Entity {
 		} else if (currentWeapon == wHoming) {
 			weapon = new Weapon[1];
 			weapon[0] = new HomingRocket(world, facingRight);
+		} else if (currentWeapon == wBalista) {
+			weapon = new Weapon[1];
+			weapon[0] = new Balista(world, facingRight);
 		}
 
 		if (energy > weapon[0].getEnergyCost()) {
@@ -503,9 +508,10 @@ public class Player extends Entity {
 
 		if (KeyInput.keys[KeyEvent.VK_Q]) firing = true;
 
-		if (KeyInput.keys[KeyEvent.VK_1]) currentWeapon = 1;
-		if (KeyInput.keys[KeyEvent.VK_2]) currentWeapon = 2;
-		if (KeyInput.keys[KeyEvent.VK_3]) currentWeapon = 3;
+		if (KeyInput.keys[KeyEvent.VK_1]) currentWeapon = wBlaster;
+		if (KeyInput.keys[KeyEvent.VK_2]) currentWeapon = wSpread;
+		if (KeyInput.keys[KeyEvent.VK_3]) currentWeapon = wHoming;
+		if (KeyInput.keys[KeyEvent.VK_4]) currentWeapon = wBalista;
 
 	}
 
