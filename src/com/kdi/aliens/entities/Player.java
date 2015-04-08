@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import com.kdi.aliens.entities.enemies.Enemy;
 import com.kdi.aliens.entities.weapons.Balista;
 import com.kdi.aliens.entities.weapons.Blaster;
+import com.kdi.aliens.entities.weapons.Bouncer;
 import com.kdi.aliens.entities.weapons.HomingRocket;
 import com.kdi.aliens.entities.weapons.Spread;
 import com.kdi.aliens.entities.weapons.Weapon;
@@ -52,6 +53,7 @@ public class Player extends Entity {
 	private final int wSpread = 2;
 	private final int wHoming = 3;
 	private final int wBalista = 4;
+	private final int wBouncer = 5;
 	private int currentWeapon = 1;
 	private boolean firing;
 	private ArrayList<Weapon> weapons;
@@ -218,6 +220,9 @@ public class Player extends Entity {
 		} else if (currentWeapon == wBalista) {
 			weapon = new Weapon[1];
 			weapon[0] = new Balista(world, facingRight);
+		} else if (currentWeapon == wBouncer) {
+			weapon = new Weapon[1];
+			weapon[0] = new Bouncer(world, facingRight);
 		}
 
 		if (energy > weapon[0].getEnergyCost()) {
@@ -506,6 +511,7 @@ public class Player extends Entity {
 		if (KeyInput.keys[KeyEvent.VK_2]) currentWeapon = wSpread;
 		if (KeyInput.keys[KeyEvent.VK_3]) currentWeapon = wHoming;
 		if (KeyInput.keys[KeyEvent.VK_4]) currentWeapon = wBalista;
+		if (KeyInput.keys[KeyEvent.VK_5]) currentWeapon = wBlaster;
 
 	}
 

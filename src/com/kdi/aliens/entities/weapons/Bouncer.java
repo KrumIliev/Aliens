@@ -25,12 +25,19 @@ public class Bouncer extends Weapon {
 
 	private final int maxBounces = 5;
 	private int bounceCounter = 0;
-	private int maxHeight;
+	
+	private boolean getNextPosition = true;
 
 	public Bouncer(World world, boolean right) {
 		super(world, right, ENERGY_COST, DAMAGE);
 		setDimensions(WIDTH, HEIGHT, COLLISION_WIDTH, COLLISION_HEIGHT, EXPLOSION_WIDTH, EXPLOSION_HEIGHT);
 		setMovement(SPEED, SPEED);
+
+		fallSpeed = 1.0;
+		maxFallSpeed = 20.0;
+		jumpStart = -15.0;
+		stopJumpSpeed = 6.0;
+		jumping = true;
 
 		try {
 
@@ -53,6 +60,7 @@ public class Bouncer extends Weapon {
 
 	@Override
 	public void update() {
+		if (getNextPosition) getNextPosition();
 		checkTileMapCollision();
 		setPosition(xTemp, yTemp);
 
@@ -61,8 +69,7 @@ public class Bouncer extends Weapon {
 			if (rightCollistion) dx = -SPEED;
 			bounceCounter++;
 		} else if (dy == 0) {
-			if (topCollision) dy = SPEED;
-			if (bottomCollision) dy = -SPEED;
+			jumping = true;
 			bounceCounter++;
 		}
 
@@ -72,10 +79,22 @@ public class Bouncer extends Weapon {
 		animation.update();
 		if (hit && animation.hasPlayedOnce()) remove = true;
 
-		bottomCollision = false;
 		leftCollistion = false;
-		topCollision = false;
 		rightCollistion = false;
+	}
+
+	private void getNextPosition() {
+		if (jumping && !falling) {
+			dy = jumpStart;
+			falling = true;
+		}
+
+		if (falling) {
+			dy += fallSpeed;
+			if (dy > 0) jumping = false;
+			if (dy < 0 && !jumping) dy += stopJumpSpeed;
+			if (dy > maxFallSpeed) dy = maxFallSpeed;
+		}
 	}
 
 	@Override
