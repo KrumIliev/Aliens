@@ -39,7 +39,7 @@ public abstract class Entity {
 	protected double xTemp, yTemp;
 	protected boolean topLeft, topRight, bottomLeft, bottomRight; // Four corner collision
 	protected boolean dmgTopLeft, dmgTopRight, dmgButtomLeft, dmgButtomRight;
-	protected boolean leftCollistion, rightCollistion; // for hit sprite animation direction
+	protected boolean leftCollistion, rightCollistion, topCollision, bottomCollision; // for hit sprite animation direction
 
 	/**
 	 * Animation
@@ -116,6 +116,7 @@ public abstract class Entity {
 			if (topLeft || topRight) {
 				dy = 0;
 				yTemp = currentRow * tileSize + cHeight / 2;
+				topCollision = true;
 			} else {
 				yTemp += dy;
 			}
@@ -126,6 +127,7 @@ public abstract class Entity {
 				dy = 0;
 				falling = false;
 				yTemp = (currentRow + 1) * tileSize - cHeight / 2;
+				bottomCollision = true;
 			} else {
 				yTemp += dy;
 			}
@@ -156,7 +158,6 @@ public abstract class Entity {
 
 		if (!falling) {
 			calculateCorners(x, yDest + 1);
-
 			if (!bottomLeft && !bottomRight) falling = true;
 		}
 

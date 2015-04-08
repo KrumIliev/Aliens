@@ -16,9 +16,8 @@ public class Health extends Item {
 			BufferedImage spriteSheet = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_ITEMS + "items.png"));
 
 			sprites = new BufferedImage[spriteSheet.getWidth() / width];
-			for (int i = 0; i < sprites.length; i++) {
+			for (int i = 0; i < sprites.length; i++)
 				sprites[i] = spriteSheet.getSubimage(i * width, 30, width, height);
-			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

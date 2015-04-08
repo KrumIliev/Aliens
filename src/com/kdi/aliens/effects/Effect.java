@@ -30,9 +30,9 @@ public class Effect {
 			BufferedImage spriteSheet = ImageIO.read(getClass().getResourceAsStream(Reference.RESOURCE_EFFECTS + file));
 
 			sprites = new BufferedImage[spriteSheet.getWidth() / width];
-			for (int i = 0; i < sprites.length; i++) {
+			for (int i = 0; i < sprites.length; i++)
 				sprites[i] = spriteSheet.getSubimage(i * width, 0, width, height);
-			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

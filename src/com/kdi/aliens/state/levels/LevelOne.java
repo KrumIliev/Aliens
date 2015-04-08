@@ -45,9 +45,8 @@ public class LevelOne extends GameState {
 
 		hud = new HUD(player);
 
-		for (Enemy enemy : LevelObjects.enemies) {
+		for (Enemy enemy : LevelObjects.enemies)
 			enemy.setPlayer(player);
-		}
 
 		AudioPlayer.loadSound(Reference.RESOURCE_SOUNDS + "explosion.mp3", soundExplosionKey);
 	}

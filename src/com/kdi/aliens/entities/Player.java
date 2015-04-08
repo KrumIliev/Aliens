@@ -11,7 +11,7 @@ import com.kdi.aliens.entities.enemies.Enemy;
 import com.kdi.aliens.entities.weapons.Balista;
 import com.kdi.aliens.entities.weapons.Blaster;
 import com.kdi.aliens.entities.weapons.HomingRocket;
-import com.kdi.aliens.entities.weapons.SpreadWapon;
+import com.kdi.aliens.entities.weapons.Spread;
 import com.kdi.aliens.entities.weapons.Weapon;
 import com.kdi.aliens.graphics.Animation;
 import com.kdi.aliens.input.KeyInput;
@@ -161,9 +161,7 @@ public class Player extends Entity {
 
 		energy += 1; // TODO remove after energy pickup system is ready
 		if (energy > maxEnergy) energy = maxEnergy;
-		if (firing && currentAction != FIRE) {
-			fire();
-		}
+		if (firing && currentAction != FIRE) fire();
 
 		for (int i = 0; i < weapons.size(); i++) {
 			weapons.get(i).update();
@@ -211,9 +209,9 @@ public class Player extends Entity {
 			weapon[0] = new Blaster(world, facingRight);
 		} else if (currentWeapon == wSpread) {
 			weapon = new Weapon[3];
-			weapon[0] = new SpreadWapon(world, facingRight, SpreadWapon.X_SPEED, SpreadWapon.Y_TOP_SPEED);
-			weapon[1] = new SpreadWapon(world, facingRight, SpreadWapon.X_SPEED, SpreadWapon.Y_MID_SPEED);
-			weapon[2] = new SpreadWapon(world, facingRight, SpreadWapon.X_SPEED, SpreadWapon.Y_BOT_SPEED);
+			weapon[0] = new Spread(world, facingRight, Spread.X_SPEED, Spread.Y_TOP_SPEED);
+			weapon[1] = new Spread(world, facingRight, Spread.X_SPEED, Spread.Y_MID_SPEED);
+			weapon[2] = new Spread(world, facingRight, Spread.X_SPEED, Spread.Y_BOT_SPEED);
 		} else if (currentWeapon == wHoming) {
 			weapon = new Weapon[1];
 			weapon[0] = new HomingRocket(world, facingRight);

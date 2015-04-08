@@ -44,9 +44,8 @@ public class HomingRocket extends Weapon {
 			BufferedImage explosionSheet = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "default_weapon_explosion.png"));
 
 			hitSprites = new BufferedImage[explosionSheet.getWidth() / explosionWidth];
-			for (int i = 0; i < hitSprites.length; i++) {
+			for (int i = 0; i < hitSprites.length; i++)
 				hitSprites[i] = explosionSheet.getSubimage(i * explosionWidth, 0, explosionWidth, explosionHeight);
-			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,16 +64,14 @@ public class HomingRocket extends Weapon {
 		if (dx == 0 && !hit) setHit();
 
 		animation.update();
-		if (hit && animation.hasPlayedOnce()) {
-			remove = true;
-		}
+		if (hit && animation.hasPlayedOnce()) remove = true;
 
 		findEnemy();
 	}
 
 	private void findEnemy() {
 		if (hit) return;
-		
+
 		Enemy enemy = closestEnemy();
 
 		/**
@@ -193,9 +190,8 @@ public class HomingRocket extends Weapon {
 	private Enemy closestEnemy() {
 		HashMap<Point, Enemy> enemies = new HashMap<Point, Enemy>();
 
-		for (Enemy enemy : LevelObjects.enemies) {
+		for (Enemy enemy : LevelObjects.enemies)
 			enemies.put(new Point(enemy.getX(), enemy.getY()), enemy);
-		}
 
 		Set<Point> locations = enemies.keySet();
 

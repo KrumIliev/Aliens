@@ -44,19 +44,17 @@ public class HUD {
 			icon = hud.getSubimage(0, 0, 25, 25);
 
 			spritesHealth = new BufferedImage[3];
-			for (int i = 0; i < spritesHealth.length; i++) {
+			for (int i = 0; i < spritesHealth.length; i++)
 				spritesHealth[i] = hud.getSubimage(i * hWidth, 25, hWidth, hHeight);
-			}
 
 			spritesEnergy = new BufferedImage[3];
-			for (int i = 0; i < spritesEnergy.length; i++) {
+			for (int i = 0; i < spritesEnergy.length; i++)
 				spritesEnergy[i] = hud.getSubimage(i * eWidth, eHeight * 5, eWidth, eHeight);
-			}
 
 			spritesKeys = new BufferedImage[hud.getWidth() / kWidth];
-			for (int i = 0; i < spritesKeys.length; i++) {
+			for (int i = 0; i < spritesKeys.length; i++)
 				spritesKeys[i] = hud.getSubimage(i * kWidth, kHeight * 2, kWidth, kHeight);
-			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -77,11 +75,10 @@ public class HUD {
 		double fullHealthCount = player.getHealth() - halfHealthCount;
 		double emptyHealthCount;
 
-		if (halfHealthCount > 0) {
+		if (halfHealthCount > 0)
 			emptyHealthCount = player.getMaxHealth() - fullHealthCount - 1;
-		} else {
+		else
 			emptyHealthCount = player.getMaxHealth() - fullHealthCount;
-		}
 
 		int xOffsetTotal = topYOffset; // Next heart offset
 
@@ -133,29 +130,29 @@ public class HUD {
 		xOffset = AlienGame.WIDTH / 2;
 		for (int i = 0; i < keys; i++) {
 			if (i == 0) {
-				if (player.hasBlueKey()) {
+				if (player.hasBlueKey())
 					graphics.drawImage(spritesKeys[0], xOffset, topYOffset, null);
-				} else {
+				else
 					graphics.drawImage(spritesKeys[1], xOffset, topYOffset, null);
-				}
+
 			} else if (i == 1) {
-				if (player.hasGreenKey()) {
+				if (player.hasGreenKey())
 					graphics.drawImage(spritesKeys[2], xOffset, topYOffset, null);
-				} else {
+				else
 					graphics.drawImage(spritesKeys[3], xOffset, topYOffset, null);
-				}
+
 			} else if (i == 2) {
-				if (player.hasRedKey()) {
+				if (player.hasRedKey())
 					graphics.drawImage(spritesKeys[4], xOffset, topYOffset, null);
-				} else {
+				else
 					graphics.drawImage(spritesKeys[5], xOffset, topYOffset, null);
-				}
+
 			} else {
-				if (player.hasRedKey()) {
+				if (player.hasRedKey())
 					graphics.drawImage(spritesKeys[6], xOffset, topYOffset, null);
-				} else {
+				else
 					graphics.drawImage(spritesKeys[7], xOffset, topYOffset, null);
-				}
+
 			}
 
 			xOffset = xOffset + kWidth + 10;

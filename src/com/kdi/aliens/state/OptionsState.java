@@ -45,11 +45,10 @@ public class OptionsState extends GameState {
 
 			Random random = new Random();
 
-			if (random.nextBoolean()) {
+			if (random.nextBoolean())
 				background = new Background(ContentManager.getImage(Reference.CM_BACKGROUND_MENU_1), 1);
-			} else {
+			else
 				background = new Background(ContentManager.getImage(Reference.CM_BACKGROUND_MENU_2), 1);
-			}
 
 			background.setVector(-0.5, 0);
 
@@ -72,20 +71,16 @@ public class OptionsState extends GameState {
 		for (int j = 0; j < m.length; j++) {
 			if (m[j].getWidth() > 1000) {
 				String res = m[j].getWidth() + "x" + m[j].getHeight();
-				if (!resolutions.contains(res)) {
-					resolutions.add(res);
-				}
+				if (!resolutions.contains(res)) resolutions.add(res);
 			}
 		}
 
 		fullscreenSupported = device.isFullScreenSupported();
 
 		String currRes = AlienGame.WIDTH + "x" + AlienGame.HEIGHT;
-		for (int i = 0; i < resolutions.size(); i++) {
-			if (resolutions.get(i).equals(currRes)) {
-				currentResolution = i;
-			}
-		}
+		for (int i = 0; i < resolutions.size(); i++)
+			if (resolutions.get(i).equals(currRes)) currentResolution = i;
+
 	}
 
 	@Override
@@ -109,11 +104,10 @@ public class OptionsState extends GameState {
 		FontMetrics fm = graphics.getFontMetrics(font);
 
 		for (int i = 0; i < OPTIONS.length; i++) {
-			if (currentChoise == i) {
+			if (currentChoise == i)
 				graphics.setColor(Color.RED);
-			} else {
+			else
 				graphics.setColor(Color.MAGENTA);
-			}
 
 			if (i < OPTIONS.length - 2) {
 				graphics.drawString(OPTIONS[i], xOffset, 100 + counter * 60);
@@ -133,13 +127,12 @@ public class OptionsState extends GameState {
 	public void hanleInput() {
 		if (KeyInput.keys[KeyEvent.VK_ENTER]) {
 			navigationTimer = 0;
-			if (currentChoise == 0) {
+			if (currentChoise == 0)
 				changeResolution(1);
-			} else if (currentChoise == 4 || currentChoise == 6) {
+			else if (currentChoise == 4 || currentChoise == 6)
 				volume(1);
-			} else {
+			else
 				select();
-			}
 		}
 
 		if (KeyInput.keys[KeyEvent.VK_UP]) {
@@ -160,13 +153,12 @@ public class OptionsState extends GameState {
 				currentChoise--;
 			} else if (currentChoise < OPTIONS.length - 2) {
 
-				if (currentChoise == 0) {
+				if (currentChoise == 0)
 					changeResolution(-1);
-				} else if (currentChoise == 4 || currentChoise == 6) {
+				else if (currentChoise == 4 || currentChoise == 6)
 					volume(-1);
-				} else {
+				else
 					select();
-				}
 			}
 		}
 
@@ -175,13 +167,12 @@ public class OptionsState extends GameState {
 			if (currentChoise == OPTIONS.length - 2) {
 				currentChoise++;
 			} else if (currentChoise < OPTIONS.length - 2) {
-				if (currentChoise == 0) {
+				if (currentChoise == 0)
 					changeResolution(1);
-				} else if (currentChoise == 4 || currentChoise == 6) {
+				else if (currentChoise == 4 || currentChoise == 6)
 					volume(1);
-				} else {
+				else
 					select();
-				}
 			}
 		}
 	}
@@ -205,40 +196,37 @@ public class OptionsState extends GameState {
 		if (currentChoise == 1) {
 			System.out.println(fullscreenSupported);
 			if (fullscreenSupported) {
-				if (optionsData[1].equalsIgnoreCase("off")) {
+				if (optionsData[1].equalsIgnoreCase("off"))
 					optionsData[1] = "On";
-				} else {
+				else
 					optionsData[1] = "Off";
-				}
+
 			} else {
 				optionsData[1] = "Off";
 			}
 		}
 
 		if (currentChoise == 2) {
-			if (optionsData[2].equalsIgnoreCase("high")) {
+			if (optionsData[2].equalsIgnoreCase("high"))
 				optionsData[2] = "Low";
-			} else if (optionsData[2].equalsIgnoreCase("medium")) {
+			else if (optionsData[2].equalsIgnoreCase("medium"))
 				optionsData[2] = "High";
-			} else {
+			else
 				optionsData[2] = "Medium";
-			}
 		}
 
 		if (currentChoise == 3) {
-			if (optionsData[3].equalsIgnoreCase("off")) {
+			if (optionsData[3].equalsIgnoreCase("off"))
 				optionsData[3] = "On";
-			} else {
+			else
 				optionsData[3] = "Off";
-			}
 		}
 
 		if (currentChoise == 5) {
-			if (optionsData[5].equalsIgnoreCase("off")) {
+			if (optionsData[5].equalsIgnoreCase("off"))
 				optionsData[5] = "On";
-			} else {
+			else
 				optionsData[5] = "Off";
-			}
 		}
 
 		if (currentChoise == 7) gameStateManager.setState(GameStateManager.MENU);

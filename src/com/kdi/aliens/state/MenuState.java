@@ -33,11 +33,10 @@ public class MenuState extends GameState {
 
 			Random random = new Random();
 
-			if (random.nextBoolean()) {
+			if (random.nextBoolean())
 				background = new Background(ContentManager.getImage(Reference.CM_BACKGROUND_MENU_1), 1);
-			} else {
+			else
 				background = new Background(ContentManager.getImage(Reference.CM_BACKGROUND_MENU_2), 1);
-			}
 
 			background.setVector(-0.5, 0);
 
@@ -72,11 +71,11 @@ public class MenuState extends GameState {
 
 		graphics.setFont(defaultFont);
 		for (int i = 0; i < options.length; i++) {
-			if (currentChoise == i) {
+			if (currentChoise == i)
 				graphics.setColor(Color.RED);
-			} else {
+			else
 				graphics.setColor(Color.MAGENTA);
-			}
+
 			graphics.drawString(options[i], centerHorisontal(graphics, defaultFont, options[i]), 450 + i * 60);
 		}
 	}
@@ -89,9 +88,7 @@ public class MenuState extends GameState {
 
 	private void select() {
 		if (currentChoise == 0) gameStateManager.setState(GameStateManager.LEVEL1);
-
 		if (currentChoise == 1) gameStateManager.setState(GameStateManager.OPTIONS);
-
 		if (currentChoise == 2) System.exit(0);
 	}
 

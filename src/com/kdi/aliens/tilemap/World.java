@@ -71,11 +71,8 @@ public class World {
 	public void render(Graphics2D graphics) {
 
 		for (int row = rowOffset; row < rowOffset + numRowsToDraw; row++) {
-
 			if (row >= numRows) break;
-
 			for (int col = colOffset; col < colOffset + numColsToDraw; col++) {
-
 				if (col >= numCols) break;
 				if (map[row][col] == 0) continue;
 				graphics.drawImage(tiles.get(map[row][col]).getImage(), (int) x + col * tileSize, (int) y + row * tileSize, null);

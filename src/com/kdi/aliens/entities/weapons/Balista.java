@@ -45,21 +45,18 @@ public class Balista extends Weapon {
 
 			BufferedImage spriteSheet = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "balista.png"));
 			projectileSprites = new BufferedImage[spriteSheet.getWidth() / width];
-			for (int i = 0; i < projectileSprites.length; i++) {
+			for (int i = 0; i < projectileSprites.length; i++)
 				projectileSprites[i] = spriteSheet.getSubimage(i * width, 0, width, height);
-			}
 
 			BufferedImage explosionSheet = ImageIO.read(getClass().getResource(Reference.RESOURCE_WEAPONS + "balista_expl.png"));
 			hitSprites = new BufferedImage[explosionSheet.getWidth() / explosionWidth];
 			horizontalHitSprites = new BufferedImage[explosionSheet.getWidth() / explosionWidth];
 
-			for (int i = 0; i < hitSprites.length; i++) {
+			for (int i = 0; i < hitSprites.length; i++)
 				hitSprites[i] = explosionSheet.getSubimage(i * explosionWidth, 0, explosionWidth, explosionHeight);
-			}
 
-			for (int i = 0; i < horizontalHitSprites.length; i++) {
+			for (int i = 0; i < horizontalHitSprites.length; i++)
 				horizontalHitSprites[i] = explosionSheet.getSubimage(i * explosionWidth, explosionHeight, explosionWidth, explosionHeight);
-			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -79,9 +76,8 @@ public class Balista extends Weapon {
 		if ((dx == 0 || bottomLeft || bottomRight) && !hit) setHit();
 
 		animation.update();
-		if (hit && animation.hasPlayedOnce()) {
-			remove = true;
-		}
+		if (hit && animation.hasPlayedOnce()) remove = true;
+
 	}
 
 	@Override
